@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1770050947697,
+  "timestamp": 1770051151487,
   "index": "/Franciscus/index.html",
   "assetGroups": [
     {
@@ -11,6 +11,7 @@
         "ignoreVary": true
       },
       "urls": [
+        "/Franciscus/favicon.ico",
         "/Franciscus/index.html",
         "/Franciscus/main-PBUCU6XT.js",
         "/Franciscus/manifest.webmanifest",
@@ -27,29 +28,16 @@
       },
       "urls": [
         "/Franciscus/favicon.png",
-        "/Franciscus/icons/icon-128x128.png",
-        "/Franciscus/icons/icon-144x144.png",
-        "/Franciscus/icons/icon-152x152.png",
-        "/Franciscus/icons/icon-192x192.png",
-        "/Franciscus/icons/icon-384x384.png",
-        "/Franciscus/icons/icon-512x512.png",
-        "/Franciscus/icons/icon-72x72.png",
-        "/Franciscus/icons/icon-96x96.png"
+        "/Franciscus/icons/icon.png"
       ],
       "patterns": []
     }
   ],
   "dataGroups": [],
   "hashTable": {
+    "/Franciscus/favicon.ico": "35d87a63fac5cf74c6ecb64fc7e7251236ce31d1",
     "/Franciscus/favicon.png": "7be2efc241b3caf822f9cb48759870e096c9cbba",
-    "/Franciscus/icons/icon-128x128.png": "f912963bdc6d5a38d8f1dd0afbaab2ce8d657acb",
-    "/Franciscus/icons/icon-144x144.png": "b155fd5f2fd5d2ea7760721063003c4cd95fd783",
-    "/Franciscus/icons/icon-152x152.png": "eae6e0f0c8afb8aaae339e2a569b43e9238e5e6c",
-    "/Franciscus/icons/icon-192x192.png": "15c4180454633880d98674aa7394656196c91584",
-    "/Franciscus/icons/icon-384x384.png": "94a915751ef6c9282df9aea405ad679230631814",
-    "/Franciscus/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
-    "/Franciscus/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
-    "/Franciscus/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
+    "/Franciscus/icons/icon.png": "7be2efc241b3caf822f9cb48759870e096c9cbba",
     "/Franciscus/index.html": "a07b25d966515841316818914e1c102c7d7f0e02",
     "/Franciscus/main-PBUCU6XT.js": "865b583e0bd6ddfae4cc274047c911d6509c3c07",
     "/Franciscus/manifest.webmanifest": "5361e6522d66b195b9b6ab40a956f751c7940d12",
