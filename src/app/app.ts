@@ -1,12 +1,12 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
+  imports: [MatButtonModule, RouterOutlet],
   selector: 'app-root',
-  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('fransiscus-app');
 }
