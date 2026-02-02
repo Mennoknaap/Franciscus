@@ -1,0 +1,16 @@
+<button class="title-button" matIconButton color="red" (click)="signOut()">
+  <mat-icon>logout</mat-icon>
+</button>
+
+<h1><ng-content></ng-content></h1>
+
+<button
+  class="title-button menu"
+  [style.background-image]="'url(' + user()?.photoURL + ')'"
+  matIconButton
+  [matMenuTriggerFor]="menu"
+  color="red"
+></button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="signOut()">uitloggen</button>
+</mat-menu>
