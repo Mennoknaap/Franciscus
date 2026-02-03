@@ -1,6 +1,6 @@
 {
-  "name": "fransiscus-app",
-  "short_name": "fransiscus-app",
+  "name": "Frans App",
+  "short_name": "Frans App",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
