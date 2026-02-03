@@ -18,16 +18,15 @@ import { AuthService } from '../login/login-service';
                 position: relative;
             }
             .title-button {
-                color: var(--mat-sys-error);
+                color: var(--mat-sys-on-surface);
                 position: absolute;
-                left: 0.5rem;
+                left: 8px;
                 top: 50%;
                 transform: translateY(-50%);
 
                 &.menu {
                     left: unset;
-                    right: 0.5rem;
-                    // image stretching
+                    right: 8px;
                     background-size: cover;
                 }
             }

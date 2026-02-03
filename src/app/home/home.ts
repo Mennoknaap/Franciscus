@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 
 export interface AppCard {
     title: string;
-    description: string;
     image: string;
     path: string;
 }
@@ -17,9 +16,13 @@ export class Home {
     apps: AppCard[] = [
         {
             title: 'Soundboard',
-            description: 'Alle geluiden van Fransiscus',
             image: 'assets/icons/speaker.png',
             path: 'soundboard',
+        },       
+        {
+            title: 'Rad',
+            image: 'assets/icons/rad.png',
+            path: 'rad',
         },
     ];
 }
