@@ -1,0 +1,53 @@
+@if (showBlocker()) {
+  <div class="pwa-blocker-overlay">
+    <div class="pwa-blocker-content">
+      <mat-card class="install-card">
+        <mat-card-content>
+          <div class="blocker-header">
+            <mat-icon class="install-icon">install_mobile</mat-icon>
+            <h2>Installeer de Frans App als echte app</h2>
+          </div>
+          <p class="blocker-message">
+            Deze app is alleen beschikbaar als geïnstalleerde Progressive Web App (PWA).
+          </p>
+          <div class="instructions-box">
+            <h3>Installatie instructies:</h3>
+            @if (isIOS()) {
+              <ol>
+                <li>
+                  Tik op het <mat-icon inline>ios_share</mat-icon> deel-icoon onderaan (of bovenaan
+                  bij iPad)
+                </li>
+                <li>Scroll naar beneden en selecteer <strong>"Zet op beginscherm"</strong></li>
+                <li>Tik op <strong>"Voeg toe"</strong></li>
+                <li>Open de app vanaf je beginscherm</li>
+              </ol>
+            } @else if (isAndroid()) {
+              <ol>
+                <li>Tik op het menu <strong>⋮</strong> rechtsboven in je browser</li>
+                <li>
+                  Selecteer <strong>"App installeren"</strong> of
+                  <strong>"Toevoegen aan startscherm"</strong>
+                </li>
+                <li>Bevestig de installatie</li>
+                <li>Open de app vanaf je startscherm</li>
+              </ol>
+            } @else {
+              <ol>
+                <li>
+                  Klik op het <mat-icon inline>more_vert</mat-icon> menu-icoon in je browser (of de
+                  adresbalk)
+                </li>
+                <li>
+                  Selecteer <strong>"Installeren"</strong> of <strong>"App installeren"</strong>
+                </li>
+                <li>Bevestig de installatie</li>
+                <li>Open de app vanaf je systeem</li>
+              </ol>
+            }
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+}
