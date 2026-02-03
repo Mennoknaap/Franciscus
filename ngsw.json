@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1770142643639,
+  "timestamp": 1770143989220,
   "index": "/Franciscus/index.html",
   "assetGroups": [
     {
@@ -11,11 +11,13 @@
         "ignoreVary": true
       },
       "urls": [
+        "/Franciscus/chunk-4PF3BR2H.js",
+        "/Franciscus/chunk-G22IVWWQ.js",
         "/Franciscus/favicon.ico",
         "/Franciscus/index.html",
-        "/Franciscus/main-IKUGSLZH.js",
+        "/Franciscus/main-IJHEHBVV.js",
         "/Franciscus/manifest.webmanifest",
-        "/Franciscus/styles-V22IFOCZ.css"
+        "/Franciscus/styles-BUZCPMBR.css"
       ],
       "patterns": []
     },
@@ -43,15 +45,17 @@
     "/Franciscus/assets/icons/icon-72x72.png": "0e312b1b87811c7274d3867c60618cc4ec22974c",
     "/Franciscus/assets/icons/rad.png": "86566868a3bd935f1ec5fc53229b4c960b955362",
     "/Franciscus/assets/icons/speaker.png": "6098a6e210a141f9f251bd017603457eb998b36a",
+    "/Franciscus/chunk-4PF3BR2H.js": "472fc499dec43b5cf9016f34fba15732df25deeb",
+    "/Franciscus/chunk-G22IVWWQ.js": "bbf57e4a9068748989003648ad4ee92d9dfe4cd2",
     "/Franciscus/favicon.ico": "35d87a63fac5cf74c6ecb64fc7e7251236ce31d1",
     "/Franciscus/favicon.png": "7be2efc241b3caf822f9cb48759870e096c9cbba",
     "/Franciscus/icons/icon-512x512.png": "157927bb9a93403dc60c8f00722a090fc092710f",
     "/Franciscus/icons/icon-72x72.png": "0e312b1b87811c7274d3867c60618cc4ec22974c",
     "/Franciscus/icons/icon.png": "7be2efc241b3caf822f9cb48759870e096c9cbba",
-    "/Franciscus/index.html": "cbb55e53ee4ba1da20491f6f7ad8d1848e8900ce",
-    "/Franciscus/main-IKUGSLZH.js": "3b9fa62f37730584026aebbc54c75c0c516cdf4b",
+    "/Franciscus/index.html": "4d726baaee211524d5ad5affde9be760d39ac007",
+    "/Franciscus/main-IJHEHBVV.js": "ec115eb1ca5deeb01b370fc76387c13f85716b6a",
     "/Franciscus/manifest.webmanifest": "6b7412221a57ef0f7852e6daaa2fc2bee670881f",
-    "/Franciscus/styles-V22IFOCZ.css": "2ae6c033dd6b5ccc99d18f2aa2f935a9f0cbc719"
+    "/Franciscus/styles-BUZCPMBR.css": "8cfe660ade337ac278280398377bcac6fc8071bf"
   },
   "navigationUrls": [
     {

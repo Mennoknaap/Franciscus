@@ -1,0 +1,1 @@
+import{E as t,Ra as p,Za as d,bb as f,da as m,eb as M,gb as u,ha as i,ja as e,mb as a,n as r,pb as l,rb as n}from"./chunk-4PF3BR2H.js";var s=class o{static \u0275fac=function(c){return new(c||o)};static \u0275mod=t({type:o});static \u0275inj=r({imports:[p,m,f,i,d,M,e,u,a,n,l]})};export{s as SoundboardModule};
