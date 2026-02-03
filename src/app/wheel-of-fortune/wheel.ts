@@ -26,8 +26,8 @@ const COLORS = [
 export class Wheel implements OnInit, AfterViewInit {
     private readonly _dataService = inject(WheelData);
     private readonly _dialog = inject(MatDialog);
-    private readonly _nummer11 = new Audio('/assets/Nummer-11.mp3');
-    private readonly _heySlay = new Audio('/assets/HEY-SLAY.mp3');
+    private readonly _nummer11 = new Audio('assets/Nummer-11.mp3');
+    private readonly _heySlay = new Audio('assets/HEY-SLAY.mp3');
 
     private readonly _wheel = viewChild.required<ElementRef<HTMLCanvasElement>>('wheel');
     private readonly _spin = viewChild.required<ElementRef>('spin');
@@ -44,13 +44,21 @@ export class Wheel implements OnInit, AfterViewInit {
     private _angVel = 0; // Angular velocity
     private _ang = 0; // Angle in radians
     private _lastSelection: number | null = null;
-    private readonly _friction = 0.996; // 0.995=soft, 0.99=mid, 0.98=hard
+    private readonly _friction = 0.994; // 0.995=soft, 0.99=mid, 0.98=hard
 
     readonly optionsText = signal('');
     readonly isSpinning = signal(false);
 
     constructor() {
         this._nummer11.volume = 0.8;
+
+        // iOS audio setup
+        this._nummer11.preload = 'auto';
+        this._heySlay.preload = 'auto';
+
+        // Load audio files
+        this._nummer11.load();
+        this._heySlay.load();
 
         // Laad initiële waarden
         const initialOptions = this._dataService.getOptions();
@@ -85,8 +93,17 @@ export class Wheel implements OnInit, AfterViewInit {
             return;
 
         this.isSpinning.set(true);
+
+        this._nummer11.pause();
         this._nummer11.currentTime = 2.25;
-        this._nummer11.play();
+        this._nummer11.volume = 0.8;
+
+        const playPromise = this._nummer11.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.warn('Audio play prevented:', error);
+            });
+        }
 
         this._angVel = this.rand(0.25, 0.35);
     }
@@ -125,6 +142,11 @@ export class Wheel implements OnInit, AfterViewInit {
         this._ctx = this._wheel().nativeElement.getContext('2d');
         if (!this._ctx)
             return;
+
+        if ((this._sectors.length - 1) % 4 === 0) {
+            this._sectors[this._sectors.length - 1].color = '#FFFF00';
+            this._sectors[this._sectors.length - 1].textColor = '#000000';
+        }
 
         this._dia = this._ctx.canvas.width;
         this._tot = this._sectors.length;
@@ -193,8 +215,16 @@ export class Wheel implements OnInit, AfterViewInit {
         if (this._angVel < 0.0001) {
             this._angVel = 0;
             this.isSpinning.set(false);
-            this._nummer11.load();
-            this._heySlay.play();
+            this._nummer11.pause();
+            this._nummer11.currentTime = 0;
+
+            // Play winner sound
+            const playPromise = this._heySlay.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.warn('Audio play prevented:', error);
+                });
+            }
 
             const winner = this._sectors[this.getIndex()].label;
             this.showWinnerDialog(winner);

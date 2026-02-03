@@ -18,7 +18,14 @@ export class Soundboard {
     async handleSoundClick(sound: ISound): Promise<void> {
         try {
             sound.audio.volume = sound.volume;
-            await sound.audio.play();
+            sound.audio.currentTime = 0; // Reset to start
+            const playPromise = sound.audio.play();
+
+            if (playPromise !== undefined) {
+                await playPromise.catch(error => {
+                    console.error('Kan geluid niet afspelen:', error);
+                });
+            }
         } catch (error) {
             console.error('Kan geluid niet afspelen:', error);
         }
@@ -29,7 +36,14 @@ export class Soundboard {
         for (const sound of sounds) {
             try {
                 sound.audio.volume = sound.volume;
-                await sound.audio.play();
+                sound.audio.currentTime = 0;
+                const playPromise = sound.audio.play();
+
+                if (playPromise !== undefined) {
+                    await playPromise.catch(error => {
+                        console.error('Kan geluid niet afspelen:', error);
+                    });
+                }
             } catch (error) {
                 console.error('Kan geluid niet afspelen:', error);
             }
