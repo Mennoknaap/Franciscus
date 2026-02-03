@@ -32,7 +32,7 @@ export class SoundService {
     readonly error = this._error.asReadonly();
 
     constructor() {
-        this._fetchSounds();
+        this.fetchSounds();
     }
 
     async removeSound(sound: ISound): Promise<void> {
@@ -85,7 +85,7 @@ export class SoundService {
         }
     }
 
-    private async _fetchSounds(): Promise<void> {
+    private async fetchSounds(): Promise<void> {
         try {
             this._isLoading.set(true);
             const listRef = ref(this._storage);

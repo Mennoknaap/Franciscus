@@ -3,7 +3,8 @@ import { Component } from '@angular/core';
 export interface AppCard {
     title: string;
     image: string;
-    path: string;
+    path?: string;
+    disabled?: boolean;
 }
 
 @Component({
@@ -23,6 +24,11 @@ export class Home {
             title: 'Radje',
             image: 'assets/icons/rad.png',
             path: '/wheel',
+        },
+        {
+            title: 'Top Secret (coming soon)',
+            image: 'assets/icons/poop.png',
+            disabled: true,
         },
     ];
 }

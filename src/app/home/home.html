@@ -2,10 +2,12 @@
 
 <div class="app-grid">
   @for (app of apps; track app.title) {
-    <div class="app-card">
+    <div class="app-card" [class.disabled]="app.disabled">
       <img [src]="app.image" alt="{{ app.title }}" class="app-card-img" />
       <div class="app-card-title">{{ app.title }}</div>
-      <a class="app-card-link" mat-raised-button [routerLink]="app.path">Openen</a>
+      <a class="app-card-link" mat-raised-button [routerLink]="app.path" [disabled]="app.disabled"
+        >Openen</a
+      >
     </div>
   }
 </div>

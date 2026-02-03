@@ -1,0 +1,42 @@
+h2 {
+  text-align: center;
+}
+
+.back-button {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.volume-container {
+  padding: 0 16px;
+
+  mat-slider {
+    width: 100%;
+  }
+}
+
+.sound-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #bbdefb;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+}
+
+.sound-name {
+  color: black;
+}
+
+.action-button {
+  background-color: var(--frans-primary);
+}

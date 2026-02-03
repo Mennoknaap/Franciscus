@@ -50,8 +50,6 @@ export class Wheel implements OnInit, AfterViewInit {
     readonly isSpinning = signal(false);
 
     constructor() {
-        this._heySlay.preload = 'auto';
-        this._nummer11.preload = 'auto';
         this._nummer11.volume = 0.8;
 
         // Laad initiële waarden
@@ -239,20 +237,8 @@ export class Wheel implements OnInit, AfterViewInit {
 @Component({
     selector: 'app-winner-dialog',
     standalone: false,
-    template: `
-    <h2 mat-dialog-title>🎉 Winnaar! 🎉</h2>
-    <mat-dialog-content>
-      <p style="font-size: 24px; text-align: center; margin: 20px 0; font-weight: bold;">
-        {{ data.winner }}
-      </p>
-    </mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button mat-button [mat-dialog-close]="'close'">Sluiten</button>
-      <button mat-raised-button color="warn" [mat-dialog-close]="'remove'">
-        Verwijderen uit lijst
-      </button>
-    </mat-dialog-actions>
-  `,
+    templateUrl: './winner-dialog.html',
+    styleUrls: ['./winner-dialog.scss'],
 })
 export class WinnerDialog {
     data = inject<{ winner: string }>(MAT_DIALOG_DATA);

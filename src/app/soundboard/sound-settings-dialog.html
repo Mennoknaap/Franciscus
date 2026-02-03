@@ -1,0 +1,61 @@
+<h2 mat-dialog-title>Sound Instellingen</h2>
+
+<mat-dialog-content>
+  @if (selectedSound()) {
+    <button mat-icon-button class="back-button" (click)="selectedSound.set(null)">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+
+    <mat-form-field class="full-width">
+      <mat-label>Naam</mat-label>
+      <input matInput [(ngModel)]="name" />
+    </mat-form-field>
+
+    <div class="volume-container">
+      <mat-label>Volume</mat-label>
+      <mat-slider min="0" max="1" step="0.01">
+        <input matSliderThumb [(ngModel)]="volume" />
+      </mat-slider>
+    </div>
+  } @else {
+    <button mat-icon-button class="back-button" (click)="handleClose()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+
+    <mat-list>
+      @for (sound of soundService.sounds(); track sound.name) {
+        <mat-list-item (click)="handleSoundClick(sound)">
+          <div matListItemAvatar>
+            <div class="sound-avatar">
+              {{ sound.name.charAt(0).toUpperCase() }}
+            </div>
+          </div>
+          <div matListItemTitle class="sound-name">{{ sound.name }}</div>
+          <button
+            mat-icon-button
+            color="warn"
+            matListItemMeta
+            (click)="handleRemoveSound($event, sound)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-list-item>
+      }
+    </mat-list>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  @if (selectedSound()) {
+    <button mat-raised-button color="primary" (click)="handleUpdateSoundMetadata()">Update</button>
+  } @else {
+    <button mat-raised-button class="action-button" (click)="fileInput.click()">Toevoegen</button>
+  }
+  <input
+    #fileInput
+    type="file"
+    accept=".wav,.aif,.aiff,.flac,.alac,.aac,.ogg,.mp3"
+    style="display: none"
+    (change)="handleFileChange($event)"
+  />
+</mat-dialog-actions>

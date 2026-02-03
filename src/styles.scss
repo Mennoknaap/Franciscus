@@ -61,4 +61,20 @@ body {
   &.mat-focused .mat-mdc-floating-label {
     color: #000000 !important;
   }
+
+  // Disabled state with higher opacity
+  &.mat-form-field-disabled {
+    .mat-mdc-input-element {
+      color: rgba(0, 0, 0, 0.7) !important;
+    }
+    
+    .mat-mdc-text-field-wrapper {
+      opacity: 0.8 !important;
+    }
+
+    // Override Material's default disabled background
+    .mdc-text-field--filled.mdc-text-field--disabled {
+      background-color: rgba(200, 200, 200, 0.8) !important;
+    }
+  }
 }

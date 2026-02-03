@@ -17,14 +17,16 @@
   </div>
 
   <div style="width: 100%; max-width: 600px">
-    <textarea
-      [ngModel]="optionsText()"
-      (ngModelChange)="optionsText.set($event); updateOptions()"
-      [disabled]="isSpinning()"
-      placeholder="Voer opties in (één per regel)"
-      rows="10"
-      style="width: 100%; padding: 10px; font-size: 14px; box-sizing: border-box"
-    >
-    </textarea>
+    <mat-form-field style="width: 100%">
+      <mat-label>Opties (één per regel)</mat-label>
+      <textarea
+        matInput
+        [ngModel]="optionsText()"
+        (ngModelChange)="optionsText.set($event); updateOptions()"
+        [disabled]="isSpinning()"
+        placeholder="Voer opties in (één per regel)"
+        rows="10"
+      ></textarea>
+    </mat-form-field>
   </div>
 </div>
