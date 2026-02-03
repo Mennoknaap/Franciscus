@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { Title } from '../components/title';
 import { Wheel, WinnerDialog } from './wheel';
-import { WheelDataService } from './wheel-data';
+import { WheelData } from './wheel-data';
 
 @NgModule({
     declarations: [Wheel, WinnerDialog],
@@ -23,7 +23,7 @@ import { WheelDataService } from './wheel-data';
         MatIconModule,
     ],
     providers: [
-        WheelDataService,
+        WheelData,
     ],
 })
 export class WheelModule { }

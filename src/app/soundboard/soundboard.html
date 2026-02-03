@@ -1,1 +1,63 @@
-<app-title previousPath="home">Soundboard</app-title>
+<app-title [previousPath]="'/'">Soundboard</app-title>
+
+<button
+  mat-icon-button
+  (click)="handleSettingsClick()"
+  style="position: absolute; top: 8px; right: 56px; color: white"
+>
+  <mat-icon>settings</mat-icon>
+</button>
+
+@if (soundService.isLoading()) {
+  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+    <mat-spinner color="accent"></mat-spinner>
+  </div>
+} @else if (soundService.error()) {
+  @if (soundService.error()?.includes('permission')) {
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 80vh;
+        padding: 20px;
+        text-align: center;
+      "
+    >
+      <h2 style="color: white; margin-bottom: 8px">Je hebt nog geen toegang tot het soundboard.</h2>
+      <h2 style="color: white">Wil je toegang?</h2>
+      <h2 style="color: white">
+        Vul dan
+        <a href="https://forms.gle/tJup4KNffo9Vc3wa9" target="_blank" rel="noopener noreferrer"
+          >dit formulier</a
+        >
+        in.
+      </h2>
+    </div>
+  } @else {
+    <div
+      style="
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+      "
+    >
+      <h2 style="color: white">Er is een fout opgetreden: {{ soundService.error() }}</h2>
+    </div>
+  }
+} @else {
+  <div class="soundboard-grid">
+    @for (sound of soundService.sounds(); track sound.name) {
+      <div class="sound-card" (click)="handleSoundClick(sound)">
+        <h2>{{ sound.name }}</h2>
+      </div>
+    }
+
+    <div class="sound-card" (click)="handleClickAllSounds()">
+      <h2>ALLES</h2>
+    </div>
+  </div>
+}

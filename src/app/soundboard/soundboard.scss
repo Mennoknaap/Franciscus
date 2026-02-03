@@ -1,0 +1,40 @@
+.soundboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 16px;
+  padding: 16px;
+}
+
+.sound-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  aspect-ratio: 1/1;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  text-align: center;
+
+  h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+    word-break: break-word;
+  }
+
+  &:hover {
+    background-color: var(--frans-primary);
+    transform: scale(1.02);
+
+    h2 {
+      color: white;
+    }
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}

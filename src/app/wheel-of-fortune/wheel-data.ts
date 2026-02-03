@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-@Injectable()
-export class WheelDataService {
+@Injectable({ providedIn: 'root' })
+export class WheelData {
     _defaultOpts = [
-        'Diego',
-        'Ignacio',
-        'JaviGo',
-        'Mendi',
-        'Sergio',
-        'Virginia',
-        'Tod@s',
+        'Wie',
+        'Dit',
+        'Leest',
+        'Is',
+        'Gek',
     ];
 
     optionSource: BehaviorSubject<string[]>;

@@ -8,7 +8,7 @@ import {
     viewChild,
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { WheelDataService } from './wheel-data';
+import { WheelData } from './wheel-data';
 
 const COLORS = [
     { bg: '#FF0000', text: '#FFFFFF' }, // Rood - witte tekst
@@ -18,14 +18,13 @@ const COLORS = [
 ] as const;
 
 @Component({
-    providers: [WheelDataService],
     standalone: false,
     selector: 'app-wheel',
     templateUrl: './wheel.html',
     styleUrls: ['./wheel.scss'],
 })
 export class Wheel implements OnInit, AfterViewInit {
-    private readonly _dataService = inject(WheelDataService);
+    private readonly _dataService = inject(WheelData);
     private readonly _dialog = inject(MatDialog);
     private readonly _nummer11 = new Audio('/assets/Nummer-11.mp3');
     private readonly _heySlay = new Audio('/assets/HEY-SLAY.mp3');

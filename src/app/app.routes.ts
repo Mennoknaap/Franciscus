@@ -11,6 +11,6 @@ export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'login', component: Login, providers: [LoginModule] },
     { path: 'home', component: Home, providers: [HomeModule], canActivate: [authGuard] },
-    { path: 'soundboard', component: Soundboard, canActivate: [authGuard] },
+    { path: 'soundboard', component: Soundboard, loadChildren: () => import('./soundboard/soundboard.module').then(m => m.SoundboardModule), canActivate: [authGuard] },
     { path: 'wheel', component: Wheel, canActivate: [authGuard] },
 ];

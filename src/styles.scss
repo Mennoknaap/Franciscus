@@ -47,3 +47,18 @@ body {
 .mat-mdc-dialog-title {
   color: #000000 !important;
 }
+
+// Input field overrides
+.mat-mdc-form-field {
+  .mat-mdc-input-element {
+    color: #000000 !important;
+  }
+  
+  .mat-mdc-floating-label {
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+  
+  &.mat-focused .mat-mdc-floating-label {
+    color: #000000 !important;
+  }
+}
