@@ -18,10 +18,14 @@ export class PwaInstallPrompt implements OnInit {
         if (isDevMode())
             return;
 
+        // Windows users can use the app without PWA
+        if (this.isWindows())
+            return;
+
         // Check if running as PWA
         const isInPWA = this.isPWA();
 
-        // If not in PWA mode, block the app
+        // If not in PWA mode, block the app (only for mobile devices)
         if (!isInPWA)
             this.showBlocker.set(true);
 
@@ -42,5 +46,9 @@ export class PwaInstallPrompt implements OnInit {
 
     isAndroid(): boolean {
         return /Android/.test(navigator.userAgent);
+    }
+
+    isWindows(): boolean {
+        return /Windows/.test(navigator.userAgent) || /Win/.test(navigator.platform);
     }
 }

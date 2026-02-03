@@ -27,7 +27,7 @@ body {
   // Set a default background, font and text colors for the application using
   // Angular Material's system-level CSS variables. Learn more about these
   // variables at https://material.angular.dev/guide/system-variables
-  background: linear-gradient(135deg, #94C11E 0%, #6b9013 100%);
+  background: linear-gradient(to bottom, #94C11E 0%, #6b9013 100%);
   background-attachment: fixed;
   color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
