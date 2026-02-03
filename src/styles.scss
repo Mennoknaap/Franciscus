@@ -42,3 +42,8 @@ body {
   --mat-sys-on-surface: #FFFFFF;
   --mat-sys-surface-container: #3e5700;
 }
+
+// Dialog title override
+.mat-mdc-dialog-title {
+  color: #000000 !important;
+}

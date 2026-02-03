@@ -1,9 +1,10 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, input, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { User } from '@angular/fire/auth';
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatMenuModule } from '@angular/material/menu';
+import { Router } from '@angular/router';
 import { AuthService } from '../login/login-service';
 
 @Component({
@@ -35,13 +36,22 @@ import { AuthService } from '../login/login-service';
 export class Title {
     private readonly _authService = inject(AuthService);
     private readonly _destroyRef = inject(DestroyRef);
+    private readonly _router = inject(Router);
 
+    readonly previousPath = input<string>();
     readonly user = signal<User | null>(null);
 
     constructor() {
         this._authService.user$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe(user => {
             this.user.set(user);
         });
+    }
+
+    goBack(): void {
+        const path = this.previousPath();
+        if (path) {
+            this._router.navigate([path]);
+        }
     }
 
     signOut() {

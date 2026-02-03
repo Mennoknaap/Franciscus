@@ -1,0 +1,73 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--frans-primary) 0%, #7aa916 100%);
+  padding: 16px;
+}
+
+.login-card {
+  background: white;
+  border-radius: 16px;
+  padding: 48px 40px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  
+  @media (max-width: 480px) {
+    padding: 32px 24px;
+    border-radius: 12px;
+  }
+}
+
+.login-header {
+  margin-bottom: 32px;
+  
+  h1 {
+    color: #333;
+    font-size: 32px;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    
+    @media (max-width: 480px) {
+      font-size: 28px;
+    }
+  }
+  
+  p {
+    color: #666;
+    font-size: 16px;
+    margin: 0;
+    
+    @media (max-width: 480px) {
+      font-size: 14px;
+    }
+  }
+}
+
+.google-login-button {
+  width: 100%;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  
+  @media (max-width: 480px) {
+    height: 44px;
+    font-size: 15px;
+  }
+  
+  ::ng-deep .mdc-button__label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  
+  .google-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+}

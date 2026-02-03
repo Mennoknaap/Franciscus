@@ -1,6 +1,8 @@
-<button class="title-button" matIconButton (click)="signOut()">
-  <mat-icon>chevron_left</mat-icon>
-</button>
+@if (previousPath()) {
+  <button class="title-button" matIconButton (click)="goBack()">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+}
 
 <h1><ng-content></ng-content></h1>
 

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "fransiscus-app": {
+    "franscus-app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -64,10 +64,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "fransiscus-app:build:production"
+              "buildTarget": "frans-app:build:production"
             },
             "development": {
-              "buildTarget": "fransiscus-app:build:development"
+              "buildTarget": "frans-app:build:development"
             }
           },
           "defaultConfiguration": "development"

@@ -6,6 +6,7 @@ import { AuthService } from './login-service';
     standalone: false,
     selector: 'app-login',
     templateUrl: './login.html',
+    styleUrls: ['./login.scss']
 })
 export class Login {
     private readonly _router = inject(Router);

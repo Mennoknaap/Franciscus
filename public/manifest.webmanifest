@@ -1,13 +1,13 @@
 {
-  "name": "fransiscus-app",
-  "short_name": "fransiscus-app",
+  "name": "Frans App",
+  "short_name": "Frans App",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
   "icons": [
     {
-      "src": "icons/icon-72x72.png",
-      "sizes": "72x72",
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable any"
     }

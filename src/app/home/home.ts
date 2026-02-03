@@ -17,12 +17,12 @@ export class Home {
         {
             title: 'Soundboard',
             image: 'assets/icons/speaker.png',
-            path: 'soundboard',
+            path: '/soundboard',
         },       
         {
-            title: 'Rad',
+            title: 'Radje',
             image: 'assets/icons/rad.png',
-            path: 'rad',
+            path: '/wheel',
         },
     ];
 }

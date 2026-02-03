@@ -1,0 +1,30 @@
+<div
+  style="
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+  "
+>
+  <app-title previousPath="home" style="width: 100%"> Radje</app-title>
+
+  <div id="wheelOfFortune">
+    <canvas #wheel id="wheel" width="500" height="500"></canvas>
+    <div #spin id="spin" (click)="spinner()">SPIN</div>
+  </div>
+
+  <div style="width: 100%; max-width: 600px">
+    <textarea
+      [ngModel]="optionsText()"
+      (ngModelChange)="optionsText.set($event); updateOptions()"
+      [disabled]="isSpinning()"
+      placeholder="Voer opties in (één per regel)"
+      rows="10"
+      style="width: 100%; padding: 10px; font-size: 14px; box-sizing: border-box"
+    >
+    </textarea>
+  </div>
+</div>
