@@ -12,5 +12,5 @@ export const routes: Routes = [
     { path: 'login', component: Login, providers: [LoginModule] },
     { path: 'home', component: Home, providers: [HomeModule], canActivate: [authGuard] },
     { path: 'soundboard', component: Soundboard, canActivate: [authGuard] },
-    { path: 'wheel', component: Wheel, canActivate: [authGuard] }, 
+    { path: 'wheel', component: Wheel, canActivate: [authGuard] },
 ];

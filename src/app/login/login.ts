@@ -6,28 +6,27 @@ import { AuthService } from './login-service';
     standalone: false,
     selector: 'app-login',
     templateUrl: './login.html',
-    styleUrls: ['./login.scss']
+    styleUrls: ['./login.scss'],
 })
 export class Login {
     private readonly _router = inject(Router);
     private readonly _authService = inject(AuthService);
 
-  async login() {
-    try {
-      const user = await this._authService.googleLogin();
-      this._router.navigate(['/']);
-    } catch (err: any) {
-      console.error(err);
+    async login(): Promise<void> {
+        try {
+            await this._authService.googleLogin();
+            this._router.navigate(['/']);
+        } catch (err: any) {
+            console.error(err);
         }
-  }
+    }
 
-  async logout() {
-    try {
-      await this._authService.signOut();
-      this._router.navigate(['/login']);
+    async logout(): Promise<void> {
+        try {
+            await this._authService.signOut();
+            this._router.navigate(['/login']);
+        } catch (err: any) {
+            console.error(err);
+        }
     }
-    catch (err: any) {
-      console.error(err);
-    }
-  }
 }

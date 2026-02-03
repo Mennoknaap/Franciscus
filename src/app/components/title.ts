@@ -1,8 +1,8 @@
 import { Component, DestroyRef, inject, input, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { User } from '@angular/fire/auth';
-import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router } from '@angular/router';
 import { AuthService } from '../login/login-service';
@@ -11,7 +11,7 @@ import { AuthService } from '../login/login-service';
     imports: [MatButtonModule, MatIconModule, MatMenuModule],
     templateUrl: './title.html',
     selector: 'app-title',
-        styles: [`
+    styles: [`
             :host {
                 display: flex;
                 justify-content: center;
@@ -49,12 +49,12 @@ export class Title {
 
     goBack(): void {
         const path = this.previousPath();
-        if (path) {
+        if (path)
             this._router.navigate([path]);
-        }
+
     }
 
-    signOut() {
+    signOut(): void {
         this._authService.signOut();
     }
 }

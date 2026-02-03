@@ -18,7 +18,7 @@ export class Home {
             title: 'Soundboard',
             image: 'assets/icons/speaker.png',
             path: '/soundboard',
-        },       
+        },
         {
             title: 'Radje',
             image: 'assets/icons/rad.png',

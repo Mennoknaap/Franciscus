@@ -1,65 +1,65 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable()
 export class WheelDataService {
-  _defaultOpts = [
-    "Diego",
-    "Ignacio",
-    "JaviGo",
-    "Mendi",
-    "Sergio",
-    "Virginia",
-    "Tod@s"
-  ];
+    _defaultOpts = [
+        'Diego',
+        'Ignacio',
+        'JaviGo',
+        'Mendi',
+        'Sergio',
+        'Virginia',
+        'Tod@s',
+    ];
 
-  optionSource: BehaviorSubject<string[]>;
-  option$;
+    optionSource: BehaviorSubject<string[]>;
+    option$;
 
-  winnersSource: BehaviorSubject<string[]>;
-  winner$: Observable<string[]>;
-  
-  constructor() {
-    this.optionSource = new BehaviorSubject<string[]>(this.getOptions());
-    this.option$ = this.optionSource.asObservable();
+    winnersSource: BehaviorSubject<string[]>;
+    winner$: Observable<string[]>;
 
-    this.winnersSource = new BehaviorSubject<string[]>([]);
-    this.winner$ = this.winnersSource.asObservable();
-  }
+    constructor() {
+        this.optionSource = new BehaviorSubject<string[]>(this.getOptions());
+        this.option$ = this.optionSource.asObservable();
 
-  addNewOption(value: string) {
-    const currentOpts = [...this.optionSource.getValue()];
-    currentOpts.push(value);
-    this.optionSource.next(currentOpts);
-    this.persistOptions();
-  }
+        this.winnersSource = new BehaviorSubject<string[]>([]);
+        this.winner$ = this.winnersSource.asObservable();
+    }
 
-  deleteNewOption(value: string) {
-    const currentOpts = this.optionSource.getValue();
-    this.optionSource.next(currentOpts.filter(opts => opts != value));
-    this.persistOptions();
-  }
+    addNewOption(value: string): void {
+        const currentOpts = [...this.optionSource.getValue()];
+        currentOpts.push(value);
+        this.optionSource.next(currentOpts);
+        this.persistOptions();
+    }
 
-  addWinner(value: string) {
-    let winners = this.winnersSource.getValue();
-    winners = [...winners, value];
-    this.winnersSource.next(winners);
-  }
+    deleteNewOption(value: string): void {
+        const currentOpts = this.optionSource.getValue();
+        this.optionSource.next(currentOpts.filter(opts => opts != value));
+        this.persistOptions();
+    }
 
-  restartWinners() {
-    this.winnersSource.next([]);
-  }
+    addWinner(value: string): void {
+        let winners = this.winnersSource.getValue();
+        winners = [...winners, value];
+        this.winnersSource.next(winners);
+    }
 
-  persistOptions() {
-    localStorage.setItem("OPTS", JSON.stringify(this.optionSource.getValue()));
-  }
+    restartWinners(): void {
+        this.winnersSource.next([]);
+    }
 
-  getOptions(): string[] {
-    const value = localStorage.getItem("OPTS");
-    return value ? JSON.parse(value) : this._defaultOpts;
-  }
+    persistOptions(): void {
+        localStorage.setItem('OPTS', JSON.stringify(this.optionSource.getValue()));
+    }
 
-  resetToDefault() {
-    this.optionSource.next(this._defaultOpts);
-  }
+    getOptions(): string[] {
+        const value = localStorage.getItem('OPTS');
+        return value ? JSON.parse(value) : this._defaultOpts;
+    }
+
+    resetToDefault(): void {
+        this.optionSource.next(this._defaultOpts);
+    }
 }
