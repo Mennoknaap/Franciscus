@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1770145620472,
+  "timestamp": 1770145772975,
   "index": "/Franciscus/index.html",
   "assetGroups": [
     {
@@ -11,11 +11,11 @@
         "ignoreVary": true
       },
       "urls": [
-        "/Franciscus/chunk-JKO5B7XV.js",
-        "/Franciscus/chunk-ORUWA5QA.js",
+        "/Franciscus/chunk-3QIZKIKY.js",
+        "/Franciscus/chunk-TLPWEOJ6.js",
         "/Franciscus/favicon.ico",
         "/Franciscus/index.html",
-        "/Franciscus/main-G7M5T2NS.js",
+        "/Franciscus/main-KASW5G55.js",
         "/Franciscus/manifest.webmanifest",
         "/Franciscus/styles-U7ZD5FVR.css"
       ],
@@ -47,15 +47,15 @@
     "/Franciscus/assets/icons/poop.png": "88027ad7c4f81301e6685a855658b0e290d495c8",
     "/Franciscus/assets/icons/rad.png": "86566868a3bd935f1ec5fc53229b4c960b955362",
     "/Franciscus/assets/icons/speaker.png": "6098a6e210a141f9f251bd017603457eb998b36a",
-    "/Franciscus/chunk-JKO5B7XV.js": "4264f5e40608c87edb30c13e526371ae4f17059c",
-    "/Franciscus/chunk-ORUWA5QA.js": "a3401ee664bf589b98f46a3506c3ceb8fa41d581",
+    "/Franciscus/chunk-3QIZKIKY.js": "4c69b6773ba87c37fdd1a1d1bb7559826a3e6eaf",
+    "/Franciscus/chunk-TLPWEOJ6.js": "cad4a0cb80e2b0702bdab8da81a0e954b7aee4f3",
     "/Franciscus/favicon.ico": "35d87a63fac5cf74c6ecb64fc7e7251236ce31d1",
     "/Franciscus/favicon.png": "7be2efc241b3caf822f9cb48759870e096c9cbba",
     "/Franciscus/icons/icon-512x512.png": "157927bb9a93403dc60c8f00722a090fc092710f",
     "/Franciscus/icons/icon-72x72.png": "0e312b1b87811c7274d3867c60618cc4ec22974c",
     "/Franciscus/icons/icon.png": "7be2efc241b3caf822f9cb48759870e096c9cbba",
-    "/Franciscus/index.html": "fd7963dd27b6633d6c7d0fca6ae5c9e541ede5d4",
-    "/Franciscus/main-G7M5T2NS.js": "838886dfde38a33c71caf6cd0cfaff438d5c2e59",
+    "/Franciscus/index.html": "1c0f60b2e4676fa3a253a28b800c49b1cf38aa82",
+    "/Franciscus/main-KASW5G55.js": "6d1bfe667da8726d8253f3196f64649848b969f4",
     "/Franciscus/manifest.webmanifest": "6b7412221a57ef0f7852e6daaa2fc2bee670881f",
     "/Franciscus/styles-U7ZD5FVR.css": "b5928fd4e98af816e37c4e1a1b7b8e6b2778c1af"
   },
