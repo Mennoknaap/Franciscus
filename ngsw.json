@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1770143989220,
+  "timestamp": 1770144160062,
   "index": "/Franciscus/index.html",
   "assetGroups": [
     {
@@ -15,7 +15,7 @@
         "/Franciscus/chunk-G22IVWWQ.js",
         "/Franciscus/favicon.ico",
         "/Franciscus/index.html",
-        "/Franciscus/main-IJHEHBVV.js",
+        "/Franciscus/main-ZJXYZP3O.js",
         "/Franciscus/manifest.webmanifest",
         "/Franciscus/styles-BUZCPMBR.css"
       ],
@@ -52,8 +52,8 @@
     "/Franciscus/icons/icon-512x512.png": "157927bb9a93403dc60c8f00722a090fc092710f",
     "/Franciscus/icons/icon-72x72.png": "0e312b1b87811c7274d3867c60618cc4ec22974c",
     "/Franciscus/icons/icon.png": "7be2efc241b3caf822f9cb48759870e096c9cbba",
-    "/Franciscus/index.html": "4d726baaee211524d5ad5affde9be760d39ac007",
-    "/Franciscus/main-IJHEHBVV.js": "ec115eb1ca5deeb01b370fc76387c13f85716b6a",
+    "/Franciscus/index.html": "a0ee89e2d23cd9825c38dfe7a93825e80f89c905",
+    "/Franciscus/main-ZJXYZP3O.js": "a9d388dc0d0a5e9fc998d71ca62e1b566c0e4227",
     "/Franciscus/manifest.webmanifest": "6b7412221a57ef0f7852e6daaa2fc2bee670881f",
     "/Franciscus/styles-BUZCPMBR.css": "8cfe660ade337ac278280398377bcac6fc8071bf"
   },
