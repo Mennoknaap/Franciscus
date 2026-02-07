@@ -1,0 +1,98 @@
+.admin-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.users-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.user-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  position: relative;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 1);
+    
+    .delete-btn {
+      opacity: 1;
+    }
+  }
+}
+
+.profile-picture {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--frans-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.user-info {
+  flex: 1;
+  min-width: 0; // Allow text truncation
+  
+  h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0 0 0.5rem 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .email {
+    font-size: 0.95rem;
+    color: #7f8c8d;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+// Empty state (optioneel)
+.users-grid:empty::after {
+  content: 'Geen gebruikers gevonden';
+  display: block;
+  text-align: center;
+  padding: 3rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.1rem;
+  grid-column: 1 / -1;
+}
+
+.delete-btn {
+  margin-left: auto;
+  color: #e74c3c;
+  opacity: 0;
+  transition: opacity 0.2s ease, color 0.2s ease;
+  
+  &:hover {
+    color: #c0392b;
+    background-color: rgba(231, 76, 60, 0.1);
+  }
+  
+  @media (max-width: 768px) {
+    opacity: 1; // Altijd zichtbaar op mobile
+  }
+}

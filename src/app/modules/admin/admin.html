@@ -1,13 +1,27 @@
-@for (user of allUsers(); track user.id) {
-  <div class="user">
-    <img
-      [src]="user.profilePicture"
-      alt="Profielfoto van {{ user.firstName }}"
-      class="profile-picture"
-    />
-    <div class="user-info">
-      <h2>{{ user.firstName }} {{ user.lastName }}</h2>
-      <p>{{ user.email }}</p>
-    </div>
+<app-title previousPath="home">Gebruikersbeheer</app-title>
+
+<div class="admin-container">
+  <div class="users-grid">
+    @for (user of allUsers(); track user.id) {
+      <div class="user-card">
+        <img
+          [src]="user.profilePicture"
+          alt="Profielfoto van {{ user.firstName }}"
+          class="profile-picture"
+        />
+        <div class="user-info">
+          <h2>{{ user.firstName }} {{ user.lastName }}</h2>
+          <p class="email">{{ user.email }}</p>
+        </div>
+        <button
+          mat-icon-button
+          class="delete-btn"
+          (click)="deleteUser(user)"
+          aria-label="Verwijder gebruiker"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    }
   </div>
-}
+</div>

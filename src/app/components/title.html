@@ -14,5 +14,8 @@
   color="red"
 ></button>
 <mat-menu #menu="matMenu">
+  @if (user()?.role == 0) {
+    <button mat-menu-item (click)="goToAdminPage()">Admin pagina</button>
+  }
   <button mat-menu-item (click)="signOut()">uitloggen</button>
 </mat-menu>

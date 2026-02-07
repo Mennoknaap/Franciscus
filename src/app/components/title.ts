@@ -39,6 +39,10 @@ export class Title {
     readonly previousPath = input<string>();
     readonly user = this._authService.user;
 
+    goToAdminPage(): void {
+        this._router.navigate(['/admin']);
+    }
+
     goBack(): void {
         const path = this.previousPath();
         if (path)
