@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router } from '@angular/router';
-import { AuthService } from '../modules/login/login-service';
+import { AuthService } from '../core/auth/auth-service';
 
 @Component({
     imports: [MatButtonModule, MatIconModule, MatMenuModule],

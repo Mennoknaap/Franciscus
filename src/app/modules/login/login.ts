@@ -1,7 +1,7 @@
 import { Component, inject, NgZone, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { AuthService } from './login-service';
+import { AuthService } from '../../core/auth/auth-service';
 
 declare const google: any;
 

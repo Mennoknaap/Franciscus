@@ -1,5 +1,5 @@
 import { DestroyRef, inject, Injectable, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { FransApiClient, User } from '../../apiclients/fransapi.client';
 
@@ -11,6 +11,31 @@ export class AuthService {
 
     private readonly _user = signal<User | null>(null);
     readonly user = this._user.asReadonly();
+
+    private readonly _isInitialized = signal<boolean>(false);
+    readonly isInitialized = toObservable(this._isInitialized);
+
+    constructor() {
+        this.initializeAuth();
+    }
+
+    private initializeAuth(): void {
+        const authToken = localStorage.getItem('authToken');
+
+        if (authToken) {
+            this._api.userCurrent()
+                .pipe(takeUntilDestroyed(this._destroyRef))
+                .subscribe({
+                    next: user => {
+                        this._user.set(user);
+                        this._isInitialized.set(true);
+                    },
+                    error: () => this.signOut(),
+                });
+        } else {
+            this._isInitialized.set(true);
+        }
+    }
 
     handleGoogleLogin(idToken: string): void {
         this._api.auth(idToken).pipe(takeUntilDestroyed(this._destroyRef)).subscribe(response => {
