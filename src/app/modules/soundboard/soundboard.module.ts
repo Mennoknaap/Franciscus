@@ -6,13 +6,19 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSliderModule } from '@angular/material/slider';
 import { RouterLink } from '@angular/router';
-import { Title } from '../components/title';
-import { Wheel, WinnerDialog } from './wheel';
-import { WheelData } from './wheel-data';
+import { Title } from '../../components/title';
+import { SoundSettingsDialog } from './sound-settings-dialog';
+import { Soundboard } from './soundboard';
 
 @NgModule({
-    declarations: [Wheel, WinnerDialog],
+    declarations: [
+        Soundboard,
+        SoundSettingsDialog,
+    ],
     imports: [
         Title,
 
@@ -25,9 +31,9 @@ import { WheelData } from './wheel-data';
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
-    ],
-    providers: [
-        WheelData,
+        MatListModule,
+        MatProgressSpinnerModule,
+        MatSliderModule,
     ],
 })
-export class WheelModule { }
+export class SoundboardModule {}

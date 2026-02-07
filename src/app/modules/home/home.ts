@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { FransApiClient, User } from '../../apiclients/fransapi.client';
 
 export interface AppCard {
     title: string;
@@ -14,6 +15,16 @@ export interface AppCard {
     templateUrl: './home.html',
 })
 export class Home {
+    private readonly _api = inject(FransApiClient);
+
+    user = signal<User | null>(null);
+
+    constructor() {
+        this._api.userCurrent().subscribe(options => {
+            this.user.set(options);
+        });
+    }
+
     apps: AppCard[] = [
         {
             title: 'Soundboard',

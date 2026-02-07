@@ -1,4 +1,4 @@
-<app-title>Welkom Frans!</app-title>
+<app-title>Welkom {{ user()?.firstName }}!</app-title>
 
 <div class="app-grid">
   @for (app of apps; track app.title) {

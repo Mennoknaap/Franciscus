@@ -47,6 +47,9 @@ importers:
       angular-cli-ghpages:
         specifier: ^3.0.2
         version: 3.0.2(@angular/cli@21.1.2(@types/node@25.2.0)(hono@4.11.7))
+      dayjs:
+        specifier: ^1.11.19
+        version: 1.11.19
       firebase:
         specifier: ^12.8.0
         version: 12.8.0
@@ -2298,6 +2301,9 @@ packages:
   date-format@4.0.14:
     resolution: {integrity: sha512-39BOQLs9ZjKh0/patS9nrT8wc3ioX3/eA/zgbKNopnF2wCqJEoxywwwElATYvRsXdnOxA/OQeQoFZ3rFjVajhg==}
     engines: {node: '>=4.0'}
+
+  dayjs@1.11.19:
+    resolution: {integrity: sha512-t5EcLVS6QPBNqM2z8fakk/NKel+Xzshgt8FFKAn+qwlD1pzZWxh0nVCrvFK7ZDb6XucZeF9z8C7CBWTRIVApAw==}
 
   debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
@@ -6463,6 +6469,8 @@ snapshots:
   custom-event@1.0.1: {}
 
   date-format@4.0.14: {}
+
+  dayjs@1.11.19: {}
 
   debug@2.6.9:
     dependencies:
