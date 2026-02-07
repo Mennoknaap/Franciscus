@@ -309,8 +309,11 @@ export interface RefreshAuthentication {
     refreshToken?: string | undefined;
 }
 
+export type RoleType = 0 | 1;
+
 export interface User {
     id: string;
+    role: RoleType;
     firstName: string;
     lastName: string;
     email: string;

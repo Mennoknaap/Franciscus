@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { adminAuthGuard } from './core/auth/admin-auth-guard';
 import { authGuard } from './core/auth/auth-guard';
 import { Home } from './modules/home/home';
 import { HomeModule } from './modules/home/home.module';
@@ -13,4 +14,5 @@ export const routes: Routes = [
     { path: 'home', component: Home, providers: [HomeModule], canActivate: [authGuard] },
     { path: 'soundboard', component: Soundboard, loadChildren: () => import('./modules/soundboard/soundboard.module').then(m => m.SoundboardModule), canActivate: [authGuard] },
     { path: 'wheel', component: Wheel, canActivate: [authGuard] },
+    { path: 'admin', loadComponent: () => import('./modules/admin/admin').then(m => m.Admin), canActivate: [adminAuthGuard] },
 ];

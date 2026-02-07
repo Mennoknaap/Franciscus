@@ -1,0 +1,13 @@
+@for (user of allUsers(); track user.id) {
+  <div class="user">
+    <img
+      [src]="user.profilePicture"
+      alt="Profielfoto van {{ user.firstName }}"
+      class="profile-picture"
+    />
+    <div class="user-info">
+      <h2>{{ user.firstName }} {{ user.lastName }}</h2>
+      <p>{{ user.email }}</p>
+    </div>
+  </div>
+}
