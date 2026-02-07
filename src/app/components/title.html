@@ -6,8 +6,13 @@
 
 <h1><ng-content></ng-content></h1>
 
-<button class="title-button menu" matIconButton [matMenuTriggerFor]="menu" color="red"></button>
-<!-- [style.background-image]="'url(' + user()?.photoURL + ')'" -->
+<button
+  class="title-button menu"
+  [style.background-image]="'url(' + user()?.profilePicture + ')'"
+  matIconButton
+  [matMenuTriggerFor]="menu"
+  color="red"
+></button>
 <mat-menu #menu="matMenu">
   <button mat-menu-item (click)="signOut()">uitloggen</button>
 </mat-menu>

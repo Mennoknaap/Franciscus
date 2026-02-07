@@ -293,10 +293,10 @@ export class FransApiClient {
 }
 
 export interface AddUser {
-    firstName?: string;
-    lastName?: string;
-    profilePicture?: string;
-    email?: string;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    profilePicture?: string | undefined;
+    email?: string | undefined;
 }
 
 export interface AuthenticateResponse {
@@ -305,15 +305,16 @@ export interface AuthenticateResponse {
 }
 
 export interface RefreshAuthentication {
-    authToken?: string;
-    refreshToken?: string;
+    authToken?: string | undefined;
+    refreshToken?: string | undefined;
 }
 
 export interface User {
-    id?: string;
-    firstName?: string;
-    lastName?: string;
-    email?: string;
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    profilePicture?: string | undefined;
 }
 
 export class FransApiException extends Error {
