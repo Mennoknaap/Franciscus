@@ -5,8 +5,8 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/d
 import { MatIconModule } from '@angular/material/icon';
 import { User } from '../../apiclients/fransapi.client';
 import { Title } from '../../components/title';
-import { AdminApiService } from './admin-api';
 import { AddUserDialog } from './add-user-dialog';
+import { AdminApiService } from './admin-api';
 import { EditUserDialog } from './edit-user-dialog';
 
 @Component({

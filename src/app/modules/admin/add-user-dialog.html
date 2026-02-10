@@ -21,9 +21,9 @@
 
 <mat-dialog-actions align="end">
   <button mat-button [mat-dialog-close]="null">Annuleren</button>
-  <button 
-    mat-raised-button 
-    color="primary" 
+  <button
+    mat-raised-button
+    color="primary"
     (click)="save()"
     [disabled]="!firstName() || !lastName() || !email()"
   >

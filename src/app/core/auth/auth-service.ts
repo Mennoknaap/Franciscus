@@ -53,9 +53,8 @@ export class AuthService {
 
     updateProfile(userData: PutUser): Observable<void> {
         const currentUser = this._user();
-        if (!currentUser) {
+        if (!currentUser)
             throw new Error('No user logged in');
-        }
 
         return new Observable(observer => {
             this._api.userPut(currentUser.id, userData)

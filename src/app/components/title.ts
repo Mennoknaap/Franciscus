@@ -49,7 +49,8 @@ export class Title {
 
     openProfile(): void {
         const currentUser = this.user();
-        if (!currentUser) return;
+        if (!currentUser)
+            return;
 
         const dialogRef = this._dialog.open(ProfileDialog, {
             data: { user: currentUser },
@@ -57,9 +58,9 @@ export class Title {
         });
 
         dialogRef.afterClosed().pipe(takeUntilDestroyed(this._destroyRef)).subscribe(result => {
-            if (result) {
+            if (result)
                 this._authService.updateProfile(result).subscribe();
-            }
+
         });
     }
 
