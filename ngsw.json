@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1770147694596,
+  "timestamp": 1770755881075,
   "index": "/Franciscus/index.html",
   "assetGroups": [
     {
@@ -11,11 +11,13 @@
         "ignoreVary": true
       },
       "urls": [
-        "/Franciscus/chunk-3QIZKIKY.js",
-        "/Franciscus/chunk-TLPWEOJ6.js",
+        "/Franciscus/chunk-EXBSFGXN.js",
+        "/Franciscus/chunk-GN5BV7GF.js",
+        "/Franciscus/chunk-HX6TNZJ4.js",
+        "/Franciscus/chunk-P4CHYXBE.js",
         "/Franciscus/favicon.ico",
         "/Franciscus/index.html",
-        "/Franciscus/main-PAZF4BGC.js",
+        "/Franciscus/main-XBQZHLS4.js",
         "/Franciscus/manifest.webmanifest",
         "/Franciscus/styles-PPG3U7UE.css"
       ],
@@ -47,15 +49,17 @@
     "/Franciscus/assets/icons/poop.png": "88027ad7c4f81301e6685a855658b0e290d495c8",
     "/Franciscus/assets/icons/rad.png": "86566868a3bd935f1ec5fc53229b4c960b955362",
     "/Franciscus/assets/icons/speaker.png": "6098a6e210a141f9f251bd017603457eb998b36a",
-    "/Franciscus/chunk-3QIZKIKY.js": "4c69b6773ba87c37fdd1a1d1bb7559826a3e6eaf",
-    "/Franciscus/chunk-TLPWEOJ6.js": "cad4a0cb80e2b0702bdab8da81a0e954b7aee4f3",
+    "/Franciscus/chunk-EXBSFGXN.js": "896e4474cb558829144c721f8e396cca28a62e84",
+    "/Franciscus/chunk-GN5BV7GF.js": "41a1b351796a854992801bfd5ecc88ecb9dbd657",
+    "/Franciscus/chunk-HX6TNZJ4.js": "f86736493f271a65da3591871f531cf131a7f080",
+    "/Franciscus/chunk-P4CHYXBE.js": "d7936d6f35bcac016b134886ef35487f77009a5b",
     "/Franciscus/favicon.ico": "35d87a63fac5cf74c6ecb64fc7e7251236ce31d1",
     "/Franciscus/favicon.png": "7be2efc241b3caf822f9cb48759870e096c9cbba",
     "/Franciscus/icons/icon-512x512.png": "157927bb9a93403dc60c8f00722a090fc092710f",
     "/Franciscus/icons/icon-72x72.png": "0e312b1b87811c7274d3867c60618cc4ec22974c",
     "/Franciscus/icons/icon.png": "7be2efc241b3caf822f9cb48759870e096c9cbba",
-    "/Franciscus/index.html": "95e7ef562cf58cc2fe53c05b7755dc5416e2c17e",
-    "/Franciscus/main-PAZF4BGC.js": "777987c7b2b232f7f6755137844b90eb58dd4715",
+    "/Franciscus/index.html": "9d29b695068eca91dac42cc3ad1c86b9142d51c1",
+    "/Franciscus/main-XBQZHLS4.js": "a523207f669c677111a1dd9caa50965b95e343a5",
     "/Franciscus/manifest.webmanifest": "f50e378a14bc1fd341769a95f6fb76fd46ad5203",
     "/Franciscus/styles-PPG3U7UE.css": "b6c5b1306787f862789cd47f105d67447dfb4051"
   },
