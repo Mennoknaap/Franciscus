@@ -12,6 +12,7 @@ interface Environment {
 export const environment: Environment = {
     production: false,
     apiUrl: 'https://localhost:7225',
+    // apiUrl: 'https://franciscus-api.stanenmennocomite.nl',
     firebase: {
         apiKey: 'AIzaSyCInoEQW6NsIvJNbX4KNAV7r2G3iaaNf6Y',
         authDomain: 'fransiscus-soundboard.firebaseapp.com',

@@ -15,6 +15,14 @@
         </div>
         <button
           mat-icon-button
+          class="edit-btn"
+          (click)="editUser(user)"
+          aria-label="Bewerk gebruiker"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          mat-icon-button
           class="delete-btn"
           (click)="deleteUser(user)"
           aria-label="Verwijder gebruiker"

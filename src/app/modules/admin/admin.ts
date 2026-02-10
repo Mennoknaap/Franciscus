@@ -3,8 +3,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { FransApiClient, User } from '../../apiclients/fransapi.client';
+import { User } from '../../apiclients/fransapi.client';
 import { Title } from '../../components/title';
+import { AdminApiService } from './admin-api';
+import { EditUserDialog } from './edit-user-dialog';
 
 @Component({
     selector: 'app-admin',
@@ -14,7 +16,7 @@ import { Title } from '../../components/title';
     imports: [MatButtonModule, MatIconModule, MatDialogModule, Title],
 })
 export class Admin {
-    private readonly _api = inject(FransApiClient);
+    private readonly _adminApi = inject(AdminApiService);
     private readonly _destroyRef = inject(DestroyRef);
     private readonly _dialog = inject(MatDialog);
 
@@ -24,9 +26,29 @@ export class Admin {
     constructor() {
         this.loading.set(true);
 
-        this._api.userGet().pipe(takeUntilDestroyed(this._destroyRef)).subscribe(users => {
+        this._adminApi.getAllUsers().pipe(takeUntilDestroyed(this._destroyRef)).subscribe(users => {
             this.allUsers.set(users);
             this.loading.set(false);
+        });
+    }
+
+    editUser(user: User): void {
+        const dialogRef = this._dialog.open(EditUserDialog, {
+            data: { user },
+            width: '500px',
+        });
+
+        dialogRef.afterClosed().pipe(takeUntilDestroyed(this._destroyRef)).subscribe(result => {
+            if (result) {
+                this._adminApi.updateUser(user.id, result).subscribe(() => {
+                    const users = this.allUsers();
+                    const index = users.findIndex(u => u.id === user.id);
+                    if (index !== -1) {
+                        users[index] = { ...user, ...result };
+                        this.allUsers.set([...users]);
+                    }
+                });
+            }
         });
     }
 
@@ -38,7 +60,7 @@ export class Admin {
 
         dialogRef.afterClosed().pipe(takeUntilDestroyed(this._destroyRef)).subscribe(confirmed => {
             if (confirmed) {
-                this._api.userDelete(user.id).subscribe(() => {
+                this._adminApi.deleteUser(user.id).subscribe(() => {
                     this.allUsers.set(this.allUsers().filter(u => u.id !== user.id));
                 });
             }
