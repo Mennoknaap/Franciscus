@@ -1,0 +1,32 @@
+<h2 mat-dialog-title>Gebruiker toevoegen</h2>
+
+<mat-dialog-content>
+  <form>
+    <mat-form-field class="full-width">
+      <mat-label>Voornaam</mat-label>
+      <input matInput [(ngModel)]="firstName" name="firstName" required />
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Achternaam</mat-label>
+      <input matInput [(ngModel)]="lastName" name="lastName" required />
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>E-mail</mat-label>
+      <input matInput [(ngModel)]="email" name="email" type="email" required />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="null">Annuleren</button>
+  <button 
+    mat-raised-button 
+    color="primary" 
+    (click)="save()"
+    [disabled]="!firstName() || !lastName() || !email()"
+  >
+    Toevoegen
+  </button>
+</mat-dialog-actions>

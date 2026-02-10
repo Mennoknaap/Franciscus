@@ -14,8 +14,18 @@
   color="red"
 ></button>
 <mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="openProfile()">
+    <mat-icon>account_circle</mat-icon>
+    <span>Mijn Account</span>
+  </button>
   @if (user()?.role == 0) {
-    <button mat-menu-item (click)="goToAdminPage()">Admin pagina</button>
+    <button mat-menu-item (click)="goToAdminPage()">
+      <mat-icon>admin_panel_settings</mat-icon>
+      <span>Admin pagina</span>
+    </button>
   }
-  <button mat-menu-item (click)="signOut()">uitloggen</button>
+  <button mat-menu-item (click)="signOut()">
+    <mat-icon>logout</mat-icon>
+    <span>Uitloggen</span>
+  </button>
 </mat-menu>

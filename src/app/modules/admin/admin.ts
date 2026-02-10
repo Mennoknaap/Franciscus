@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { User } from '../../apiclients/fransapi.client';
 import { Title } from '../../components/title';
 import { AdminApiService } from './admin-api';
+import { AddUserDialog } from './add-user-dialog';
 import { EditUserDialog } from './edit-user-dialog';
 
 @Component({
@@ -29,6 +30,23 @@ export class Admin {
         this._adminApi.getAllUsers().pipe(takeUntilDestroyed(this._destroyRef)).subscribe(users => {
             this.allUsers.set(users);
             this.loading.set(false);
+        });
+    }
+
+    addUser(): void {
+        const dialogRef = this._dialog.open(AddUserDialog, {
+            width: '500px',
+        });
+
+        dialogRef.afterClosed().pipe(takeUntilDestroyed(this._destroyRef)).subscribe(result => {
+            if (result) {
+                this._adminApi.addUser(result).subscribe(() => {
+                    // Refresh de lijst om de nieuwe gebruiker op te halen
+                    this._adminApi.getAllUsers().subscribe(users => {
+                        this.allUsers.set(users);
+                    });
+                });
+            }
         });
     }
 

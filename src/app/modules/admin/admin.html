@@ -1,6 +1,15 @@
 <app-title previousPath="home">Gebruikersbeheer</app-title>
 
 <div class="admin-container">
+  <button 
+    mat-fab 
+    color="primary" 
+    class="add-user-fab"
+    (click)="addUser()"
+    aria-label="Gebruiker toevoegen"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
   <div class="users-grid">
     @for (user of allUsers(); track user.id) {
       <div class="user-card">

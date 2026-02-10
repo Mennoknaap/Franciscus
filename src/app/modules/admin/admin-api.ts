@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FransApiClient, PutUser, User } from '../../apiclients/fransapi.client';
+import { AddUser, FransApiClient, PutUser, User } from '../../apiclients/fransapi.client';
 
 @Injectable({
     providedIn: 'root',
@@ -10,6 +10,10 @@ export class AdminApiService {
 
     getAllUsers(): Observable<User[]> {
         return this._api.userGet();
+    }
+
+    addUser(userData: AddUser): Observable<void> {
+        return this._api.userPost(userData);
     }
 
     updateUser(userId: string, userData: PutUser): Observable<void> {

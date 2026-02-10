@@ -1,7 +1,8 @@
 import { DestroyRef, inject, Injectable, signal } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { FransApiClient, User } from '../../apiclients/fransapi.client';
+import { Observable } from 'rxjs';
+import { FransApiClient, PutUser, User } from '../../apiclients/fransapi.client';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -47,6 +48,27 @@ export class AuthService {
                 this._user.set(user);
                 this._router.navigate(['/home']);
             });
+        });
+    }
+
+    updateProfile(userData: PutUser): Observable<void> {
+        const currentUser = this._user();
+        if (!currentUser) {
+            throw new Error('No user logged in');
+        }
+
+        return new Observable(observer => {
+            this._api.userPut(currentUser.id, userData)
+                .pipe(takeUntilDestroyed(this._destroyRef))
+                .subscribe({
+                    next: () => {
+                        // Update local user state
+                        this._user.set({ ...currentUser, ...userData });
+                        observer.next();
+                        observer.complete();
+                    },
+                    error: err => observer.error(err),
+                });
         });
     }
 
