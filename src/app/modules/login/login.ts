@@ -1,5 +1,4 @@
-import { Component, inject, NgZone, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../core/auth/auth-service';
 
@@ -12,9 +11,7 @@ declare const google: any;
     styleUrls: ['./login.scss'],
 })
 export class Login implements OnInit {
-    private readonly _router = inject(Router);
     private readonly _authService = inject(AuthService);
-    private readonly _ngZone = inject(NgZone);
 
     ngOnInit(): void {
         this.initializeGoogleSignIn();
