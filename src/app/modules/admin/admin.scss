@@ -44,6 +44,8 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
   position: relative;
+  min-width: 0; // Grid items default to min-width: auto, which lets long nowrap
+                // text (name/email) blow out the card past the grid track width.
 
   &:hover {
     transform: translateY(-4px);

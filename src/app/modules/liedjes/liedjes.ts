@@ -1,8 +1,11 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { Child } from '../../apiclients/fransapi.client';
@@ -13,7 +16,7 @@ import { LiedjesApiService } from './liedjes-api';
 @Component({
     selector: 'app-liedjes',
     standalone: true,
-    imports: [MatButtonModule, MatIconModule, MatDialogModule, Title],
+    imports: [MatButtonModule, MatIconModule, MatDialogModule, MatFormFieldModule, MatInputModule, FormsModule, Title],
     templateUrl: './liedjes.html',
     styleUrl: './liedjes.scss',
 })
@@ -24,6 +27,15 @@ export class Liedjes {
     private readonly _router = inject(Router);
 
     readonly allChildren = signal<Child[]>([]);
+    readonly searchTerm = signal<string>('');
+
+    readonly filteredChildren = computed(() => {
+        const term = this.searchTerm().trim().toLowerCase();
+        if (!term)
+            return this.allChildren();
+
+        return this.allChildren().filter(child => child.name.toLowerCase().includes(term));
+    });
 
     constructor() {
         this.loadChildren();

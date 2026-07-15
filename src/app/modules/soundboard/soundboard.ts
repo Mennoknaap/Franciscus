@@ -50,6 +50,14 @@ export class Soundboard {
         }
     }
 
+    handleStopAllSounds(): void {
+        const sounds = this.soundService.sounds();
+        for (const sound of sounds) {
+            sound.audio.pause();
+            sound.audio.currentTime = 0;
+        }
+    }
+
     handleSettingsClick(): void {
         this._dialog.open(SoundSettingsDialog, {
             width: '500px',
