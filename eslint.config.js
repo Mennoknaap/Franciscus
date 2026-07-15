@@ -7,7 +7,7 @@ module.exports = tseslint.config(
   {
     files: ['**/*.ts'],
     ignores: [
-      '**/dataclients/**/*.ts'
+      '**/apiclients/**/*.ts'
     ],
     plugins: {
       '@stylistic/js': stylistic,
