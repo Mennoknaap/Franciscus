@@ -55,6 +55,7 @@ export class Title {
         const dialogRef = this._dialog.open(ProfileDialog, {
             data: { user: currentUser },
             width: '500px',
+            maxWidth: '95vw',
         });
 
         dialogRef.afterClosed().pipe(takeUntilDestroyed(this._destroyRef)).subscribe(result => {

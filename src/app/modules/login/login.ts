@@ -14,7 +14,16 @@ export class Login implements OnInit {
     private readonly _authService = inject(AuthService);
 
     ngOnInit(): void {
-        this.initializeGoogleSignIn();
+        this.waitForGoogleSdk(() => this.initializeGoogleSignIn());
+    }
+
+    private waitForGoogleSdk(callback: () => void): void {
+        if (typeof google !== 'undefined' && google.accounts?.id) {
+            callback();
+            return;
+        }
+
+        setTimeout(() => this.waitForGoogleSdk(callback), 100);
     }
 
     initializeGoogleSignIn(): void {

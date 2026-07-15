@@ -36,6 +36,7 @@ export class Admin {
     addUser(): void {
         const dialogRef = this._dialog.open(AddUserDialog, {
             width: '500px',
+            maxWidth: '95vw',
         });
 
         dialogRef.afterClosed().pipe(takeUntilDestroyed(this._destroyRef)).subscribe(result => {
@@ -54,6 +55,7 @@ export class Admin {
         const dialogRef = this._dialog.open(EditUserDialog, {
             data: { user },
             width: '500px',
+            maxWidth: '95vw',
         });
 
         dialogRef.afterClosed().pipe(takeUntilDestroyed(this._destroyRef)).subscribe(result => {
@@ -74,6 +76,7 @@ export class Admin {
         const dialogRef = this._dialog.open(ConfirmDeleteDialog, {
             data: { userName: `${user.firstName} ${user.lastName}` },
             width: '400px',
+            maxWidth: '95vw',
         });
 
         dialogRef.afterClosed().pipe(takeUntilDestroyed(this._destroyRef)).subscribe(confirmed => {
