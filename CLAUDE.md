@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is **frans-app**, the Angular (v21, zoneless) frontend for a committee/community app ("Franciscus"). It's one of two repos for this project — the other is a separate .NET backend API (`FransApi`, hosted at `franciscus-api.stanenmennocomite.nl`) that this repo has no direct access to. When backend behavior needs to change, that's out of scope here; this repo only consumes the API via the generated client described below.
 
-Features live under `src/app/modules/`: `login`, `home`, `soundboard`, `wheel-of-fortune`, `admin`.
+Features live under `src/app/modules/`: `login`, `home`, `soundboard`, `wheel-of-fortune`, `admin`, `liedjes`.
 
 ## Commands
 
@@ -37,6 +37,12 @@ There is no CI workflow in this repo (`.github/workflows` doesn't exist) — goi
 **Environments**: `environment.ts` (dev, local backend) and `environment.prod.ts` (prod, live backend) both also carry the shared Firebase project config — Firebase project is the same across environments, only the FransApi `apiUrl` differs.
 
 **PWA**: service worker (`ngsw-config.json`) is enabled only outside dev mode (`app.config.ts`), registered with a 30s stability delay.
+
+**`liedjes` module** (kamp-feitjes per kind, later used to write camp songs): follows the **admin** pattern (standalone components + `loadComponent`, no `.module.ts`). `liedjes.ts` is the overview grid (`/liedjes`), `child-detail.ts` is a single child's page with its facts list (`/liedjes/:id`) — both behind the plain `authGuard` (any logged-in user, no admin restriction, matching the backend's permission model for this feature). `liedjes-api.ts` wraps the generated client the same way `admin-api.ts` does.
+
+Child profile pictures are uploaded to the .NET API (not Firebase Storage, unlike the soundboard's file uploads) and the API returns a **relative** path (e.g. `/uploads/children/{guid}.jpg`) — unlike a user's Google profile picture, which is already an absolute URL. Any `<img>` showing a child's photo must prefix that path with `environment.apiUrl` (see `photoUrl()` in `liedjes.ts`/`child-detail.ts`); forgetting the prefix is the most likely bug if this ever looks broken.
+
+`AppCard` (`home.ts`) supports an optional `icon` (Material icon name) as an alternative to `image`, rendered by `home.html`, for tiles that don't have (or don't need) a dedicated PNG asset — used by the "Liedjes" tile.
 
 ## Code style notes (beyond what ESLint enforces automatically)
 

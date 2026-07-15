@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>Feitje bewerken</h2>
+
+<mat-dialog-content>
+  <form>
+    <mat-form-field class="full-width">
+      <mat-label>Feitje</mat-label>
+      <textarea matInput [(ngModel)]="text" name="text" rows="4" required></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="null">Annuleren</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="!text().trim()">
+    Opslaan
+  </button>
+</mat-dialog-actions>

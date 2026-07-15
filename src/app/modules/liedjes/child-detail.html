@@ -1,0 +1,67 @@
+<app-title previousPath="/liedjes">{{ child()?.name }}</app-title>
+
+@if (child(); as c) {
+  <div class="child-detail-container">
+    <div class="photo-section">
+      @if (c.profilePicture) {
+        <img [src]="photoUrl(c.profilePicture)" alt="Foto van {{ c.name }}" class="profile-picture" />
+      } @else {
+        <div class="profile-picture placeholder">
+          <mat-icon>face</mat-icon>
+        </div>
+      }
+      <button
+        mat-mini-fab
+        color="primary"
+        class="photo-edit-btn"
+        (click)="fileInput.click()"
+        aria-label="Foto wijzigen"
+      >
+        <mat-icon>photo_camera</mat-icon>
+      </button>
+      <input
+        #fileInput
+        type="file"
+        accept="image/*"
+        style="display: none"
+        (change)="handlePhotoChange($event)"
+      />
+    </div>
+
+    @if (photoError()) {
+      <p class="photo-error">{{ photoError() }}</p>
+    }
+
+    <div class="add-fact-form">
+      <mat-form-field class="full-width">
+        <mat-label>Nieuw feitje</mat-label>
+        <input
+          matInput
+          [(ngModel)]="newFactText"
+          (keyup.enter)="addFact()"
+          placeholder="Wat is er gebeurd?"
+        />
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="addFact()" [disabled]="!newFactText.trim()">
+        Toevoegen
+      </button>
+    </div>
+
+    <div class="facts-list">
+      @for (fact of c.facts; track fact.id) {
+        <div class="fact-card">
+          <p class="fact-text">{{ fact.text }}</p>
+          <p class="fact-meta">— {{ fact.createdByName }}, {{ formatDate(fact.createdAt) }}</p>
+          <button mat-icon-button class="edit-btn" (click)="editFact(fact)" aria-label="Bewerk feitje">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button class="delete-btn" (click)="deleteFact(fact)" aria-label="Verwijder feitje">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      } @empty {
+        <p class="empty-state">Nog geen feitjes — voeg de eerste toe!</p>
+      }
+    </div>
+  </div>
+}

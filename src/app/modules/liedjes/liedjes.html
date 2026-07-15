@@ -1,0 +1,40 @@
+<app-title previousPath="home">Liedjes</app-title>
+
+<div class="liedjes-container">
+  <button
+    mat-fab
+    color="primary"
+    class="add-child-fab"
+    (click)="addChild()"
+    aria-label="Kind toevoegen"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+
+  <div class="children-grid">
+    @for (child of allChildren(); track child.id) {
+      <div class="child-card" (click)="openChild(child)">
+        @if (child.profilePicture) {
+          <img
+            [src]="photoUrl(child.profilePicture)"
+            alt="Foto van {{ child.name }}"
+            class="profile-picture"
+          />
+        } @else {
+          <div class="profile-picture placeholder">
+            <mat-icon>face</mat-icon>
+          </div>
+        }
+        <h2>{{ child.name }}</h2>
+        <button
+          mat-icon-button
+          class="delete-btn"
+          (click)="deleteChild($event, child)"
+          aria-label="Kind verwijderen"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    }
+  </div>
+</div>

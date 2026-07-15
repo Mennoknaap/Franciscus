@@ -3,7 +3,8 @@ import { FransApiClient, User } from '../../apiclients/fransapi.client';
 
 export interface AppCard {
     title: string;
-    image: string;
+    image?: string;
+    icon?: string;
     path?: string;
     disabled?: boolean;
 }
@@ -35,6 +36,11 @@ export class Home {
             title: 'Radje',
             image: 'assets/icons/rad.png',
             path: '/wheel',
+        },
+        {
+            title: 'Liedjes',
+            icon: 'music_note',
+            path: '/liedjes',
         },
         {
             title: 'Top Secret (coming soon)',

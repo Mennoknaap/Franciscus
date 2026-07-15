@@ -25,6 +25,19 @@
   display: block;
 }
 
+.app-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--frans-primary);
+
+  mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+  }
+}
+
 .app-card-title {
   font-size: 0.95rem;
   font-weight: 500;

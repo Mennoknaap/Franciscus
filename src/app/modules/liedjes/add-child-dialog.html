@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>Kind toevoegen</h2>
+
+<mat-dialog-content>
+  <form>
+    <mat-form-field class="full-width">
+      <mat-label>Naam</mat-label>
+      <input matInput [(ngModel)]="name" name="name" required />
+    </mat-form-field>
+
+    <div class="photo-picker">
+      <button mat-raised-button type="button" (click)="fileInput.click()">
+        <mat-icon>photo_camera</mat-icon>
+        {{ photo() ? 'Andere foto kiezen' : 'Foto toevoegen (optioneel)' }}
+      </button>
+      <input
+        #fileInput
+        type="file"
+        accept="image/*"
+        style="display: none"
+        (change)="handlePhotoChange($event)"
+      />
+
+      @if (photo()) {
+        <span class="photo-name">{{ photo()!.name }}</span>
+        <button mat-icon-button type="button" (click)="removePhoto()" aria-label="Foto verwijderen">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+    </div>
+
+    @if (photoError()) {
+      <p class="photo-error">{{ photoError() }}</p>
+    }
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="null">Annuleren</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="!name()">
+    Toevoegen
+  </button>
+</mat-dialog-actions>

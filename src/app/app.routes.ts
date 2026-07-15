@@ -14,5 +14,7 @@ export const routes: Routes = [
     { path: 'home', component: Home, providers: [HomeModule], canActivate: [authGuard] },
     { path: 'soundboard', component: Soundboard, loadChildren: () => import('./modules/soundboard/soundboard.module').then(m => m.SoundboardModule), canActivate: [authGuard] },
     { path: 'wheel', component: Wheel, canActivate: [authGuard] },
+    { path: 'liedjes', loadComponent: () => import('./modules/liedjes/liedjes').then(m => m.Liedjes), canActivate: [authGuard] },
+    { path: 'liedjes/:id', loadComponent: () => import('./modules/liedjes/child-detail').then(m => m.ChildDetail), canActivate: [authGuard] },
     { path: 'admin', loadComponent: () => import('./modules/admin/admin').then(m => m.Admin), canActivate: [adminAuthGuard] },
 ];
