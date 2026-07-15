@@ -6,6 +6,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { Child } from '../../apiclients/fransapi.client';
@@ -16,7 +17,16 @@ import { LiedjesApiService } from './liedjes-api';
 @Component({
     selector: 'app-liedjes',
     standalone: true,
-    imports: [MatButtonModule, MatIconModule, MatDialogModule, MatFormFieldModule, MatInputModule, FormsModule, Title],
+    imports: [
+        MatButtonModule,
+        MatIconModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatProgressSpinnerModule,
+        FormsModule,
+        Title,
+    ],
     templateUrl: './liedjes.html',
     styleUrl: './liedjes.scss',
 })
@@ -27,6 +37,7 @@ export class Liedjes {
     private readonly _router = inject(Router);
 
     readonly allChildren = signal<Child[]>([]);
+    readonly isLoading = signal<boolean>(true);
     readonly searchTerm = signal<string>('');
 
     readonly filteredChildren = computed(() => {
@@ -82,8 +93,10 @@ export class Liedjes {
     }
 
     private loadChildren(): void {
+        this.isLoading.set(true);
         this._api.getAllChildren().pipe(takeUntilDestroyed(this._destroyRef)).subscribe(children => {
             this.allChildren.set(children);
+            this.isLoading.set(false);
         });
     }
 }

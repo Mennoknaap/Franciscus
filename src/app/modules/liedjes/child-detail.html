@@ -1,6 +1,10 @@
 <app-title previousPath="/liedjes">{{ child()?.name }}</app-title>
 
-@if (child(); as c) {
+@if (isLoading()) {
+  <div class="loading-container">
+    <mat-spinner color="accent"></mat-spinner>
+  </div>
+} @else if (child(); as c) {
   <div class="child-detail-container">
     <div class="photo-section">
       @if (c.profilePicture) {

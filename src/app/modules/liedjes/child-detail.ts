@@ -6,6 +6,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
 import dayjs from 'dayjs';
 import { environment } from '../../../environments/environment';
@@ -25,6 +26,7 @@ const MAX_PHOTO_SIZE_BYTES = 5 * 1024 * 1024;
         MatDialogModule,
         MatFormFieldModule,
         MatInputModule,
+        MatProgressSpinnerModule,
         FormsModule,
         Title,
     ],
@@ -40,6 +42,7 @@ export class ChildDetail {
     private readonly _childId = this._route.snapshot.paramMap.get('id')!;
 
     readonly child = signal<Child | null>(null);
+    readonly isLoading = signal<boolean>(true);
     readonly photoError = signal<string | null>(null);
     newFactText = '';
 
@@ -120,6 +123,7 @@ export class ChildDetail {
     private loadChild(): void {
         this._api.getChildDetails(this._childId).pipe(takeUntilDestroyed(this._destroyRef)).subscribe(child => {
             this.child.set(child);
+            this.isLoading.set(false);
         });
     }
 }

@@ -24,6 +24,12 @@
   }
 }
 
+.loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 4rem 0;
+}
+
 .search-field {
   display: block;
   max-width: 400px;

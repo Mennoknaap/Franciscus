@@ -11,38 +11,44 @@
     <mat-icon>add</mat-icon>
   </button>
 
-  <mat-form-field class="search-field">
-    <mat-label>Zoek een kind</mat-label>
-    <input matInput [(ngModel)]="searchTerm" placeholder="Naam..." />
-    <mat-icon matSuffix>search</mat-icon>
-  </mat-form-field>
+  @if (isLoading()) {
+    <div class="loading-container">
+      <mat-spinner color="accent"></mat-spinner>
+    </div>
+  } @else {
+    <mat-form-field class="search-field">
+      <mat-label>Zoek een kind</mat-label>
+      <input matInput [(ngModel)]="searchTerm" placeholder="Naam..." />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
 
-  <div class="children-grid">
-    @for (child of filteredChildren(); track child.id) {
-      <div class="child-card" (click)="openChild(child)">
-        @if (child.profilePicture) {
-          <img
-            [src]="photoUrl(child.profilePicture)"
-            alt="Foto van {{ child.name }}"
-            class="profile-picture"
-          />
-        } @else {
-          <div class="profile-picture placeholder">
-            <mat-icon>face</mat-icon>
-          </div>
-        }
-        <h2>{{ child.name }}</h2>
-        <button
-          mat-icon-button
-          class="delete-btn"
-          (click)="deleteChild($event, child)"
-          aria-label="Kind verwijderen"
-        >
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
-    } @empty {
-      <p class="empty-state">Geen kinderen gevonden.</p>
-    }
-  </div>
+    <div class="children-grid">
+      @for (child of filteredChildren(); track child.id) {
+        <div class="child-card" (click)="openChild(child)">
+          @if (child.profilePicture) {
+            <img
+              [src]="photoUrl(child.profilePicture)"
+              alt="Foto van {{ child.name }}"
+              class="profile-picture"
+            />
+          } @else {
+            <div class="profile-picture placeholder">
+              <mat-icon>face</mat-icon>
+            </div>
+          }
+          <h2>{{ child.name }}</h2>
+          <button
+            mat-icon-button
+            class="delete-btn"
+            (click)="deleteChild($event, child)"
+            aria-label="Kind verwijderen"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      } @empty {
+        <p class="empty-state">Geen kinderen gevonden.</p>
+      }
+    </div>
+  }
 </div>
