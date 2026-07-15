@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is **frans-app**, the Angular (v21, zoneless) frontend for a committee/community app ("Franciscus"). It's one of two repos for this project — the other is a separate .NET backend API (`FransApi`, hosted at `franciscus-api.stanenmennocomite.nl`) that this repo has no direct access to. When backend behavior needs to change, that's out of scope here; this repo only consumes the API via the generated client described below.
 
-Features live under `src/app/modules/`: `login`, `home`, `soundboard`, `wheel-of-fortune`, `admin`, `liedjes`.
+Features live under `src/app/modules/`: `login`, `home`, `soundboard`, `wheel-of-fortune`, `admin`, `liedjes`, `poop-app`.
 
 ## Commands
 
@@ -43,6 +43,10 @@ There is no CI workflow in this repo (`.github/workflows` doesn't exist) — goi
 Child profile pictures are uploaded to the .NET API (not Firebase Storage, unlike the soundboard's file uploads) and the API returns a **relative** path (e.g. `/uploads/children/{guid}.jpg`) — unlike a user's Google profile picture, which is already an absolute URL. Any `<img>` showing a child's photo must prefix that path with `environment.apiUrl` (see `photoUrl()` in `liedjes.ts`/`child-detail.ts`); forgetting the prefix is the most likely bug if this ever looks broken.
 
 `AppCard` (`home.ts`) supports an optional `icon` (Material icon name) as an alternative to `image`, rendered by `home.html`, for tiles that don't have (or don't need) a dedicated PNG asset — used by the "Liedjes" tile.
+
+**Per-app access gating**: `AppCard` also supports `requiresAppKey` (e.g. `'poop-app'` on the "Top Secret" tile) — `home.ts`'s `visibleApps` computed signal filters the tile out unless `user()?.grantedApps` (from the backend's `User.grantedApps`) contains that key. This is **UI convenience only**; the actual enforcement is the backend's `[RequireAppAccess]` filter on the corresponding controller — never rely on hiding the tile as the real security boundary. `poop-app-access-guard.ts` mirrors this check at the route level (same pattern as `admin-auth-guard.ts`), redirecting to `/home` if the key is missing.
+
+**`poop-app` module** (per-person-gated, push-notification test feature): standalone component behind `authGuard` + `poopAppAccessGuard`. Uses Angular's built-in `SwPush` (`@angular/service-worker`, already a project dependency — no separate push library needed) to request notification permission and subscribe (`environment.vapidPublicKey`), then posts the resulting subscription to the API's `/push/subscribe`. **Web Push notifications on iOS only work if the PWA has been "Added to Home Screen"** — plain Safari tabs can't receive them (iOS 16.4+ requirement), keep this in mind if push "doesn't work" during testing on an iPhone. `environment.prod.ts`'s `vapidPublicKey` must match whatever private key is configured on the Pi (see the API repo's `CLAUDE.md`) — dev and prod intentionally use different VAPID keypairs.
 
 ## Code style notes (beyond what ESLint enforces automatically)
 

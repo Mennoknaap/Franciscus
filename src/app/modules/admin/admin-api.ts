@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AddUser, FransApiClient, PutUser, User } from '../../apiclients/fransapi.client';
+import { AddUser, FransApiClient, PutUser, User, UserAppAccess } from '../../apiclients/fransapi.client';
 
 @Injectable({
     providedIn: 'root',
@@ -22,5 +22,17 @@ export class AdminApiService {
 
     deleteUser(userId: string): Observable<void> {
         return this._api.userDelete(userId);
+    }
+
+    getAppAccess(appKey: string): Observable<UserAppAccess[]> {
+        return this._api.appAccessGet(appKey);
+    }
+
+    grantAppAccess(userId: string, appKey: string): Observable<void> {
+        return this._api.appAccessPost({ userId, appKey });
+    }
+
+    revokeAppAccess(userId: string, appKey: string): Observable<void> {
+        return this._api.appAccessDelete(userId, appKey);
     }
 }

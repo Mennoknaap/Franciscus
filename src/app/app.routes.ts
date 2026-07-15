@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { adminAuthGuard } from './core/auth/admin-auth-guard';
 import { authGuard } from './core/auth/auth-guard';
+import { poopAppAccessGuard } from './core/auth/poop-app-access-guard';
 import { Home } from './modules/home/home';
 import { HomeModule } from './modules/home/home.module';
 import { Login } from './modules/login/login';
@@ -17,4 +18,5 @@ export const routes: Routes = [
     { path: 'liedjes', loadComponent: () => import('./modules/liedjes/liedjes').then(m => m.Liedjes), canActivate: [authGuard] },
     { path: 'liedjes/:id', loadComponent: () => import('./modules/liedjes/child-detail').then(m => m.ChildDetail), canActivate: [authGuard] },
     { path: 'admin', loadComponent: () => import('./modules/admin/admin').then(m => m.Admin), canActivate: [adminAuthGuard] },
+    { path: 'poop-app', loadComponent: () => import('./modules/poop-app/poop-app').then(m => m.PoopApp), canActivate: [authGuard, poopAppAccessGuard] },
 ];

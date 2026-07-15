@@ -1,0 +1,19 @@
+mat-dialog-content {
+  min-width: 350px;
+  padding: 1.5rem 0;
+
+  @media (max-width: 768px) {
+    min-width: auto;
+  }
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+mat-dialog-actions {
+  padding: 1rem 0;
+  margin: 0;
+}

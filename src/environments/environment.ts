@@ -7,6 +7,7 @@ interface Environment {
     google: {
         clientId: string;
     };
+    vapidPublicKey: string;
 }
 
 export const environment: Environment = {
@@ -24,4 +25,5 @@ export const environment: Environment = {
     google: {
         clientId: '664118805963-ejuvvnucruv5073k7dcb6n2tap0bo4es.apps.googleusercontent.com',
     },
+    vapidPublicKey: 'BGqTHPqY84YOqtKvbj6f-qdu5Sck8p-QLgXD4IVedKP7Wn0FzKzMoWjGmc9Hp48wOxK7S8WJk4VYGOWsgnNQ7ek',
 };

@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FransApiClient, User } from '../../apiclients/fransapi.client';
 
 export interface AppCard {
@@ -7,6 +7,7 @@ export interface AppCard {
     icon?: string;
     path?: string;
     disabled?: boolean;
+    requiresAppKey?: string;
 }
 
 @Component({
@@ -43,9 +44,15 @@ export class Home {
             path: '/liedjes',
         },
         {
-            title: 'Top Secret (coming soon)',
+            title: 'Top Secret',
             image: 'assets/icons/poop.png',
-            disabled: true,
+            path: '/poop-app',
+            requiresAppKey: 'poop-app',
         },
     ];
+
+    readonly visibleApps = computed(() => {
+        const grantedApps = this.user()?.grantedApps ?? [];
+        return this.apps.filter(app => !app.requiresAppKey || grantedApps.includes(app.requiresAppKey));
+    });
 }

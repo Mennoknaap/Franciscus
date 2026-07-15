@@ -1,0 +1,27 @@
+.poop-app-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  text-align: center;
+
+  button {
+    width: 100%;
+    max-width: 320px;
+  }
+}
+
+.status {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+}
+
+.result {
+  color: #fff;
+  margin: 0;
+}

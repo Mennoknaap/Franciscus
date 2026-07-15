@@ -7,6 +7,7 @@ import { User } from '../../apiclients/fransapi.client';
 import { Title } from '../../components/title';
 import { AddUserDialog } from './add-user-dialog';
 import { AdminApiService } from './admin-api';
+import { AppAccessDialog } from './app-access-dialog';
 import { EditUserDialog } from './edit-user-dialog';
 
 @Component({
@@ -30,6 +31,13 @@ export class Admin {
         this._adminApi.getAllUsers().pipe(takeUntilDestroyed(this._destroyRef)).subscribe(users => {
             this.allUsers.set(users);
             this.loading.set(false);
+        });
+    }
+
+    manageAppAccess(): void {
+        this._dialog.open(AppAccessDialog, {
+            width: '450px',
+            maxWidth: '95vw',
         });
     }
 

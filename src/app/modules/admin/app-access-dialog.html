@@ -1,0 +1,26 @@
+<h2 mat-dialog-title>Toegang "Top Secret"</h2>
+
+<mat-dialog-content>
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="32"></mat-spinner>
+    </div>
+  } @else {
+    <mat-list>
+      @for (user of users(); track user.userId) {
+        <mat-list-item>
+          <mat-checkbox
+            [checked]="user.hasAccess"
+            (change)="toggleAccess(user)"
+          >
+            {{ user.firstName }} {{ user.lastName }}
+          </mat-checkbox>
+        </mat-list-item>
+      }
+    </mat-list>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="null">Sluiten</button>
+</mat-dialog-actions>

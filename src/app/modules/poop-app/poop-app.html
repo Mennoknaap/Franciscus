@@ -1,0 +1,21 @@
+<app-title previousPath="home">Top Secret</app-title>
+
+<div class="poop-app-container">
+  @if (notificationsEnabled()) {
+    <p class="status">✓ Meldingen staan aan</p>
+  } @else {
+    <button mat-raised-button color="primary" (click)="enableNotifications()">
+      <mat-icon>notifications</mat-icon>
+      Meldingen aanzetten
+    </button>
+  }
+
+  <button mat-raised-button color="warn" (click)="sendTestNotification()" [disabled]="sending()">
+    <mat-icon>send</mat-icon>
+    Stuur test-bericht naar iedereen
+  </button>
+
+  @if (lastResult()) {
+    <p class="result">{{ lastResult() }}</p>
+  }
+</div>
