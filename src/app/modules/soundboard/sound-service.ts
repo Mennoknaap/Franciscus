@@ -1,27 +1,19 @@
 import { inject, Injectable, signal } from '@angular/core';
-import {
-    deleteObject,
-    getDownloadURL,
-    getMetadata,
-    listAll,
-    ref,
-    Storage,
-    StorageReference,
-    updateMetadata,
-    uploadBytes,
-} from '@angular/fire/storage';
+import { firstValueFrom } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { FransApiClient, FransApiException } from '../../apiclients/fransapi.client';
 
 export interface ISound {
+    id: string;
     name: string;
     src: string;
     volume: number;
     audio: HTMLAudioElement;
-    ref: StorageReference;
 }
 
 @Injectable({ providedIn: 'root' })
 export class SoundService {
-    private readonly _storage = inject(Storage);
+    private readonly _api = inject(FransApiClient);
 
     private readonly _sounds = signal<ISound[]>([]);
     private readonly _isLoading = signal(true);
@@ -37,46 +29,37 @@ export class SoundService {
 
     async removeSound(sound: ISound): Promise<void> {
         try {
-            await deleteObject(sound.ref);
-            this._sounds.update(prev => prev.filter(s => s.name !== sound.name));
+            await firstValueFrom(this._api.soundsDelete(sound.id));
+            this._sounds.update(prev => prev.filter(s => s.id !== sound.id));
         } catch (error) {
             console.error('Error deleting sound:', error);
         }
     }
 
     async updateSound(sound: ISound, newName: string, newVolume: number): Promise<void> {
-        await updateMetadata(sound.ref, {
-            customMetadata: { name: newName, volume: newVolume.toString() },
-        });
+        await firstValueFrom(this._api.soundsPut(sound.id, { name: newName, volume: newVolume }));
 
         this._sounds.update(prev =>
-            prev.map(s => s.name === sound.name ? { ...s, name: newName, volume: newVolume } : s),
+            prev.map(s => s.id === sound.id ? { ...s, name: newName, volume: newVolume } : s),
         );
     }
 
     async uploadSound(file: File, customName: string): Promise<void> {
         try {
-            const fileRef = ref(this._storage, file.name);
+            const result = await firstValueFrom(
+                this._api.soundsPost(customName, { data: file, fileName: file.name }),
+            );
 
-            await uploadBytes(fileRef, file, {
-                customMetadata: {
-                    name: customName,
-                    volume: '0.5',
-                },
-            });
-
-            const url = await getDownloadURL(fileRef);
-            const metadata = await getMetadata(fileRef);
-
-            const audio = new Audio(url);
+            const src = environment.apiUrl + result.url;
+            const audio = new Audio(src);
             audio.preload = 'auto';
 
             const newSound: ISound = {
-                name: metadata.customMetadata?.['name'] || file.name,
-                volume: metadata.customMetadata?.['volume'] ? parseFloat(metadata.customMetadata['volume']) : 0.5,
-                src: url,
+                id: result.id,
+                name: result.name,
+                volume: result.volume,
+                src,
                 audio,
-                ref: fileRef,
             };
 
             this._sounds.update(prev => [...prev, newSound]);
@@ -88,32 +71,30 @@ export class SoundService {
     private async fetchSounds(): Promise<void> {
         try {
             this._isLoading.set(true);
-            const listRef = ref(this._storage);
-            const res = await listAll(listRef);
+            const sounds = await firstValueFrom(this._api.soundsGet());
 
-            const soundPromises = res.items.map(async item => {
-                const metadata = await getMetadata(item);
-                const src = await getDownloadURL(item);
-
+            const soundsList = sounds.map(sound => {
+                const src = environment.apiUrl + sound.url;
                 const audio = new Audio(src);
                 audio.preload = 'auto';
 
                 return {
-                    name: metadata.customMetadata?.['name'] || item.name,
-                    volume: metadata.customMetadata?.['volume']
-                        ? parseFloat(metadata.customMetadata['volume'])
-                        : 0.5,
-                    src: src,
+                    id: sound.id,
+                    name: sound.name,
+                    volume: sound.volume,
+                    src,
                     audio,
-                    ref: item,
                 };
             });
 
-            const soundsList = await Promise.all(soundPromises);
             this._sounds.set(soundsList);
             this._isLoading.set(false);
         } catch (error: unknown) {
-            this._error.set(error instanceof Error ? error.message : 'Unknown error');
+            if (error instanceof FransApiException && error.status === 403)
+                this._error.set('permission');
+            else
+                this._error.set(error instanceof Error ? error.message : 'Unknown error');
+
             this._isLoading.set(false);
         }
     }

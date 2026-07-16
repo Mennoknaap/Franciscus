@@ -32,16 +32,19 @@ export class Home {
             title: 'Soundboard',
             image: 'assets/icons/speaker.png',
             path: '/soundboard',
+            requiresAppKey: 'soundboard',
         },
         {
             title: 'Radje',
             image: 'assets/icons/rad.png',
             path: '/wheel',
+            requiresAppKey: 'wheel',
         },
         {
             title: 'Liedjes',
             icon: 'music_note',
             path: '/liedjes',
+            requiresAppKey: 'liedjes',
         },
         {
             title: 'Top Secret',

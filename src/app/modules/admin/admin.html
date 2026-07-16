@@ -1,6 +1,10 @@
 <app-title previousPath="home">Gebruikersbeheer</app-title>
 
 <div class="admin-container">
+  <button mat-button class="migrate-sounds-btn" (click)="migrateSounds()">
+    <mat-icon>cloud_sync</mat-icon>
+    Geluiden migreren (eenmalig)
+  </button>
   <button
     mat-fab
     color="primary"

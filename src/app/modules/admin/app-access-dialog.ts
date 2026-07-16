@@ -11,6 +11,9 @@ import { AdminApiService } from './admin-api';
 // Apps that can be gated per-person. Add an entry here whenever a new app needs this —
 // the backend's AppAccess table is already generic (just an AppKey string per user).
 const GATEABLE_APPS = [
+    { key: 'soundboard', label: 'Soundboard' },
+    { key: 'wheel', label: 'Radje' },
+    { key: 'liedjes', label: 'Liedjes' },
     { key: 'poop-app', label: 'Top Secret' },
 ];
 
