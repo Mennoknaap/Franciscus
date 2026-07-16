@@ -13,15 +13,36 @@ export class PushNotificationService {
 
     private _refreshedThisSession = false;
 
-    readonly permissionGranted = signal<boolean>(
-        typeof Notification !== 'undefined' && Notification.permission === 'granted',
-    );
+    readonly permissionGranted = signal<boolean>(false);
 
     // 'denied' can't be undone from script — the user has to change it themselves in
     // their browser/OS settings, so there's no point showing an "enable" prompt for it.
-    readonly permissionDenied = signal<boolean>(
-        typeof Notification !== 'undefined' && Notification.permission === 'denied',
-    );
+    readonly permissionDenied = signal<boolean>(false);
+
+    constructor() {
+        this.syncPermissionState();
+
+        // There's no cross-browser event for "the user changed notification permission
+        // in their OS settings while the app was open" — Safari/iOS in particular
+        // doesn't support the Permissions API's onchange for 'notifications'. Re-reading
+        // Notification.permission whenever the page becomes visible again is the closest
+        // practical approximation (covers: user backgrounds the app, flips the toggle in
+        // Settings, comes back).
+        if (typeof document !== 'undefined') {
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'visible')
+                    this.syncPermissionState();
+            });
+        }
+    }
+
+    private syncPermissionState(): void {
+        if (typeof Notification === 'undefined')
+            return;
+
+        this.permissionGranted.set(Notification.permission === 'granted');
+        this.permissionDenied.set(Notification.permission === 'denied');
+    }
 
     async subscribe(): Promise<boolean> {
         if (!this._swPush.isEnabled)
@@ -46,7 +67,7 @@ export class PushNotificationService {
             return true;
         } catch (error) {
             console.error('Kon geen abonnement op meldingen aanmaken:', error);
-            this.permissionDenied.set(typeof Notification !== 'undefined' && Notification.permission === 'denied');
+            this.syncPermissionState();
             return false;
         }
     }

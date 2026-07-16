@@ -23,6 +23,7 @@ export class Home {
 
     user = signal<User | null>(null);
     enablingNotifications = signal<boolean>(false);
+    notificationError = signal<string | null>(null);
 
     constructor() {
         this._api.userCurrent().subscribe(options => {
@@ -50,7 +51,7 @@ export class Home {
             requiresAppKey: 'liedjes',
         },
         {
-            title: 'Top Secret',
+            title: 'Poeplog',
             image: 'assets/icons/poop.png',
             path: '/poop-app',
             requiresAppKey: 'poop-app',
@@ -72,7 +73,14 @@ export class Home {
 
     async enableNotifications(): Promise<void> {
         this.enablingNotifications.set(true);
-        await this._pushService.subscribe();
+        this.notificationError.set(null);
+        const success = await this._pushService.subscribe();
         this.enablingNotifications.set(false);
+
+        // A failure here without the browser ever showing its own permission prompt
+        // usually means the user (or iOS) already blocked it at the system level —
+        // clicking again won't help, only changing it in the device's own Settings will.
+        if (!success)
+            this.notificationError.set('Kon geen toestemming vragen — controleer de meldingeninstellingen van dit toestel.');
     }
 }

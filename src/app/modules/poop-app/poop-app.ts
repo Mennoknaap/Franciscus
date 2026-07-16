@@ -26,7 +26,13 @@ export class PoopApp {
 
     async enableNotifications(): Promise<void> {
         const success = await this._pushService.subscribe();
-        this.lastResult.set(success ? 'Meldingen staan aan!' : 'Kon geen toestemming krijgen voor meldingen.');
+
+        // A failure here without the browser ever showing its own permission prompt
+        // usually means it's already blocked at the system level — clicking again
+        // won't help, only changing it in the device's own Settings will.
+        this.lastResult.set(success
+            ? 'Meldingen staan aan!'
+            : 'Kon geen toestemming vragen — controleer de meldingeninstellingen van dit toestel.');
     }
 
     // Gives the tester time to lock the phone or switch away from the app before the
