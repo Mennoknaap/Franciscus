@@ -1,5 +1,8 @@
 import { Component, ElementRef, inject, signal, viewChild } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { firstValueFrom } from 'rxjs';
+import { ConfirmDialog } from '../../components/confirm-dialog';
+import { PromptDialog } from '../../components/prompt-dialog';
 import { ISound, SoundService } from './sound-service';
 
 @Component({
@@ -10,6 +13,7 @@ import { ISound, SoundService } from './sound-service';
 })
 export class SoundSettingsDialog {
     private readonly _dialogRef = inject(MatDialogRef<SoundSettingsDialog>);
+    private readonly _dialog = inject(MatDialog);
     readonly soundService = inject(SoundService);
 
     fileInput = viewChild<ElementRef<HTMLInputElement>>('fileInput');
@@ -29,7 +33,13 @@ export class SoundSettingsDialog {
         const input = event.target as HTMLInputElement;
         const file = input.files?.[0];
         if (file) {
-            const name = prompt('Geef een naam op voor dit geluid:');
+            const dialogRef = this._dialog.open(PromptDialog, {
+                data: { title: 'Naam voor dit geluid', label: 'Naam' },
+                width: '400px',
+                maxWidth: '95vw',
+            });
+
+            const name = await firstValueFrom(dialogRef.afterClosed());
             if (name)
                 await this.soundService.uploadSound(file, name);
 
@@ -54,7 +64,15 @@ export class SoundSettingsDialog {
 
     async handleRemoveSound(event: MouseEvent, sound: ISound): Promise<void> {
         event.stopPropagation();
-        if (!window.confirm(`Weet je zeker dat je "${sound.name}" wilt verwijderen?`))
+
+        const dialogRef = this._dialog.open(ConfirmDialog, {
+            data: { title: 'Geluid verwijderen', message: `Weet je zeker dat je "${sound.name}" wilt verwijderen?` },
+            width: '400px',
+            maxWidth: '95vw',
+        });
+
+        const confirmed = await firstValueFrom(dialogRef.afterClosed());
+        if (!confirmed)
             return;
 
         await this.soundService.removeSound(sound);

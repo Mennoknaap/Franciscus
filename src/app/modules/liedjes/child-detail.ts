@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import dayjs from 'dayjs';
 import { environment } from '../../../environments/environment';
 import { Child, Fact } from '../../apiclients/fransapi.client';
+import { ConfirmDialog } from '../../components/confirm-dialog';
 import { Title } from '../../components/title';
 import { EditFactDialog } from './edit-fact-dialog';
 import { LiedjesApiService } from './liedjes-api';
@@ -112,11 +113,19 @@ export class ChildDetail {
     }
 
     deleteFact(fact: Fact): void {
-        if (!window.confirm('Weet je zeker dat je dit feitje wilt verwijderen?'))
-            return;
+        const dialogRef = this._dialog.open(ConfirmDialog, {
+            data: { title: 'Feitje verwijderen', message: 'Weet je zeker dat je dit feitje wilt verwijderen?' },
+            width: '400px',
+            maxWidth: '95vw',
+        });
 
-        this._api.deleteFact(fact.id).pipe(takeUntilDestroyed(this._destroyRef)).subscribe(() => {
-            this.loadChild();
+        dialogRef.afterClosed().pipe(takeUntilDestroyed(this._destroyRef)).subscribe(confirmed => {
+            if (!confirmed)
+                return;
+
+            this._api.deleteFact(fact.id).pipe(takeUntilDestroyed(this._destroyRef)).subscribe(() => {
+                this.loadChild();
+            });
         });
     }
 

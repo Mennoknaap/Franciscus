@@ -4,6 +4,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import dayjs from 'dayjs';
 import { PoopLogEntry, PoopLogType } from '../../apiclients/fransapi.client';
+import { ConfirmDialog } from '../../components/confirm-dialog';
 import { Title } from '../../components/title';
 import { AuthService } from '../../core/auth/auth-service';
 import { PushNotificationService } from '../../core/push/push-notification-service';
@@ -78,7 +79,15 @@ export class PoopApp implements OnInit {
     }
 
     clearLog(): void {
-        const dialogRef = this._dialog.open(ConfirmClearLogDialog, { width: '400px', maxWidth: '95vw' });
+        const dialogRef = this._dialog.open(ConfirmDialog, {
+            data: {
+                title: 'Poeplog wissen',
+                message: ['Weet je zeker dat je het hele Poeplog wilt wissen?', 'Deze actie kan niet ongedaan worden gemaakt.'],
+                confirmLabel: 'Wissen',
+            },
+            width: '400px',
+            maxWidth: '95vw',
+        });
 
         dialogRef.afterClosed().subscribe(confirmed => {
             if (!confirmed)
@@ -119,23 +128,4 @@ export class PoopApp implements OnInit {
             ? 'Meldingen staan aan!'
             : 'Kon geen toestemming vragen — controleer de meldingeninstellingen van dit toestel.');
     }
-}
-
-@Component({
-    selector: 'app-confirm-clear-log-dialog',
-    standalone: true,
-    imports: [MatDialogModule, MatButtonModule],
-    template: `
-        <h2 mat-dialog-title>Poeplog wissen</h2>
-        <mat-dialog-content>
-            <p>Weet je zeker dat je het hele Poeplog wilt wissen?</p>
-            <p>Deze actie kan niet ongedaan worden gemaakt.</p>
-        </mat-dialog-content>
-        <mat-dialog-actions align="end">
-            <button mat-button [mat-dialog-close]="false">Annuleren</button>
-            <button mat-raised-button color="warn" [mat-dialog-close]="true">Wissen</button>
-        </mat-dialog-actions>
-    `,
-})
-export class ConfirmClearLogDialog {
 }

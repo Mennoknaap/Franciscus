@@ -1,10 +1,11 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { User } from '../../apiclients/fransapi.client';
+import { ConfirmDialog } from '../../components/confirm-dialog';
 import { Title } from '../../components/title';
 import { AddUserDialog } from './add-user-dialog';
 import { AdminApiService } from './admin-api';
@@ -83,8 +84,11 @@ export class Admin {
     }
 
     deleteUser(user: User): void {
-        const dialogRef = this._dialog.open(ConfirmDeleteDialog, {
-            data: { userName: `${user.firstName} ${user.lastName}` },
+        const dialogRef = this._dialog.open(ConfirmDialog, {
+            data: {
+                title: 'Gebruiker verwijderen',
+                message: [`Weet je zeker dat je ${user.firstName} ${user.lastName} wilt verwijderen?`, 'Deze actie kan niet ongedaan worden gemaakt.'],
+            },
             width: '400px',
             maxWidth: '95vw',
         });
@@ -97,34 +101,4 @@ export class Admin {
             }
         });
     }
-}
-
-@Component({
-    selector: 'app-confirm-delete-dialog',
-    standalone: true,
-    imports: [MatDialogModule, MatButtonModule],
-    template: `
-        <h2 mat-dialog-title>Gebruiker verwijderen</h2>
-        <mat-dialog-content>
-            <p>Weet je zeker dat je <strong>{{ data.userName }}</strong> wilt verwijderen?</p>
-            <p>Deze actie kan niet ongedaan worden gemaakt.</p>
-        </mat-dialog-content>
-        <mat-dialog-actions align="end">
-            <button mat-button [mat-dialog-close]="false">Annuleren</button>
-            <button mat-raised-button color="warn" [mat-dialog-close]="true">Verwijderen</button>
-        </mat-dialog-actions>
-    `,
-    styles: [`
-        mat-dialog-content {
-            p {
-                margin: 0.5rem 0;
-            }
-            strong {
-                color: #e74c3c;
-            }
-        }
-    `],
-})
-export class ConfirmDeleteDialog {
-    readonly data = inject<{ userName: string }>(MAT_DIALOG_DATA);
 }

@@ -10,6 +10,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { Child } from '../../apiclients/fransapi.client';
+import { ConfirmDialog } from '../../components/confirm-dialog';
 import { Title } from '../../components/title';
 import { AddChildDialog } from './add-child-dialog';
 import { LiedjesApiService } from './liedjes-api';
@@ -62,11 +63,20 @@ export class Liedjes {
 
     deleteChild(event: MouseEvent, child: Child): void {
         event.stopPropagation();
-        if (!window.confirm(`Weet je zeker dat je "${child.name}" en alle feitjes wilt verwijderen?`))
-            return;
 
-        this._api.deleteChild(child.id).pipe(takeUntilDestroyed(this._destroyRef)).subscribe(() => {
-            this.allChildren.update(children => children.filter(c => c.id !== child.id));
+        const dialogRef = this._dialog.open(ConfirmDialog, {
+            data: { title: 'Kind verwijderen', message: `Weet je zeker dat je "${child.name}" en alle feitjes wilt verwijderen?` },
+            width: '400px',
+            maxWidth: '95vw',
+        });
+
+        dialogRef.afterClosed().pipe(takeUntilDestroyed(this._destroyRef)).subscribe(confirmed => {
+            if (!confirmed)
+                return;
+
+            this._api.deleteChild(child.id).pipe(takeUntilDestroyed(this._destroyRef)).subscribe(() => {
+                this.allChildren.update(children => children.filter(c => c.id !== child.id));
+            });
         });
     }
 
