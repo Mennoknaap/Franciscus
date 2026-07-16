@@ -787,6 +787,111 @@ export class FransApiClient {
     /**
      * @return Success
      */
+    poopAppLogGet(): Observable<PoopLogEntry[]> {
+        let url_ = this.baseUrl + "/poop-app/log";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processPoopAppLogGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processPoopAppLogGet(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PoopLogEntry[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PoopLogEntry[]>;
+        }));
+    }
+
+    protected processPoopAppLogGet(response: HttpResponseBase): Observable<PoopLogEntry[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PoopLogEntry[];
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    poopAppLogPost(body: AddPoopLogEntry | undefined): Observable<PoopLogEntry> {
+        let url_ = this.baseUrl + "/poop-app/log";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processPoopAppLogPost(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processPoopAppLogPost(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PoopLogEntry>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PoopLogEntry>;
+        }));
+    }
+
+    protected processPoopAppLogPost(response: HttpResponseBase): Observable<PoopLogEntry> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PoopLogEntry;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
     poopAppSendTestNotification(): Observable<SendTestNotificationResult> {
         let url_ = this.baseUrl + "/poop-app/send-test-notification";
         url_ = url_.replace(/[?&]$/, "");
@@ -1429,6 +1534,10 @@ export interface AddFact {
     text: string;
 }
 
+export interface AddPoopLogEntry {
+    type: PoopLogType;
+}
+
 export interface AddUser {
     firstName: string;
     lastName: string;
@@ -1460,6 +1569,16 @@ export interface GrantAppAccess {
     userId: string;
     appKey: string;
 }
+
+export interface PoopLogEntry {
+    id: string;
+    type: PoopLogType;
+    loggedByUserId: string;
+    loggedByName: string;
+    createdAt: dayjs.Dayjs;
+}
+
+export type PoopLogType = 0 | 1;
 
 export interface PutUser {
     firstName?: string | undefined;

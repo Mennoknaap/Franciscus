@@ -1,27 +1,51 @@
 <app-title previousPath="home">Poeplog</app-title>
 
 <div class="poop-app-container">
-  @if (notificationsEnabled()) {
-    <p class="status">✓ Meldingen staan aan</p>
-    <button mat-stroked-button (click)="enableNotifications()">
-      <mat-icon>refresh</mat-icon>
-      Vernieuw abonnement
-    </button>
-  } @else {
-    <button mat-raised-button color="primary" (click)="enableNotifications()">
+  @if (!notificationsEnabled()) {
+    <button mat-stroked-button class="enable-notifications-btn" (click)="enableNotifications()">
       <mat-icon>notifications</mat-icon>
       Meldingen aanzetten
     </button>
   }
 
-  <button mat-raised-button color="warn" (click)="sendTestNotification()" [disabled]="sending()">
-    <mat-icon>send</mat-icon>
-    Stuur test-bericht naar iedereen
-  </button>
+  <div class="chat-log">
+    @if (loadingLog()) {
+      <p class="chat-empty">Laden...</p>
+    } @else if (log().length === 0) {
+      <p class="chat-empty">Nog niets gelogd.</p>
+    } @else {
+      @for (entry of log(); track entry.id) {
+        <div class="chat-bubble" [class.mine]="entry.isMine">
+          @if (!entry.isMine) {
+            <div class="chat-sender">{{ entry.senderName }}</div>
+          }
+          <div class="chat-text">{{ entry.text }}</div>
+          <div class="chat-time">{{ entry.time }}</div>
+        </div>
+      }
+    }
+  </div>
 
-  @if (countdown(); as seconds) {
-    <p class="result">Wordt verstuurd over {{ seconds }} seconde{{ seconds === 1 ? '' : 'n' }} — vergrendel nu je telefoon of schakel naar een andere app.</p>
-  } @else if (lastResult()) {
-    <p class="result">{{ lastResult() }}</p>
-  }
+  <div class="log-actions">
+    <button mat-raised-button color="primary" [disabled]="logging()" (click)="logPoop()">
+      💩 Poepen
+    </button>
+    <button mat-raised-button color="accent" [disabled]="logging()" (click)="logPee()">
+      💦 Plassen
+    </button>
+  </div>
+
+  <details class="test-notification">
+    <summary>Test-melding versturen</summary>
+    <button mat-stroked-button [disabled]="sending()" (click)="sendTestNotification()">
+      <mat-icon>send</mat-icon>
+      Stuur test-bericht naar iedereen
+    </button>
+
+    @if (countdown(); as seconds) {
+      <p class="result">Wordt verstuurd over {{ seconds }} seconde{{ seconds === 1 ? '' : 'n' }} — vergrendel nu je telefoon of schakel naar een andere app.</p>
+    } @else if (lastResult()) {
+      <p class="result">{{ lastResult() }}</p>
+    }
+  </details>
 </div>
