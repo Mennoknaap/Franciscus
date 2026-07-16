@@ -65,10 +65,14 @@ export class Home {
 
     // Only worth asking for push permission if the person actually has an app that
     // uses it — showing this to everyone would just be a pointless, confusing prompt.
+    // Once permission is 'denied' there's normally nothing left to show (the browser
+    // won't prompt again), *except* right after a just-failed attempt — the banner has
+    // to stay up in that case, otherwise notificationError would be set but instantly
+    // hidden along with the rest of the banner.
     readonly showNotificationPrompt = computed(() =>
         (this.user()?.grantedApps ?? []).includes('poop-app')
         && !this._pushService.permissionGranted()
-        && !this._pushService.permissionDenied(),
+        && (!this._pushService.permissionDenied() || !!this.notificationError()),
     );
 
     async enableNotifications(): Promise<void> {
