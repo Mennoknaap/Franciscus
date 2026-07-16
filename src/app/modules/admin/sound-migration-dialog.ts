@@ -62,6 +62,11 @@ export class SoundMigrationDialog {
                 const extension = dotIndex !== -1 ? item.name.slice(dotIndex) : '.mp3';
                 const file = new File([blob], `${name}${extension}`, { type: blob.type });
 
+                // Diagnostic: confirm the fetched blob actually has content before it's
+                // appended, so a 0-byte result on the server can be traced back to either
+                // this fetch step or the upload/transit step.
+                console.log(`[migratie] ${item.name}: blob.size=${blob.size}, file.size=${file.size}`);
+
                 formData.append('Files', file);
                 collected++;
             } catch (error) {
