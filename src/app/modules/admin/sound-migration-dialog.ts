@@ -56,16 +56,15 @@ export class SoundMigrationDialog {
                 const name = metadata.customMetadata?.['name'] || item.name;
                 const url = await getDownloadURL(item);
 
-                const response = await fetch(url);
-                const blob = await response.blob();
+                // Firebase Storage occasionally times out (504) or otherwise hands back an
+                // empty body when many files are fetched back-to-back from one tab, without
+                // fetch() itself throwing — so a few retries on an empty blob, not just on a
+                // thrown error, is needed before giving up on a file.
+                const blob = await this.fetchBlobWithRetry(url);
+
                 const dotIndex = item.name.lastIndexOf('.');
                 const extension = dotIndex !== -1 ? item.name.slice(dotIndex) : '.mp3';
                 const file = new File([blob], `${name}${extension}`, { type: blob.type });
-
-                // Diagnostic: confirm the fetched blob actually has content before it's
-                // appended, so a 0-byte result on the server can be traced back to either
-                // this fetch step or the upload/transit step.
-                console.log(`[migratie] ${item.name}: blob.size=${blob.size}, file.size=${file.size}`);
 
                 formData.append('Files', file);
                 collected++;
@@ -101,5 +100,27 @@ export class SoundMigrationDialog {
 
         this.running.set(false);
         this.done.set(true);
+    }
+
+    private async fetchBlobWithRetry(url: string, attempts = 3): Promise<Blob> {
+        let lastError: unknown;
+
+        for (let attempt = 1; attempt <= attempts; attempt++) {
+            try {
+                const response = await fetch(url);
+                const blob = await response.blob();
+                if (blob.size > 0)
+                    return blob;
+
+                lastError = new Error(`leeg bestand ontvangen (status ${response.status})`);
+            } catch (error) {
+                lastError = error;
+            }
+
+            if (attempt < attempts)
+                await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+        }
+
+        throw lastError instanceof Error ? lastError : new Error('onbekende fout bij ophalen');
     }
 }
