@@ -3,6 +3,10 @@
 <div class="poop-app-container">
   @if (notificationsEnabled()) {
     <p class="status">✓ Meldingen staan aan</p>
+    <button mat-stroked-button (click)="enableNotifications()">
+      <mat-icon>refresh</mat-icon>
+      Vernieuw abonnement
+    </button>
   } @else {
     <button mat-raised-button color="primary" (click)="enableNotifications()">
       <mat-icon>notifications</mat-icon>
