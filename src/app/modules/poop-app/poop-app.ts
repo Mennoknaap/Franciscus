@@ -97,12 +97,20 @@ export class PoopApp implements OnInit {
         });
     }
 
-    // A quick undo for an accidental misclick — no confirmation, unlike clearing the
-    // whole log, since deleting a single message you (or, for an admin, someone else)
-    // just sent is low-stakes and trivially redone.
     deleteEntry(id: string): void {
-        this._api.deleteEntry(id).subscribe(() => {
-            this.log.update(entries => entries.filter(entry => entry.id !== id));
+        const dialogRef = this._dialog.open(ConfirmDialog, {
+            data: { title: 'Bericht verwijderen', message: 'Weet je zeker dat je dit bericht wilt verwijderen?' },
+            width: '400px',
+            maxWidth: '95vw',
+        });
+
+        dialogRef.afterClosed().subscribe(confirmed => {
+            if (!confirmed)
+                return;
+
+            this._api.deleteEntry(id).subscribe(() => {
+                this.log.update(entries => entries.filter(entry => entry.id !== id));
+            });
         });
     }
 
