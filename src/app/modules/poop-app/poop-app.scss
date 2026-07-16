@@ -8,8 +8,11 @@
   min-height: calc(100vh - 120px);
 }
 
-.enable-notifications-btn {
-  align-self: center;
+.top-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .chat-log {
@@ -69,20 +72,6 @@
     flex: 1;
     font-size: 1.1rem;
     padding: 1.5rem 0;
-  }
-}
-
-.test-notification {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 0.85rem;
-
-  summary {
-    cursor: pointer;
-    margin-bottom: 0.5rem;
-  }
-
-  button {
-    width: 100%;
   }
 }
 

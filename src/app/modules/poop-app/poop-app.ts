@@ -1,5 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import dayjs from 'dayjs';
 import { PoopLogEntry, PoopLogType } from '../../apiclients/fransapi.client';
@@ -13,6 +14,9 @@ import { PoopAppApiService } from './poop-app-api';
 const POOP_LOG_TYPE_POOP: PoopLogType = 0;
 const POOP_LOG_TYPE_PEE: PoopLogType = 1;
 
+// RoleType.Admin = 0 (see admin-auth-guard.ts for the same check).
+const ADMIN_ROLE = 0;
+
 interface LogViewEntry {
     id: string;
     isMine: boolean;
@@ -24,7 +28,7 @@ interface LogViewEntry {
 @Component({
     selector: 'app-poop-app',
     standalone: true,
-    imports: [MatButtonModule, MatIconModule, Title],
+    imports: [MatButtonModule, MatDialogModule, MatIconModule, Title],
     templateUrl: './poop-app.html',
     styleUrl: './poop-app.scss',
 })
@@ -32,18 +36,16 @@ export class PoopApp implements OnInit {
     private readonly _pushService = inject(PushNotificationService);
     private readonly _api = inject(PoopAppApiService);
     private readonly _authService = inject(AuthService);
+    private readonly _dialog = inject(MatDialog);
 
     readonly notificationsEnabled = this._pushService.permissionGranted;
+    readonly isAdmin = (): boolean => this._authService.user()?.role === ADMIN_ROLE;
 
     readonly log = signal<LogViewEntry[]>([]);
     readonly loadingLog = signal<boolean>(true);
     readonly logging = signal<boolean>(false);
 
-    readonly sending = signal<boolean>(false);
     readonly lastResult = signal<string | null>(null);
-    readonly countdown = signal<number | null>(null);
-
-    private static readonly _countdownSeconds = 5;
 
     ngOnInit(): void {
         this._api.getLog().subscribe({
@@ -74,6 +76,17 @@ export class PoopApp implements OnInit {
         });
     }
 
+    clearLog(): void {
+        const dialogRef = this._dialog.open(ConfirmClearLogDialog, { width: '400px', maxWidth: '95vw' });
+
+        dialogRef.afterClosed().subscribe(confirmed => {
+            if (!confirmed)
+                return;
+
+            this._api.clearLog().subscribe(() => this.log.set([]));
+        });
+    }
+
     private toViewEntry(entry: PoopLogEntry): LogViewEntry {
         return {
             id: entry.id,
@@ -94,54 +107,23 @@ export class PoopApp implements OnInit {
             ? 'Meldingen staan aan!'
             : 'Kon geen toestemming vragen — controleer de meldingeninstellingen van dit toestel.');
     }
+}
 
-    // Gives the tester time to lock the phone or switch away from the app before the
-    // notification actually goes out — a push that arrives while this page is frontmost
-    // is easy to miss, since you'd have to background the app after clicking anyway.
-    sendTestNotification(): void {
-        this.lastResult.set(null);
-        this.sending.set(true);
-        this.countdown.set(PoopApp._countdownSeconds);
-        this.tickCountdown();
-    }
-
-    private tickCountdown(): void {
-        setTimeout(() => {
-            const remaining = this.countdown();
-            if (remaining === null)
-                return;
-
-            if (remaining <= 1) {
-                this.countdown.set(null);
-                this.actuallySendTestNotification();
-                return;
-            }
-
-            this.countdown.set(remaining - 1);
-            this.tickCountdown();
-        }, 1000);
-    }
-
-    private actuallySendTestNotification(): void {
-        this._api.sendTestNotification().subscribe({
-            next: result => {
-                this.sending.set(false);
-
-                if (result.sentCount === 0) {
-                    this.lastResult.set(
-                        result.subscriptionCount === 0
-                            ? 'Geen abonnementen gevonden — zet meldingen eerst aan.'
-                            : `Verstuurd naar 0 van ${result.subscriptionCount} abonnement(en). ${result.errors.join(' | ')}`,
-                    );
-                    return;
-                }
-
-                this.lastResult.set(`Test-bericht verstuurd naar ${result.sentCount} van ${result.subscriptionCount} abonnement(en)!`);
-            },
-            error: () => {
-                this.sending.set(false);
-                this.lastResult.set('Versturen mislukt.');
-            },
-        });
-    }
+@Component({
+    selector: 'app-confirm-clear-log-dialog',
+    standalone: true,
+    imports: [MatDialogModule, MatButtonModule],
+    template: `
+        <h2 mat-dialog-title>Poeplog wissen</h2>
+        <mat-dialog-content>
+            <p>Weet je zeker dat je het hele Poeplog wilt wissen?</p>
+            <p>Deze actie kan niet ongedaan worden gemaakt.</p>
+        </mat-dialog-content>
+        <mat-dialog-actions align="end">
+            <button mat-button [mat-dialog-close]="false">Annuleren</button>
+            <button mat-raised-button color="warn" [mat-dialog-close]="true">Wissen</button>
+        </mat-dialog-actions>
+    `,
+})
+export class ConfirmClearLogDialog {
 }

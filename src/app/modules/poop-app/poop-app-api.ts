@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FransApiClient, PoopLogEntry, PoopLogType, SendTestNotificationResult } from '../../apiclients/fransapi.client';
+import { FransApiClient, PoopLogEntry, PoopLogType } from '../../apiclients/fransapi.client';
 
 @Injectable({
     providedIn: 'root',
@@ -16,7 +16,7 @@ export class PoopAppApiService {
         return this._api.poopAppLogPost({ type });
     }
 
-    sendTestNotification(): Observable<SendTestNotificationResult> {
-        return this._api.poopAppSendTestNotification();
+    clearLog(): Observable<void> {
+        return this._api.poopAppLogDelete();
     }
 }

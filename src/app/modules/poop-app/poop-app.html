@@ -1,11 +1,24 @@
 <app-title previousPath="home">Poeplog</app-title>
 
 <div class="poop-app-container">
-  @if (!notificationsEnabled()) {
-    <button mat-stroked-button class="enable-notifications-btn" (click)="enableNotifications()">
-      <mat-icon>notifications</mat-icon>
-      Meldingen aanzetten
-    </button>
+  <div class="top-actions">
+    @if (!notificationsEnabled()) {
+      <button mat-stroked-button (click)="enableNotifications()">
+        <mat-icon>notifications</mat-icon>
+        Meldingen aanzetten
+      </button>
+    }
+
+    @if (isAdmin()) {
+      <button mat-stroked-button color="warn" (click)="clearLog()">
+        <mat-icon>delete_sweep</mat-icon>
+        Log wissen
+      </button>
+    }
+  </div>
+
+  @if (lastResult()) {
+    <p class="result">{{ lastResult() }}</p>
   }
 
   <div class="chat-log">
@@ -34,18 +47,4 @@
       💦 Plassen
     </button>
   </div>
-
-  <details class="test-notification">
-    <summary>Test-melding versturen</summary>
-    <button mat-stroked-button [disabled]="sending()" (click)="sendTestNotification()">
-      <mat-icon>send</mat-icon>
-      Stuur test-bericht naar iedereen
-    </button>
-
-    @if (countdown(); as seconds) {
-      <p class="result">Wordt verstuurd over {{ seconds }} seconde{{ seconds === 1 ? '' : 'n' }} — vergrendel nu je telefoon of schakel naar een andere app.</p>
-    } @else if (lastResult()) {
-      <p class="result">{{ lastResult() }}</p>
-    }
-  </details>
 </div>

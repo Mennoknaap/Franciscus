@@ -892,33 +892,32 @@ export class FransApiClient {
     /**
      * @return Success
      */
-    poopAppSendTestNotification(): Observable<SendTestNotificationResult> {
-        let url_ = this.baseUrl + "/poop-app/send-test-notification";
+    poopAppLogDelete(): Observable<void> {
+        let url_ = this.baseUrl + "/poop-app/log";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
             })
         };
 
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processPoopAppSendTestNotification(response_);
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processPoopAppLogDelete(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processPoopAppSendTestNotification(response_ as any);
+                    return this.processPoopAppLogDelete(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<SendTestNotificationResult>;
+                    return _observableThrow(e) as any as Observable<void>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<SendTestNotificationResult>;
+                return _observableThrow(response_) as any as Observable<void>;
         }));
     }
 
-    protected processPoopAppSendTestNotification(response: HttpResponseBase): Observable<SendTestNotificationResult> {
+    protected processPoopAppLogDelete(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -927,9 +926,7 @@ export class FransApiClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as SendTestNotificationResult;
-            return _observableOf(result200);
+            return _observableOf(null as any);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -1591,12 +1588,6 @@ export interface RefreshAuthentication {
 }
 
 export type RoleType = 0 | 1;
-
-export interface SendTestNotificationResult {
-    sentCount: number;
-    subscriptionCount: number;
-    errors: string[];
-}
 
 export interface Sound {
     id: string;
