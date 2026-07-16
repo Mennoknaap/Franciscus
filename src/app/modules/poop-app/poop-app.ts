@@ -23,6 +23,9 @@ export class PoopApp {
 
     readonly sending = signal<boolean>(false);
     readonly lastResult = signal<string | null>(null);
+    readonly countdown = signal<number | null>(null);
+
+    private static readonly _countdownSeconds = 5;
 
     async enableNotifications(): Promise<void> {
         if (!this._swPush.isEnabled) {
@@ -52,10 +55,34 @@ export class PoopApp {
         }
     }
 
+    // Gives the tester time to lock the phone or switch away from the app before the
+    // notification actually goes out — a push that arrives while this page is frontmost
+    // is easy to miss, since you'd have to background the app after clicking anyway.
     sendTestNotification(): void {
-        this.sending.set(true);
         this.lastResult.set(null);
+        this.sending.set(true);
+        this.countdown.set(PoopApp._countdownSeconds);
+        this.tickCountdown();
+    }
 
+    private tickCountdown(): void {
+        setTimeout(() => {
+            const remaining = this.countdown();
+            if (remaining === null)
+                return;
+
+            if (remaining <= 1) {
+                this.countdown.set(null);
+                this.actuallySendTestNotification();
+                return;
+            }
+
+            this.countdown.set(remaining - 1);
+            this.tickCountdown();
+        }, 1000);
+    }
+
+    private actuallySendTestNotification(): void {
         this._api.sendTestNotification().subscribe({
             next: result => {
                 this.sending.set(false);

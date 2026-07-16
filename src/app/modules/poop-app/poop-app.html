@@ -15,7 +15,9 @@
     Stuur test-bericht naar iedereen
   </button>
 
-  @if (lastResult()) {
+  @if (countdown(); as seconds) {
+    <p class="result">Wordt verstuurd over {{ seconds }} seconde{{ seconds === 1 ? '' : 'n' }} — vergrendel nu je telefoon of schakel naar een andere app.</p>
+  } @else if (lastResult()) {
     <p class="result">{{ lastResult() }}</p>
   }
 </div>
