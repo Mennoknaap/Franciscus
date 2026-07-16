@@ -787,7 +787,7 @@ export class FransApiClient {
     /**
      * @return Success
      */
-    poopAppSendTestNotification(): Observable<void> {
+    poopAppSendTestNotification(): Observable<SendTestNotificationResult> {
         let url_ = this.baseUrl + "/poop-app/send-test-notification";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -795,6 +795,7 @@ export class FransApiClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Accept": "application/json"
             })
         };
 
@@ -805,14 +806,14 @@ export class FransApiClient {
                 try {
                     return this.processPoopAppSendTestNotification(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
+                    return _observableThrow(e) as any as Observable<SendTestNotificationResult>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<void>;
+                return _observableThrow(response_) as any as Observable<SendTestNotificationResult>;
         }));
     }
 
-    protected processPoopAppSendTestNotification(response: HttpResponseBase): Observable<void> {
+    protected processPoopAppSendTestNotification(response: HttpResponseBase): Observable<SendTestNotificationResult> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -821,7 +822,9 @@ export class FransApiClient {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as SendTestNotificationResult;
+            return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -1469,6 +1472,12 @@ export interface RefreshAuthentication {
 }
 
 export type RoleType = 0 | 1;
+
+export interface SendTestNotificationResult {
+    sentCount: number;
+    subscriptionCount: number;
+    errors: string[];
+}
 
 export interface Sound {
     id: string;

@@ -57,9 +57,19 @@ export class PoopApp {
         this.lastResult.set(null);
 
         this._api.sendTestNotification().subscribe({
-            next: () => {
+            next: result => {
                 this.sending.set(false);
-                this.lastResult.set('Test-bericht verstuurd!');
+
+                if (result.sentCount === 0) {
+                    this.lastResult.set(
+                        result.subscriptionCount === 0
+                            ? 'Geen abonnementen gevonden — zet meldingen eerst aan.'
+                            : `Verstuurd naar 0 van ${result.subscriptionCount} abonnement(en). ${result.errors.join(' | ')}`,
+                    );
+                    return;
+                }
+
+                this.lastResult.set(`Test-bericht verstuurd naar ${result.sentCount} van ${result.subscriptionCount} abonnement(en)!`);
             },
             error: () => {
                 this.sending.set(false);

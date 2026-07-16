@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FransApiClient, SubscribePush } from '../../apiclients/fransapi.client';
+import { FransApiClient, SendTestNotificationResult, SubscribePush } from '../../apiclients/fransapi.client';
 
 @Injectable({
     providedIn: 'root',
@@ -12,7 +12,7 @@ export class PoopAppApiService {
         return this._api.pushSubscribePost(subscription);
     }
 
-    sendTestNotification(): Observable<void> {
+    sendTestNotification(): Observable<SendTestNotificationResult> {
         return this._api.poopAppSendTestNotification();
     }
 }
