@@ -18,7 +18,6 @@ export const environment: Environment = {
         apiKey: 'AIzaSyCInoEQW6NsIvJNbX4KNAV7r2G3iaaNf6Y',
         authDomain: 'fransiscus-soundboard.firebaseapp.com',
         projectId: 'fransiscus-soundboard',
-        storageBucket: 'fransiscus-soundboard.firebasestorage.app',
         messagingSenderId: '664118805963',
         appId: '1:664118805963:web:bb784302fee49b2663a24e',
     },

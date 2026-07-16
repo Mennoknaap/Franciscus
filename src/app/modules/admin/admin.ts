@@ -10,7 +10,6 @@ import { AddUserDialog } from './add-user-dialog';
 import { AdminApiService } from './admin-api';
 import { AppAccessDialog } from './app-access-dialog';
 import { EditUserDialog } from './edit-user-dialog';
-import { SoundMigrationDialog } from './sound-migration-dialog';
 
 @Component({
     selector: 'app-admin',
@@ -40,13 +39,6 @@ export class Admin {
         this._dialog.open(AppAccessDialog, {
             data: { user },
             width: '450px',
-            maxWidth: '95vw',
-        });
-    }
-
-    migrateSounds(): void {
-        this._dialog.open(SoundMigrationDialog, {
-            width: '500px',
             maxWidth: '95vw',
         });
     }
