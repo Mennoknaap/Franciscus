@@ -33,7 +33,14 @@
             <div class="chat-sender">{{ entry.senderName }}</div>
           }
           <div class="chat-text">{{ entry.text }}</div>
-          <div class="chat-time">{{ entry.time }}</div>
+          <div class="chat-footer">
+            <span class="chat-time">{{ entry.time }}</span>
+            @if (entry.canDelete) {
+              <button mat-icon-button class="delete-entry-btn" aria-label="Verwijderen" (click)="deleteEntry(entry.id)">
+                <mat-icon>close</mat-icon>
+              </button>
+            }
+          </div>
         </div>
       }
     }
@@ -41,10 +48,10 @@
 
   <div class="log-actions">
     <button mat-raised-button color="primary" [disabled]="logging()" (click)="logPoop()">
-      💩 Poepen
+      💩 Gepoept
     </button>
     <button mat-raised-button color="accent" [disabled]="logging()" (click)="logPee()">
-      💦 Plassen
+      💦 Geplast
     </button>
   </div>
 </div>

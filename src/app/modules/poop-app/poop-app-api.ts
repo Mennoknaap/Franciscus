@@ -19,4 +19,8 @@ export class PoopAppApiService {
     clearLog(): Observable<void> {
         return this._api.poopAppLogDelete();
     }
+
+    deleteEntry(id: string): Observable<void> {
+        return this._api.poopAppLogEntry(id);
+    }
 }

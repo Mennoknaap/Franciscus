@@ -20,6 +20,7 @@ const ADMIN_ROLE = 0;
 interface LogViewEntry {
     id: string;
     isMine: boolean;
+    canDelete: boolean;
     senderName: string;
     text: string;
     time: string;
@@ -87,10 +88,21 @@ export class PoopApp implements OnInit {
         });
     }
 
+    // A quick undo for an accidental misclick — no confirmation, unlike clearing the
+    // whole log, since deleting a single message you (or, for an admin, someone else)
+    // just sent is low-stakes and trivially redone.
+    deleteEntry(id: string): void {
+        this._api.deleteEntry(id).subscribe(() => {
+            this.log.update(entries => entries.filter(entry => entry.id !== id));
+        });
+    }
+
     private toViewEntry(entry: PoopLogEntry): LogViewEntry {
+        const isMine = entry.loggedByUserId === this._authService.user()?.id;
         return {
             id: entry.id,
-            isMine: entry.loggedByUserId === this._authService.user()?.id,
+            isMine,
+            canDelete: isMine || this.isAdmin(),
             senderName: entry.loggedByName,
             text: entry.type === POOP_LOG_TYPE_POOP ? 'Hij heeft gepoept 💩' : 'Hij heeft geplast 💦',
             time: dayjs(entry.createdAt).format('HH:mm'),
