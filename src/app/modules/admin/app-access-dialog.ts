@@ -2,13 +2,17 @@ import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { UserAppAccess } from '../../apiclients/fransapi.client';
+import { User } from '../../apiclients/fransapi.client';
 import { AdminApiService } from './admin-api';
 
-const APP_KEY = 'poop-app';
+// Apps that can be gated per-person. Add an entry here whenever a new app needs this —
+// the backend's AppAccess table is already generic (just an AppKey string per user).
+const GATEABLE_APPS = [
+    { key: 'poop-app', label: 'Top Secret' },
+];
 
 @Component({
     selector: 'app-app-access-dialog',
@@ -21,24 +25,31 @@ export class AppAccessDialog {
     private readonly _adminApi = inject(AdminApiService);
     private readonly _destroyRef = inject(DestroyRef);
 
-    readonly users = signal<UserAppAccess[]>([]);
+    readonly data = inject<{ user: User }>(MAT_DIALOG_DATA);
+
+    readonly apps = GATEABLE_APPS;
+    readonly grantedAppKeys = signal<string[]>([]);
     readonly loading = signal<boolean>(true);
 
     constructor() {
-        this._adminApi.getAppAccess(APP_KEY).pipe(takeUntilDestroyed(this._destroyRef)).subscribe(users => {
-            this.users.set(users);
+        this._adminApi.getUserAppAccess(this.data.user.id).pipe(takeUntilDestroyed(this._destroyRef)).subscribe(keys => {
+            this.grantedAppKeys.set(keys);
             this.loading.set(false);
         });
     }
 
-    toggleAccess(user: UserAppAccess): void {
-        const request = user.hasAccess
-            ? this._adminApi.revokeAppAccess(user.userId, APP_KEY)
-            : this._adminApi.grantAppAccess(user.userId, APP_KEY);
+    hasAccess(appKey: string): boolean {
+        return this.grantedAppKeys().includes(appKey);
+    }
+
+    toggleAccess(appKey: string): void {
+        const request = this.hasAccess(appKey)
+            ? this._adminApi.revokeAppAccess(this.data.user.id, appKey)
+            : this._adminApi.grantAppAccess(this.data.user.id, appKey);
 
         request.pipe(takeUntilDestroyed(this._destroyRef)).subscribe(() => {
-            this.users.update(users =>
-                users.map(u => u.userId === user.userId ? { ...u, hasAccess: !u.hasAccess } : u),
+            this.grantedAppKeys.update(keys =>
+                this.hasAccess(appKey) ? keys.filter(k => k !== appKey) : [...keys, appKey],
             );
         });
     }

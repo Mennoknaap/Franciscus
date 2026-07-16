@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { User } from '../../apiclients/fransapi.client';
 import { Title } from '../../components/title';
 import { AddUserDialog } from './add-user-dialog';
@@ -15,7 +16,7 @@ import { EditUserDialog } from './edit-user-dialog';
     templateUrl: './admin.html',
     styleUrl: './admin.scss',
     standalone: true,
-    imports: [MatButtonModule, MatIconModule, MatDialogModule, Title],
+    imports: [MatButtonModule, MatIconModule, MatMenuModule, MatDialogModule, Title],
 })
 export class Admin {
     private readonly _adminApi = inject(AdminApiService);
@@ -34,8 +35,9 @@ export class Admin {
         });
     }
 
-    manageAppAccess(): void {
+    manageUserAppAccess(user: User): void {
         this._dialog.open(AppAccessDialog, {
+            data: { user },
             width: '450px',
             maxWidth: '95vw',
         });

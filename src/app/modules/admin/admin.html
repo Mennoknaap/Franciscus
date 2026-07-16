@@ -10,15 +10,6 @@
   >
     <mat-icon>add</mat-icon>
   </button>
-  <button
-    mat-mini-fab
-    color="accent"
-    class="app-access-fab"
-    (click)="manageAppAccess()"
-    aria-label="App-toegang beheren"
-  >
-    <mat-icon>apps</mat-icon>
-  </button>
   <div class="users-grid">
     @for (user of allUsers(); track user.id) {
       <div class="user-card">
@@ -33,20 +24,26 @@
         </div>
         <button
           mat-icon-button
-          class="edit-btn"
-          (click)="editUser(user)"
-          aria-label="Bewerk gebruiker"
+          class="menu-btn"
+          [matMenuTriggerFor]="userMenu"
+          aria-label="Gebruikersopties"
         >
-          <mat-icon>edit</mat-icon>
+          <mat-icon>more_vert</mat-icon>
         </button>
-        <button
-          mat-icon-button
-          class="delete-btn"
-          (click)="deleteUser(user)"
-          aria-label="Verwijder gebruiker"
-        >
-          <mat-icon>delete</mat-icon>
-        </button>
+        <mat-menu #userMenu="matMenu">
+          <button mat-menu-item (click)="editUser(user)">
+            <mat-icon>edit</mat-icon>
+            <span>Bewerken</span>
+          </button>
+          <button mat-menu-item (click)="manageUserAppAccess(user)">
+            <mat-icon>apps</mat-icon>
+            <span>App-toegang</span>
+          </button>
+          <button mat-menu-item (click)="deleteUser(user)">
+            <mat-icon>delete</mat-icon>
+            <span>Verwijderen</span>
+          </button>
+        </mat-menu>
       </div>
     }
   </div>

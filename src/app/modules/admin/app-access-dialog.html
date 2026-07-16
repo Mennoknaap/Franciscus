@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Toegang "Top Secret"</h2>
+<h2 mat-dialog-title>App-toegang — {{ data.user.firstName }} {{ data.user.lastName }}</h2>
 
 <mat-dialog-content>
   @if (loading()) {
@@ -7,13 +7,13 @@
     </div>
   } @else {
     <mat-list>
-      @for (user of users(); track user.userId) {
+      @for (app of apps; track app.key) {
         <mat-list-item>
           <mat-checkbox
-            [checked]="user.hasAccess"
-            (change)="toggleAccess(user)"
+            [checked]="hasAccess(app.key)"
+            (change)="toggleAccess(app.key)"
           >
-            {{ user.firstName }} {{ user.lastName }}
+            {{ app.label }}
           </mat-checkbox>
         </mat-list-item>
       }

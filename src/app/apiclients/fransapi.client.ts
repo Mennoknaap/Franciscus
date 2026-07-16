@@ -30,15 +30,13 @@ export class FransApiClient {
     }
 
     /**
-     * @param appKey (optional) 
      * @return Success
      */
-    appAccessGet(appKey: string | undefined): Observable<UserAppAccess[]> {
-        let url_ = this.baseUrl + "/app-access?";
-        if (appKey === null)
-            throw new globalThis.Error("The parameter 'appKey' cannot be null.");
-        else if (appKey !== undefined)
-            url_ += "appKey=" + encodeURIComponent("" + appKey) + "&";
+    appAccessUser(userId: string): Observable<string[]> {
+        let url_ = this.baseUrl + "/app-access/user/{userId}";
+        if (userId === undefined || userId === null)
+            throw new globalThis.Error("The parameter 'userId' must be defined.");
+        url_ = url_.replace("{userId}", encodeURIComponent("" + userId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -50,20 +48,20 @@ export class FransApiClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processAppAccessGet(response_);
+            return this.processAppAccessUser(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processAppAccessGet(response_ as any);
+                    return this.processAppAccessUser(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<UserAppAccess[]>;
+                    return _observableThrow(e) as any as Observable<string[]>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<UserAppAccess[]>;
+                return _observableThrow(response_) as any as Observable<string[]>;
         }));
     }
 
-    protected processAppAccessGet(response: HttpResponseBase): Observable<UserAppAccess[]> {
+    protected processAppAccessUser(response: HttpResponseBase): Observable<string[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -73,7 +71,7 @@ export class FransApiClient {
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as UserAppAccess[];
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as string[];
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -1269,14 +1267,6 @@ export interface User {
     email: string;
     profilePicture?: string | undefined;
     grantedApps?: string[] | undefined;
-}
-
-export interface UserAppAccess {
-    userId: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    hasAccess: boolean;
 }
 
 export interface FileParameter {
