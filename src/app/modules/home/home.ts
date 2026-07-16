@@ -1,5 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FransApiClient, User } from '../../apiclients/fransapi.client';
+import { PushNotificationService } from '../../core/push/push-notification-service';
 
 export interface AppCard {
     title: string;
@@ -18,8 +19,10 @@ export interface AppCard {
 })
 export class Home {
     private readonly _api = inject(FransApiClient);
+    private readonly _pushService = inject(PushNotificationService);
 
     user = signal<User | null>(null);
+    enablingNotifications = signal<boolean>(false);
 
     constructor() {
         this._api.userCurrent().subscribe(options => {
@@ -58,4 +61,18 @@ export class Home {
         const grantedApps = this.user()?.grantedApps ?? [];
         return this.apps.filter(app => !app.requiresAppKey || grantedApps.includes(app.requiresAppKey));
     });
+
+    // Only worth asking for push permission if the person actually has an app that
+    // uses it — showing this to everyone would just be a pointless, confusing prompt.
+    readonly showNotificationPrompt = computed(() =>
+        (this.user()?.grantedApps ?? []).includes('poop-app')
+        && !this._pushService.permissionGranted()
+        && !this._pushService.permissionDenied(),
+    );
+
+    async enableNotifications(): Promise<void> {
+        this.enablingNotifications.set(true);
+        await this._pushService.subscribe();
+        this.enablingNotifications.set(false);
+    }
 }

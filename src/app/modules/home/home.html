@@ -1,5 +1,15 @@
 <app-title>Welkom {{ user()?.firstName }}!</app-title>
 
+@if (showNotificationPrompt()) {
+  <div class="notification-prompt">
+    <mat-icon>notifications</mat-icon>
+    <span>Wil je een melding krijgen bij nieuwe berichten in Top Secret?</span>
+    <button mat-raised-button color="primary" [disabled]="enablingNotifications()" (click)="enableNotifications()">
+      Meldingen aanzetten
+    </button>
+  </div>
+}
+
 <div class="app-grid">
   @for (app of visibleApps(); track app.title) {
     <div class="app-card" [class.disabled]="app.disabled">
