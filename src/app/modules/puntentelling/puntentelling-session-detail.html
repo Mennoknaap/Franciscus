@@ -1,0 +1,13 @@
+<app-title previousPath="puntentelling/geschiedenis">{{ session()?.name || 'Potje' }}</app-title>
+
+<div class="detail-container">
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner color="accent"></mat-spinner>
+    </div>
+  } @else if (session(); as session) {
+    <app-puntentelling-results [session]="session" />
+  } @else {
+    <p class="empty-state">Potje niet gevonden.</p>
+  }
+</div>

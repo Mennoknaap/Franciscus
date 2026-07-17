@@ -1204,6 +1204,381 @@ export class FransApiClient {
     /**
      * @return Success
      */
+    scoreboardActive(): Observable<ScoreboardSession> {
+        let url_ = this.baseUrl + "/scoreboard/active";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processScoreboardActive(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processScoreboardActive(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ScoreboardSession>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ScoreboardSession>;
+        }));
+    }
+
+    protected processScoreboardActive(response: HttpResponseBase): Observable<ScoreboardSession> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ScoreboardSession;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    scoreboardSessionsGet(): Observable<ScoreboardSession[]> {
+        let url_ = this.baseUrl + "/scoreboard/sessions";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processScoreboardSessionsGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processScoreboardSessionsGet(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ScoreboardSession[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ScoreboardSession[]>;
+        }));
+    }
+
+    protected processScoreboardSessionsGet(response: HttpResponseBase): Observable<ScoreboardSession[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ScoreboardSession[];
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    scoreboardSessionsPost(body: StartScoreboardSession | undefined): Observable<ScoreboardSession> {
+        let url_ = this.baseUrl + "/scoreboard/sessions";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processScoreboardSessionsPost(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processScoreboardSessionsPost(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ScoreboardSession>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ScoreboardSession>;
+        }));
+    }
+
+    protected processScoreboardSessionsPost(response: HttpResponseBase): Observable<ScoreboardSession> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ScoreboardSession;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    scoreboardSessionsDetail(id: string): Observable<ScoreboardSession> {
+        let url_ = this.baseUrl + "/scoreboard/sessions/{id}/detail";
+        if (id === undefined || id === null)
+            throw new globalThis.Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processScoreboardSessionsDetail(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processScoreboardSessionsDetail(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ScoreboardSession>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ScoreboardSession>;
+        }));
+    }
+
+    protected processScoreboardSessionsDetail(response: HttpResponseBase): Observable<ScoreboardSession> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ScoreboardSession;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    scoreboardSessionsTeamsScore(id: string, teamId: string, body: AdjustScore | undefined): Observable<ScoreboardSession> {
+        let url_ = this.baseUrl + "/scoreboard/sessions/{id}/teams/{teamId}/score";
+        if (id === undefined || id === null)
+            throw new globalThis.Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (teamId === undefined || teamId === null)
+            throw new globalThis.Error("The parameter 'teamId' must be defined.");
+        url_ = url_.replace("{teamId}", encodeURIComponent("" + teamId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processScoreboardSessionsTeamsScore(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processScoreboardSessionsTeamsScore(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ScoreboardSession>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ScoreboardSession>;
+        }));
+    }
+
+    protected processScoreboardSessionsTeamsScore(response: HttpResponseBase): Observable<ScoreboardSession> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ScoreboardSession;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    scoreboardSessionsUndo(id: string): Observable<ScoreboardSession> {
+        let url_ = this.baseUrl + "/scoreboard/sessions/{id}/undo";
+        if (id === undefined || id === null)
+            throw new globalThis.Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processScoreboardSessionsUndo(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processScoreboardSessionsUndo(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ScoreboardSession>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ScoreboardSession>;
+        }));
+    }
+
+    protected processScoreboardSessionsUndo(response: HttpResponseBase): Observable<ScoreboardSession> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ScoreboardSession;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    scoreboardSessionsFinish(id: string): Observable<ScoreboardSession> {
+        let url_ = this.baseUrl + "/scoreboard/sessions/{id}/finish";
+        if (id === undefined || id === null)
+            throw new globalThis.Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processScoreboardSessionsFinish(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processScoreboardSessionsFinish(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ScoreboardSession>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ScoreboardSession>;
+        }));
+    }
+
+    protected processScoreboardSessionsFinish(response: HttpResponseBase): Observable<ScoreboardSession> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ScoreboardSession;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
     soundsGet(): Observable<Sound[]> {
         let url_ = this.baseUrl + "/sounds";
         url_ = url_.replace(/[?&]$/, "");
@@ -1703,6 +2078,10 @@ export interface AddUser {
     email: string;
 }
 
+export interface AdjustScore {
+    delta: number;
+}
+
 export interface AuthenticateResponse {
     authToken: string;
     refreshToken: string;
@@ -1755,11 +2134,43 @@ export interface RefreshAuthentication {
 
 export type RoleType = 0 | 1;
 
+export interface ScoreboardHistoryEntry {
+    id: string;
+    teamId: string;
+    teamName: string;
+    delta: number;
+    resultingScore: number;
+    changedByName: string;
+    createdAt: dayjs.Dayjs;
+}
+
+export interface ScoreboardSession {
+    id: string;
+    name?: string | undefined;
+    createdByName: string;
+    createdAt: dayjs.Dayjs;
+    finishedAt?: dayjs.Dayjs | undefined;
+    teams: ScoreboardTeam[];
+    history: ScoreboardHistoryEntry[];
+}
+
+export interface ScoreboardTeam {
+    id: string;
+    name: string;
+    order: number;
+    score: number;
+}
+
 export interface Sound {
     id: string;
     name: string;
     volume: number;
     url: string;
+}
+
+export interface StartScoreboardSession {
+    name?: string | undefined;
+    teamNames: string[];
 }
 
 export interface SubscribePush {

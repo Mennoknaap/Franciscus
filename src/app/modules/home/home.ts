@@ -68,6 +68,12 @@ export class Home {
             path: '/kud',
             requiresAppKey: 'kud',
         },
+        {
+            title: 'Puntentelling',
+            icon: 'leaderboard',
+            path: '/puntentelling',
+            requiresAppKey: 'puntentelling',
+        },
     ];
 
     readonly visibleApps = computed(() => {

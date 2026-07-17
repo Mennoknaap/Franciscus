@@ -23,4 +23,7 @@ export const routes: Routes = [
     { path: 'liedjes/:id', loadComponent: () => import('./modules/liedjes/child-detail').then(m => m.ChildDetail), canActivate: [authGuard, appAccessGuard('liedjes')] },
     { path: 'admin', loadComponent: () => import('./modules/admin/admin').then(m => m.Admin), canActivate: [adminAuthGuard] },
     { path: 'poop-app', loadComponent: () => import('./modules/poop-app/poop-app').then(m => m.PoopApp), canActivate: [authGuard, appAccessGuard('poop-app')] },
+    { path: 'puntentelling', loadComponent: () => import('./modules/puntentelling/puntentelling').then(m => m.Puntentelling), canActivate: [authGuard, appAccessGuard('puntentelling')] },
+    { path: 'puntentelling/geschiedenis', loadComponent: () => import('./modules/puntentelling/puntentelling-history').then(m => m.PuntentellingHistory), canActivate: [authGuard, appAccessGuard('puntentelling')] },
+    { path: 'puntentelling/geschiedenis/:id', loadComponent: () => import('./modules/puntentelling/puntentelling-session-detail').then(m => m.PuntentellingSessionDetail), canActivate: [authGuard, appAccessGuard('puntentelling')] },
 ];

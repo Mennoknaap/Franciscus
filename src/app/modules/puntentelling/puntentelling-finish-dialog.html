@@ -1,0 +1,21 @@
+<div class="confetti-layer" aria-hidden="true">
+  @for (piece of confetti; track $index) {
+    <span
+      class="confetti-piece"
+      [style.left]="piece.left"
+      [style.background]="piece.background"
+      [style.animation-delay]="piece.delay"
+      [style.animation-duration]="piece.duration"
+      [style.--confetti-rotate]="piece.rotate"
+      [style.--confetti-drift]="piece.drift"
+    ></span>
+  }
+</div>
+
+<h2 mat-dialog-title>🏆 Potje afgelopen!</h2>
+<mat-dialog-content>
+  <app-puntentelling-results [session]="data.session" />
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" [mat-dialog-close]="true">Mooi zo</button>
+</mat-dialog-actions>

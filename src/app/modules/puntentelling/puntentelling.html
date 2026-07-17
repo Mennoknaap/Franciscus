@@ -1,0 +1,112 @@
+<app-title previousPath="home">Puntentelling</app-title>
+
+<div class="puntentelling-container">
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner color="accent"></mat-spinner>
+    </div>
+  } @else if (session(); as session) {
+    <div class="live-board">
+      <div class="live-header">
+        <h2>{{ session.name || 'Live potje' }}</h2>
+        <a mat-button routerLink="/puntentelling/geschiedenis">
+          <mat-icon>history</mat-icon>
+          Geschiedenis
+        </a>
+      </div>
+
+      <div class="teams-grid">
+        @for (team of session.teams; track team.id) {
+          <div class="team-card">
+            <div class="team-name">{{ team.name }}</div>
+            <div class="team-score">{{ team.score }}</div>
+
+            <div class="quick-buttons">
+              @for (amount of quickAmounts; track amount) {
+                <button mat-stroked-button [disabled]="busy()" (click)="adjust(team.id, -amount)">−{{ amount }}</button>
+              }
+              @for (amount of quickAmounts; track amount) {
+                <button mat-stroked-button color="primary" [disabled]="busy()" (click)="adjust(team.id, amount)">+{{ amount }}</button>
+              }
+            </div>
+
+            <div class="custom-row">
+              <mat-form-field class="custom-input">
+                <mat-label>Aantal</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  [ngModel]="customAmountFor(team.id) || null"
+                  (ngModelChange)="setCustomAmount(team.id, $event)"
+                />
+              </mat-form-field>
+              <button mat-raised-button color="accent" [disabled]="busy()" (click)="applyCustom(team.id)">Toepassen</button>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="board-actions">
+        @if (lastHistoryLabel(); as label) {
+          <button mat-stroked-button [disabled]="busy()" (click)="undo()">
+            <mat-icon>undo</mat-icon>
+            {{ label }}
+          </button>
+        }
+        <button mat-raised-button color="warn" (click)="finishSession()">
+          <mat-icon>flag</mat-icon>
+          Potje afronden
+        </button>
+      </div>
+
+      @if (session.history.length > 0) {
+        <div class="history-log">
+          <h3>Laatste wijzigingen</h3>
+          @for (entry of session.history.slice(0, 10); track entry.id) {
+            <div class="history-entry">
+              <span class="history-time">{{ formatTime(entry.createdAt) }}</span>
+              <span class="history-text">
+                {{ entry.teamName }} {{ entry.delta > 0 ? '+' : '' }}{{ entry.delta }} → {{ entry.resultingScore }}
+              </span>
+              <span class="history-by">door {{ entry.changedByName }}</span>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="setup-form">
+      <h2>Nieuw potje starten</h2>
+
+      <div class="team-count-picker">
+        <mat-label>Aantal teams: {{ teamCount() }}</mat-label>
+        <mat-slider [min]="minTeams" [max]="maxTeams" step="1" discrete>
+          <input matSliderThumb [ngModel]="teamCount()" (ngModelChange)="onTeamCountChange($event)" />
+        </mat-slider>
+      </div>
+
+      <mat-form-field class="full-width">
+        <mat-label>Naam van het potje (optioneel)</mat-label>
+        <input matInput [ngModel]="sessionName()" (ngModelChange)="sessionName.set($event)" />
+      </mat-form-field>
+
+      <div class="team-name-fields">
+        @for (name of teamNames(); track $index) {
+          <mat-form-field class="full-width">
+            <mat-label>Team {{ $index + 1 }}</mat-label>
+            <input matInput [ngModel]="name" (ngModelChange)="updateTeamName($index, $event)" required />
+          </mat-form-field>
+        }
+      </div>
+
+      <button mat-raised-button color="primary" class="start-button" [disabled]="!canStart()" (click)="startSession()">
+        Start potje
+      </button>
+
+      <a mat-button routerLink="/puntentelling/geschiedenis">
+        <mat-icon>history</mat-icon>
+        Bekijk geschiedenis
+      </a>
+    </div>
+  }
+</div>

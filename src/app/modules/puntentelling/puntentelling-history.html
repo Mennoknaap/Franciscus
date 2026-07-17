@@ -1,0 +1,34 @@
+<app-title previousPath="puntentelling">Geschiedenis</app-title>
+
+<div class="history-container">
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner color="accent"></mat-spinner>
+    </div>
+  } @else if (sessions().length === 0) {
+    <p class="empty-state">Nog geen potjes gespeeld.</p>
+  } @else {
+    <div class="session-list">
+      @for (session of sessions(); track session.id) {
+        <a
+          class="session-card"
+          [routerLink]="session.finishedAt ? ['/puntentelling/geschiedenis', session.id] : ['/puntentelling']"
+        >
+          <div class="session-info">
+            <div class="session-name">
+              {{ session.name || 'Potje' }}
+              @if (!session.finishedAt) {
+                <span class="badge-active">Actief</span>
+              }
+            </div>
+            <div class="session-meta">{{ formatDate(session.createdAt) }} · {{ session.teams.length }} teams</div>
+          </div>
+          @if (topTeamName(session); as topTeam) {
+            <div class="session-winner">🏆 {{ topTeam }}</div>
+          }
+          <mat-icon>chevron_right</mat-icon>
+        </a>
+      }
+    </div>
+  }
+</div>

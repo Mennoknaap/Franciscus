@@ -1,0 +1,24 @@
+<div class="results-ranking">
+  @for (team of ranked(); track team.id) {
+    <div class="rank-row" [class.first]="team.rank === 1">
+      <span class="rank-number">{{ medalFor(team.rank) ?? (team.rank + 'e') }}</span>
+      <span class="rank-name">{{ team.name }}</span>
+      <span class="rank-score">{{ team.score }}</span>
+    </div>
+  }
+</div>
+
+@if (session().history.length > 0) {
+  <div class="results-history">
+    <h3>Volledige geschiedenis</h3>
+    @for (entry of session().history; track entry.id) {
+      <div class="history-entry">
+        <span class="history-time">{{ formatTime(entry.createdAt) }}</span>
+        <span class="history-text">
+          {{ entry.teamName }} {{ entry.delta > 0 ? '+' : '' }}{{ entry.delta }} → {{ entry.resultingScore }}
+        </span>
+        <span class="history-by">door {{ entry.changedByName }}</span>
+      </div>
+    }
+  </div>
+}

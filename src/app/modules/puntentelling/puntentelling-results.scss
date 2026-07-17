@@ -1,0 +1,76 @@
+.results-ranking {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.rank-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.04);
+
+  &.first {
+    background: rgba(255, 210, 61, 0.25);
+  }
+}
+
+.rank-number {
+  font-weight: 700;
+  min-width: 2rem;
+  text-align: center;
+}
+
+.rank-name {
+  flex: 1;
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.rank-score {
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.results-history {
+  max-height: 200px;
+  overflow-y: auto;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 0.5rem;
+
+  h3 {
+    margin: 0 0 0.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+.history-entry {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  padding: 0.2rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.history-time {
+  color: #777;
+  min-width: 70px;
+}
+
+.history-text {
+  flex: 1;
+  font-weight: 500;
+}
+
+.history-by {
+  color: #777;
+  font-size: 0.78rem;
+}
