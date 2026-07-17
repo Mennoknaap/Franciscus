@@ -56,6 +56,12 @@ export class Home {
             path: '/poop-app',
             requiresAppKey: 'poop-app',
         },
+        {
+            title: 'Biertje?',
+            icon: 'sports_bar',
+            path: '/biertje',
+            requiresAppKey: 'biertje',
+        },
     ];
 
     readonly visibleApps = computed(() => {

@@ -15,6 +15,7 @@ const GATEABLE_APPS = [
     { key: 'wheel', label: 'Radje' },
     { key: 'liedjes', label: 'Liedjes' },
     { key: 'poop-app', label: 'Poeplog' },
+    { key: 'biertje', label: 'Biertje?' },
 ];
 
 @Component({

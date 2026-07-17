@@ -1,0 +1,5 @@
+# Soundboard
+
+Soundboard no longer uses Firebase Storage. It used to upload/list/delete sound files directly via `@angular/fire/storage`; that had its own, separate access-control model unrelated to `AppAccess` (a Firebase Storage security rule, not a `RequireAppAccess` check), which was confusing — "you don't have soundboard access" could mean two different things depending on which system was actually blocking you.
+
+`SoundService` now calls the API's `/sounds` endpoints instead (same disk-backed pattern as Liedjes' child photos), so Soundboard access is enforced the same way as every other app — see [platform/app-access.md](../platform/app-access.md). The one-time migration of pre-existing sounds is complete — the migration dialog, its admin trigger button, the backend's `migrate-batch` endpoint, and the `provideStorage`/`@angular/fire/storage` registration in `app.config.ts` have all been removed. Firebase (`@angular/fire`) is now used only for Auth (Google sign-in) — nothing in this repo touches Firebase Storage anymore.
