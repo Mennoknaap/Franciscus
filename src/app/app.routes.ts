@@ -4,6 +4,7 @@ import { appAccessGuard } from './core/auth/app-access-guard';
 import { authGuard } from './core/auth/auth-guard';
 import { Home } from './modules/home/home';
 import { Biertje } from './modules/biertje/biertje';
+import { Kud } from './modules/kud/kud';
 import { HomeModule } from './modules/home/home.module';
 import { Login } from './modules/login/login';
 import { LoginModule } from './modules/login/login.module';
@@ -17,6 +18,7 @@ export const routes: Routes = [
     { path: 'soundboard', component: Soundboard, loadChildren: () => import('./modules/soundboard/soundboard.module').then(m => m.SoundboardModule), canActivate: [authGuard, appAccessGuard('soundboard')] },
     { path: 'wheel', component: Wheel, canActivate: [authGuard, appAccessGuard('wheel')] },
     { path: 'biertje', component: Biertje, canActivate: [authGuard, appAccessGuard('biertje')] },
+    { path: 'kud', component: Kud, canActivate: [authGuard, appAccessGuard('kud')] },
     { path: 'liedjes', loadComponent: () => import('./modules/liedjes/liedjes').then(m => m.Liedjes), canActivate: [authGuard, appAccessGuard('liedjes')] },
     { path: 'liedjes/:id', loadComponent: () => import('./modules/liedjes/child-detail').then(m => m.ChildDetail), canActivate: [authGuard, appAccessGuard('liedjes')] },
     { path: 'admin', loadComponent: () => import('./modules/admin/admin').then(m => m.Admin), canActivate: [adminAuthGuard] },

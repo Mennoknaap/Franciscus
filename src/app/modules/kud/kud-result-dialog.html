@@ -1,0 +1,21 @@
+<div class="kud-confetti-layer" aria-hidden="true">
+  @for (piece of confetti; track $index) {
+    <span
+      class="kud-confetti-piece"
+      [style.left]="piece.left"
+      [style.background]="piece.background"
+      [style.animation-delay]="piece.delay"
+      [style.animation-duration]="piece.duration"
+      [style.--kud-rotate]="piece.rotate"
+      [style.--kud-drift]="piece.drift"
+    ></span>
+  }
+</div>
+
+<h2 mat-dialog-title>🎉 Daar is ie!</h2>
+<mat-dialog-content>
+  <p class="kud-word">{{ data.word }}</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" [mat-dialog-close]="true">Nice</button>
+</mat-dialog-actions>

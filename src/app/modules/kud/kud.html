@@ -1,0 +1,19 @@
+<app-title previousPath="home">Kud</app-title>
+
+<div class="kud-container">
+  <p class="kud-tagline">Even iets vies verzinnen...</p>
+
+  <button
+    class="kud-orb"
+    [class.generating]="isGenerating()"
+    [disabled]="isGenerating()"
+    (click)="generate()"
+    aria-label="Genereer een woord"
+  >
+    <span class="kud-orb-label">{{ isGenerating() ? 'Bezig...' : 'Genereer!' }}</span>
+  </button>
+
+  @if (scrambleText()) {
+    <p class="kud-scramble" [class.settled]="!isGenerating()">{{ scrambleText() }}</p>
+  }
+</div>

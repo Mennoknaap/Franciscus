@@ -62,6 +62,12 @@ export class Home {
             path: '/biertje',
             requiresAppKey: 'biertje',
         },
+        {
+            title: 'Kud',
+            icon: 'auto_awesome',
+            path: '/kud',
+            requiresAppKey: 'kud',
+        },
     ];
 
     readonly visibleApps = computed(() => {
