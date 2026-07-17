@@ -1,6 +1,6 @@
 # Kud
 
-A silly word generator (`modules/kud/`) — one big button that "generates" a random creative/juvenile substitute word (`kud-words.ts`, a flat pool of ~80 entries, not split by category) and reveals it in a confetti dialog. Gated by the frontend's `appAccessGuard('kud')` on its route; see [platform/app-access.md](../platform/app-access.md) for the gating system in general. Same as `wheel-of-fortune`/`biertje`: pure frontend, no backend involvement, no persisted state — there's no `KudController`.
+A silly word generator (`modules/kud/`) — one big button that "generates" a random creative/juvenile substitute word (`kud-words.ts`, a flat pool of ~150 entries) and reveals it in a confetti dialog. Gated by the frontend's `appAccessGuard('kud')` on its route; see [platform/app-access.md](../platform/app-access.md) for the gating system in general. Same as `wheel-of-fortune`/`biertje`: pure frontend, no backend involvement, no persisted state — there's no `KudController`.
 
 ## The "generating" animation
 
@@ -12,4 +12,4 @@ A silly word generator (`modules/kud/`) — one big button that "generates" a ra
 
 ## The word list
 
-`kud-words.ts`'s `KUD_WORDS` is deliberately silly/invented-leaning (`Vleesdoos`, `Parmasandwich`, `Wondersteeg`, ...) rather than literal vulgar terms — creative euphemisms and exclamations, not anatomical descriptions. Add new entries there; the generator has no other configuration.
+`kud-words.ts`'s `KUD_WORDS` is deliberately silly/invented-leaning (`Vleesdoos`, `Parmasandwich`, `Wondersteeg`, `Geurgordijn`, ...) rather than literal vulgar terms — all entries are playful, metaphorical references to female anatomy (compound nouns/short phrases in a consistent poetic-absurdist register: `Geheime`/`Liefdes`/`Vochtige`/`Roze` + `Tuin`/`Grot`/`Doos`/`Kastje`/etc.), not clinical anatomical language and not general-purpose curse-word exclamations — an earlier version mixed in "fuck"-style exclamations (`Potjandrie`, ...) and penis euphemisms, both removed per feedback to keep the pool tightly themed. Add new entries there, matching that register; the generator has no other configuration.
