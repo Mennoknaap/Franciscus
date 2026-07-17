@@ -51,6 +51,9 @@
       <p class="chat-empty">Nog niets gelogd.</p>
     } @else {
       @for (entry of log(); track entry.id) {
+        @if (entry.showDateSeparator) {
+          <div class="date-separator"><span>{{ entry.dateLabel }}</span></div>
+        }
         <div class="chat-bubble" [class.mine]="entry.isMine" [class.sticker]="displayMode() === 'sticker' && stickerUrlFor(entry.type)">
           @if (!entry.isMine) {
             <div class="chat-sender">{{ entry.senderName }}</div>

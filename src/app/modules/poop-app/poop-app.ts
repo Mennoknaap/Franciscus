@@ -32,6 +32,9 @@ interface LogViewEntry {
     senderName: string;
     text: string;
     time: string;
+    dateKey: string;
+    dateLabel: string;
+    showDateSeparator: boolean;
 }
 
 @Component({
@@ -85,7 +88,9 @@ export class PoopApp implements OnInit {
     ngOnInit(): void {
         this._api.getLog().subscribe({
             next: entries => {
-                this.log.set(entries.map(entry => this.toViewEntry(entry)));
+                const viewEntries = entries.map(entry => this.toViewEntry(entry));
+                this.markDateSeparators(viewEntries);
+                this.log.set(viewEntries);
                 this.loadingLog.set(false);
                 this.scrollToBottom();
             },
@@ -146,7 +151,11 @@ export class PoopApp implements OnInit {
         this.logging.set(true);
         this._api.addLogEntry(type).subscribe({
             next: entry => {
-                this.log.update(entries => [...entries, this.toViewEntry(entry)]);
+                this.log.update(entries => {
+                    const updated = [...entries, this.toViewEntry(entry)];
+                    this.markDateSeparators(updated);
+                    return updated;
+                });
                 this.logging.set(false);
                 this.scrollToBottom();
             },
@@ -185,13 +194,20 @@ export class PoopApp implements OnInit {
                 return;
 
             this._api.deleteEntry(id).subscribe(() => {
-                this.log.update(entries => entries.filter(entry => entry.id !== id));
+                this.log.update(entries => {
+                    const updated = entries.filter(entry => entry.id !== id);
+                    // Removing an entry can un-orphan the date separator that used to sit
+                    // on the deleted entry — recompute rather than just filtering it out.
+                    this.markDateSeparators(updated);
+                    return updated;
+                });
             });
         });
     }
 
     private toViewEntry(entry: PoopLogEntry): LogViewEntry {
         const isMine = entry.loggedByUserId === this._authService.user()?.id;
+        const created = dayjs(entry.createdAt);
         return {
             id: entry.id,
             type: entry.type,
@@ -199,8 +215,38 @@ export class PoopApp implements OnInit {
             canDelete: isMine || this.isAdmin(),
             senderName: entry.loggedByName,
             text: entry.type === POOP_LOG_TYPE_POOP ? 'Hij heeft gepoept 💩' : 'Hij heeft geplast 💦',
-            time: dayjs(entry.createdAt).format('HH:mm'),
+            time: created.format('HH:mm'),
+            dateKey: created.format('YYYY-MM-DD'),
+            dateLabel: this.dateLabelFor(created),
+            showDateSeparator: false, // decided afterwards, in context of the full list — see markDateSeparators
         };
+    }
+
+    // WhatsApp-style grouping: "Vandaag"/"Gisteren" for the two most recent days, the Dutch
+    // day name for the rest of the current week, and a full date beyond that — otherwise a
+    // long-running log reads as one undifferentiated wall of messages with no sense of time.
+    private dateLabelFor(date: dayjs.Dayjs): string {
+        const today = dayjs();
+        if (date.isSame(today, 'day'))
+            return 'Vandaag';
+
+        if (date.isSame(today.subtract(1, 'day'), 'day'))
+            return 'Gisteren';
+
+        if (date.isAfter(today.subtract(7, 'day'), 'day')) {
+            const dayName = date.format('dddd');
+            return dayName.charAt(0).toUpperCase() + dayName.slice(1);
+        }
+
+        return date.format('D MMMM YYYY');
+    }
+
+    private markDateSeparators(entries: LogViewEntry[]): void {
+        let lastDateKey: string | null = null;
+        for (const entry of entries) {
+            entry.showDateSeparator = entry.dateKey !== lastDateKey;
+            lastDateKey = entry.dateKey;
+        }
     }
 
     async enableNotifications(): Promise<void> {
