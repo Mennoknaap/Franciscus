@@ -39,10 +39,17 @@ const SLICES: WheelSlice[] = Array.from({ length: SLICE_COUNT }, (_, i) => {
 })
 export class Biertje {
     private readonly _dialog = inject(MatDialog);
+    private readonly _winSound = new Audio('assets/nog-eentje-dan.mp3');
 
     readonly slices = SLICES;
     readonly isSpinning = signal(false);
     readonly rotation = signal(0);
+
+    constructor() {
+        this._winSound.volume = 0.8;
+        this._winSound.preload = 'auto';
+        this._winSound.load();
+    }
 
     readonly wheelBackground = computed(() =>
         `conic-gradient(${this.slices.map(slice => `${slice.color} ${slice.startAngle}deg ${slice.startAngle + SLICE_DEGREES}deg`).join(', ')})`,
@@ -67,6 +74,15 @@ export class Biertje {
 
         setTimeout(() => {
             this.isSpinning.set(false);
+
+            this._winSound.currentTime = 0;
+            const playPromise = this._winSound.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.warn('Audio play prevented:', error);
+                });
+            }
+
             this._dialog.open(BiertjeResultDialog, { width: '400px', maxWidth: '95vw' });
         }, SPIN_DURATION_MS);
     }
