@@ -74,6 +74,12 @@ export class Home {
             path: '/puntentelling',
             requiresAppKey: 'puntentelling',
         },
+        {
+            title: 'Badjasspel',
+            icon: 'checkroom',
+            path: '/badjasspel',
+            requiresAppKey: 'badjasspel',
+        },
     ];
 
     readonly visibleApps = computed(() => {
@@ -87,11 +93,12 @@ export class Home {
     // won't prompt again), *except* right after a just-failed attempt — the banner has
     // to stay up in that case, otherwise notificationError would be set but instantly
     // hidden along with the rest of the banner.
-    readonly showNotificationPrompt = computed(() =>
-        (this.user()?.grantedApps ?? []).includes('poop-app')
-        && !this._pushService.permissionGranted()
-        && (!this._pushService.permissionDenied() || !!this.notificationError()),
-    );
+    readonly showNotificationPrompt = computed(() => {
+        const grantedApps = this.user()?.grantedApps ?? [];
+        return (grantedApps.includes('poop-app') || grantedApps.includes('badjasspel'))
+            && !this._pushService.permissionGranted()
+            && (!this._pushService.permissionDenied() || !!this.notificationError());
+    });
 
     async enableNotifications(): Promise<void> {
         this.enablingNotifications.set(true);

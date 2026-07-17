@@ -1,0 +1,72 @@
+<app-title previousPath="home">Badjasspel</app-title>
+
+<div class="badjasspel-container">
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner color="accent"></mat-spinner>
+    </div>
+  } @else if (entries().length === 0) {
+    <p class="empty-state">De trekking van vannacht is nog niet geweest (of het spel is nu niet actief).</p>
+  } @else {
+    @if (ownEntry(); as own) {
+      <div class="own-result" [class.unlucky]="!own.magOnderbroek">
+        <div class="own-result-icon">{{ own.magOnderbroek ? '😌' : '🥶' }}</div>
+        <div class="own-result-text">
+          Jij mag vandaag {{ own.magOnderbroek ? 'gewoon' : 'GEEN' }} onderbroek aan!
+        </div>
+      </div>
+    }
+
+    <div class="participant-list">
+      @for (entry of entries(); track entry.userId) {
+        <div class="participant-row">
+          <span class="participant-name">{{ entry.userName }}</span>
+          <span class="participant-status">{{ entry.magOnderbroek ? '✅ wel' : '❌ niet' }}</span>
+        </div>
+      }
+    </div>
+  }
+
+  @if (settings(); as settings) {
+    @if (settings.startDate && settings.endDate) {
+      <p class="settings-info">Actief van {{ formatDate(settings.startDate) }} t/m {{ formatDate(settings.endDate) }}.</p>
+    } @else {
+      <p class="settings-info">Er is nu geen actieve periode ingesteld.</p>
+    }
+  }
+
+  @if (isAdmin()) {
+    <div class="admin-panel">
+      <h3>Beheer</h3>
+
+      <div class="date-range-fields">
+        <mat-form-field>
+          <mat-label>Startdatum</mat-label>
+          <input matInput type="date" [ngModel]="startDateInput()" (ngModelChange)="startDateInput.set($event)" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Einddatum</mat-label>
+          <input matInput type="date" [ngModel]="endDateInput()" (ngModelChange)="endDateInput.set($event)" />
+        </mat-form-field>
+      </div>
+
+      <button mat-raised-button color="primary" [disabled]="savingSettings()" (click)="saveSettings()">
+        Periode opslaan
+      </button>
+
+      <div class="trigger-buttons">
+        <button mat-stroked-button [disabled]="triggering()" (click)="triggerDraw(false)">
+          Trekking nu uitvoeren
+        </button>
+        <button mat-stroked-button color="warn" [disabled]="triggering()" (click)="triggerDraw(true)">
+          Trekking van vandaag opnieuw
+        </button>
+      </div>
+    </div>
+  }
+
+  <a mat-button routerLink="/badjasspel/geschiedenis">
+    <mat-icon>history</mat-icon>
+    Geschiedenis
+  </a>
+</div>

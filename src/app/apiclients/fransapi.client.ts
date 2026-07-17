@@ -355,6 +355,266 @@ export class FransApiClient {
     /**
      * @return Success
      */
+    badjasToday(): Observable<BadjasEntry[]> {
+        let url_ = this.baseUrl + "/badjas/today";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processBadjasToday(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processBadjasToday(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<BadjasEntry[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<BadjasEntry[]>;
+        }));
+    }
+
+    protected processBadjasToday(response: HttpResponseBase): Observable<BadjasEntry[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BadjasEntry[];
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    badjasHistory(): Observable<BadjasEntry[]> {
+        let url_ = this.baseUrl + "/badjas/history";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processBadjasHistory(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processBadjasHistory(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<BadjasEntry[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<BadjasEntry[]>;
+        }));
+    }
+
+    protected processBadjasHistory(response: HttpResponseBase): Observable<BadjasEntry[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BadjasEntry[];
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    badjasSettingsGet(): Observable<BadjasSettings> {
+        let url_ = this.baseUrl + "/badjas/settings";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processBadjasSettingsGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processBadjasSettingsGet(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<BadjasSettings>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<BadjasSettings>;
+        }));
+    }
+
+    protected processBadjasSettingsGet(response: HttpResponseBase): Observable<BadjasSettings> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BadjasSettings;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    badjasSettingsPut(body: UpdateBadjasSettings | undefined): Observable<BadjasSettings> {
+        let url_ = this.baseUrl + "/badjas/settings";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processBadjasSettingsPut(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processBadjasSettingsPut(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<BadjasSettings>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<BadjasSettings>;
+        }));
+    }
+
+    protected processBadjasSettingsPut(response: HttpResponseBase): Observable<BadjasSettings> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BadjasSettings;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param force (optional) 
+     * @return Success
+     */
+    badjasTrigger(force: boolean | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/badjas/trigger?";
+        if (force === null)
+            throw new globalThis.Error("The parameter 'force' cannot be null.");
+        else if (force !== undefined)
+            url_ += "force=" + encodeURIComponent("" + force) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processBadjasTrigger(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processBadjasTrigger(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<boolean>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<boolean>;
+        }));
+    }
+
+    protected processBadjasTrigger(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as boolean;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
     childrenGet(): Observable<Child[]> {
         let url_ = this.baseUrl + "/children";
         url_ = url_.replace(/[?&]$/, "");
@@ -2137,6 +2397,21 @@ export interface AuthenticateResponse {
     refreshToken: string;
 }
 
+export interface BadjasEntry {
+    id: string;
+    date: dayjs.Dayjs;
+    userId: string;
+    userName: string;
+    magOnderbroek: boolean;
+}
+
+export interface BadjasSettings {
+    startDate?: dayjs.Dayjs | undefined;
+    endDate?: dayjs.Dayjs | undefined;
+    updatedByName?: string | undefined;
+    updatedAt?: dayjs.Dayjs | undefined;
+}
+
 export interface Child {
     id: string;
     name: string;
@@ -2227,6 +2502,11 @@ export interface SubscribePush {
     endpoint: string;
     p256dh: string;
     auth: string;
+}
+
+export interface UpdateBadjasSettings {
+    startDate?: dayjs.Dayjs | undefined;
+    endDate?: dayjs.Dayjs | undefined;
 }
 
 export interface UpdateFact {

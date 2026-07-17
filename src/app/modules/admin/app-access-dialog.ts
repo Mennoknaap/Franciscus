@@ -18,6 +18,7 @@ const GATEABLE_APPS = [
     { key: 'biertje', label: 'Biertje?' },
     { key: 'kud', label: 'Kud' },
     { key: 'puntentelling', label: 'Puntentelling' },
+    { key: 'badjasspel', label: 'Badjasspel' },
 ];
 
 @Component({

@@ -3,7 +3,7 @@
 @if (showNotificationPrompt()) {
   <div class="notification-prompt">
     <mat-icon>notifications_active</mat-icon>
-    <span>{{ notificationError() ?? 'Meldingen aanzetten voor Poeplog?' }}</span>
+    <span>{{ notificationError() ?? 'Meldingen aanzetten?' }}</span>
     <button mat-button color="primary" [disabled]="enablingNotifications()" (click)="enableNotifications()">
       Aanzetten
     </button>

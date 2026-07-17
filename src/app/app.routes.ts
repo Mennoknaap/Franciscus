@@ -26,4 +26,6 @@ export const routes: Routes = [
     { path: 'puntentelling', loadComponent: () => import('./modules/puntentelling/puntentelling').then(m => m.Puntentelling), canActivate: [authGuard, appAccessGuard('puntentelling')] },
     { path: 'puntentelling/geschiedenis', loadComponent: () => import('./modules/puntentelling/puntentelling-history').then(m => m.PuntentellingHistory), canActivate: [authGuard, appAccessGuard('puntentelling')] },
     { path: 'puntentelling/geschiedenis/:id', loadComponent: () => import('./modules/puntentelling/puntentelling-session-detail').then(m => m.PuntentellingSessionDetail), canActivate: [authGuard, appAccessGuard('puntentelling')] },
+    { path: 'badjasspel', loadComponent: () => import('./modules/badjasspel/badjasspel').then(m => m.Badjasspel), canActivate: [authGuard, appAccessGuard('badjasspel')] },
+    { path: 'badjasspel/geschiedenis', loadComponent: () => import('./modules/badjasspel/badjasspel-history').then(m => m.BadjasspelHistory), canActivate: [authGuard, appAccessGuard('badjasspel')] },
 ];
