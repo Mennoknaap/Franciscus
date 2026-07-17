@@ -1,46 +1,48 @@
-<app-title previousPath="home">Poeplog</app-title>
+<div class="poop-app-page">
+  <div class="poop-app-header">
+    <app-title previousPath="home">Poeplog</app-title>
 
-<div class="poop-app-container">
-  <div class="top-actions">
-    @if (!notificationsEnabled()) {
-      <button mat-stroked-button (click)="enableNotifications()">
-        <mat-icon>notifications</mat-icon>
-        Meldingen aanzetten
-      </button>
+    <div class="top-actions">
+      @if (!notificationsEnabled()) {
+        <button mat-stroked-button (click)="enableNotifications()">
+          <mat-icon>notifications</mat-icon>
+          Meldingen aanzetten
+        </button>
+      }
+
+      <mat-button-toggle-group [value]="displayMode()" (change)="setDisplayMode($event.value)" aria-label="Weergave">
+        <mat-button-toggle value="text">Tekst</mat-button-toggle>
+        <mat-button-toggle value="sticker">Sticker</mat-button-toggle>
+      </mat-button-toggle-group>
+
+      @if (isAdmin()) {
+        <button mat-stroked-button color="warn" (click)="clearLog()">
+          <mat-icon>delete_sweep</mat-icon>
+          Log wissen
+        </button>
+      }
+    </div>
+
+    @if (isAdmin() && displayMode() === 'sticker') {
+      <div class="sticker-uploads">
+        <input #poopStickerInput type="file" accept="image/*" hidden (change)="uploadPoopSticker($event)" />
+        <button mat-stroked-button (click)="poopStickerInput.click()">
+          <mat-icon>image</mat-icon>
+          Poep-sticker instellen
+        </button>
+
+        <input #peeStickerInput type="file" accept="image/*" hidden (change)="uploadPeeSticker($event)" />
+        <button mat-stroked-button (click)="peeStickerInput.click()">
+          <mat-icon>image</mat-icon>
+          Plas-sticker instellen
+        </button>
+      </div>
     }
 
-    <mat-button-toggle-group [value]="displayMode()" (change)="setDisplayMode($event.value)" aria-label="Weergave">
-      <mat-button-toggle value="text">Tekst</mat-button-toggle>
-      <mat-button-toggle value="sticker">Sticker</mat-button-toggle>
-    </mat-button-toggle-group>
-
-    @if (isAdmin()) {
-      <button mat-stroked-button color="warn" (click)="clearLog()">
-        <mat-icon>delete_sweep</mat-icon>
-        Log wissen
-      </button>
+    @if (lastResult()) {
+      <p class="result">{{ lastResult() }}</p>
     }
   </div>
-
-  @if (isAdmin() && displayMode() === 'sticker') {
-    <div class="sticker-uploads">
-      <input #poopStickerInput type="file" accept="image/*" hidden (change)="uploadPoopSticker($event)" />
-      <button mat-stroked-button (click)="poopStickerInput.click()">
-        <mat-icon>image</mat-icon>
-        Poep-sticker instellen
-      </button>
-
-      <input #peeStickerInput type="file" accept="image/*" hidden (change)="uploadPeeSticker($event)" />
-      <button mat-stroked-button (click)="peeStickerInput.click()">
-        <mat-icon>image</mat-icon>
-        Plas-sticker instellen
-      </button>
-    </div>
-  }
-
-  @if (lastResult()) {
-    <p class="result">{{ lastResult() }}</p>
-  }
 
   <div class="chat-log">
     @if (loadingLog()) {
