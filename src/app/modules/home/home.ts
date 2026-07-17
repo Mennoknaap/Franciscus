@@ -63,7 +63,7 @@ export class Home {
             requiresAppKey: 'biertje',
         },
         {
-            title: 'Kud',
+            title: 'Vleesdoos',
             icon: 'auto_awesome',
             path: '/kud',
             requiresAppKey: 'kud',

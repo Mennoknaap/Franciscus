@@ -1,6 +1,8 @@
-# Kud
+# Vleesdoos (module/route/AppKey: `kud`)
 
-A silly word generator (`modules/kud/`) — one big button that "generates" a random creative/juvenile substitute word (`kud-words.ts`, a flat pool of ~150 entries) and reveals it in a confetti dialog. Gated by the frontend's `appAccessGuard('kud')` on its route; see [platform/app-access.md](../platform/app-access.md) for the gating system in general. Same as `wheel-of-fortune`/`biertje`: pure frontend, no backend involvement, no persisted state — there's no `KudController`.
+**User-facing name is "Vleesdoos"** (home tile, in-app title, admin "App-toegang" label) — renamed from "Kud" per feedback. The module folder, component/file names, route (`/kud`), and `AppKey` (`'kud'`) deliberately **stayed** `kud` rather than being renamed too: changing the `AppKey` would have silently revoked everyone's existing granted access (a fresh key nobody has been granted yet), and renaming the route would break any existing bookmarks/links — neither was worth it for a cosmetic rename. If you're grepping for this feature, search `kud`, not `vleesdoos`.
+
+A silly word generator (`modules/kud/`) — one big button that "generates" a random creative/juvenile substitute word (`kud-words.ts`, a flat pool of ~130 entries) and reveals it in a confetti dialog. Gated by the frontend's `appAccessGuard('kud')` on its route; see [platform/app-access.md](../platform/app-access.md) for the gating system in general. Same as `wheel-of-fortune`/`biertje`: pure frontend, no backend involvement, no persisted state — there's no `KudController`.
 
 ## The "generating" animation
 
