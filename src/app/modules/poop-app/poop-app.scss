@@ -23,13 +23,6 @@
   flex-wrap: wrap;
 }
 
-.sticker-uploads {
-  display: flex;
-  justify-content: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
-
 .chat-log {
   flex: 1;
   min-height: 0; // required for a flex child to actually scroll instead of overflowing

@@ -16,35 +16,35 @@
       </mat-button-toggle-group>
 
       @if (isAdmin()) {
-        <button mat-stroked-button color="warn" (click)="clearLog()">
-          <mat-icon>delete_sweep</mat-icon>
-          Log wissen
+        <button mat-icon-button [matMenuTriggerFor]="adminMenu" aria-label="Beheeropties">
+          <mat-icon>more_vert</mat-icon>
         </button>
+        <mat-menu #adminMenu="matMenu">
+          <button mat-menu-item (click)="poopStickerInput.click()">
+            <mat-icon>image</mat-icon>
+            <span>Poep-sticker instellen</span>
+          </button>
+          <button mat-menu-item (click)="peeStickerInput.click()">
+            <mat-icon>image</mat-icon>
+            <span>Plas-sticker instellen</span>
+          </button>
+          <button mat-menu-item (click)="clearLog()">
+            <mat-icon>delete_sweep</mat-icon>
+            <span>Log wissen</span>
+          </button>
+        </mat-menu>
+
+        <input #poopStickerInput type="file" accept="image/*" hidden (change)="uploadPoopSticker($event)" />
+        <input #peeStickerInput type="file" accept="image/*" hidden (change)="uploadPeeSticker($event)" />
       }
     </div>
-
-    @if (isAdmin() && displayMode() === 'sticker') {
-      <div class="sticker-uploads">
-        <input #poopStickerInput type="file" accept="image/*" hidden (change)="uploadPoopSticker($event)" />
-        <button mat-stroked-button (click)="poopStickerInput.click()">
-          <mat-icon>image</mat-icon>
-          Poep-sticker instellen
-        </button>
-
-        <input #peeStickerInput type="file" accept="image/*" hidden (change)="uploadPeeSticker($event)" />
-        <button mat-stroked-button (click)="peeStickerInput.click()">
-          <mat-icon>image</mat-icon>
-          Plas-sticker instellen
-        </button>
-      </div>
-    }
 
     @if (lastResult()) {
       <p class="result">{{ lastResult() }}</p>
     }
   </div>
 
-  <div class="chat-log">
+  <div class="chat-log" #chatLog>
     @if (loadingLog()) {
       <p class="chat-empty">Laden...</p>
     } @else if (log().length === 0) {

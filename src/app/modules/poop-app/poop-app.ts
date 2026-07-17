@@ -1,8 +1,9 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, signal, viewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import dayjs from 'dayjs';
 import { environment } from '../../../environments/environment';
 import { PoopLogEntry, PoopLogType } from '../../apiclients/fransapi.client';
@@ -36,7 +37,7 @@ interface LogViewEntry {
 @Component({
     selector: 'app-poop-app',
     standalone: true,
-    imports: [MatButtonModule, MatButtonToggleModule, MatDialogModule, MatIconModule, Title],
+    imports: [MatButtonModule, MatButtonToggleModule, MatDialogModule, MatIconModule, MatMenuModule, Title],
     templateUrl: './poop-app.html',
     styleUrl: './poop-app.scss',
 })
@@ -55,6 +56,8 @@ export class PoopApp implements OnInit {
 
     readonly lastResult = signal<string | null>(null);
 
+    private readonly _chatLog = viewChild<ElementRef<HTMLDivElement>>('chatLog');
+
     // Purely a personal, local display preference — not synced anywhere — so one person
     // viewing in sticker mode doesn't affect what anyone else sees.
     readonly displayMode = signal<DisplayMode>(
@@ -66,11 +69,25 @@ export class PoopApp implements OnInit {
     readonly poopStickerUrl = signal<string | null | undefined>(undefined);
     readonly peeStickerUrl = signal<string | null | undefined>(undefined);
 
+    // Newest entry is always last (see GetLog's OrderBy CreatedAt), so both opening the
+    // page and sending a new one should land you at the bottom, like any chat app.
+    // setTimeout (a macrotask) rather than rAF/microtask — needed so this runs *after*
+    // Angular's zoneless change detection has actually applied the signal update to the
+    // DOM, which a same-tick or same-microtask read would still be stale for.
+    private scrollToBottom(): void {
+        setTimeout(() => {
+            const el = this._chatLog()?.nativeElement;
+            if (el)
+                el.scrollTop = el.scrollHeight;
+        });
+    }
+
     ngOnInit(): void {
         this._api.getLog().subscribe({
             next: entries => {
                 this.log.set(entries.map(entry => this.toViewEntry(entry)));
                 this.loadingLog.set(false);
+                this.scrollToBottom();
             },
             error: () => this.loadingLog.set(false),
         });
@@ -131,6 +148,7 @@ export class PoopApp implements OnInit {
             next: entry => {
                 this.log.update(entries => [...entries, this.toViewEntry(entry)]);
                 this.logging.set(false);
+                this.scrollToBottom();
             },
             error: () => this.logging.set(false),
         });
