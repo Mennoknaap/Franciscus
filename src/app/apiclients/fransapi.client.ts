@@ -355,7 +355,7 @@ export class FransApiClient {
     /**
      * @return Success
      */
-    badjasToday(): Observable<BadjasEntry[]> {
+    badjasToday(): Observable<BadjasEntry> {
         let url_ = this.baseUrl + "/badjas/today";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -374,14 +374,14 @@ export class FransApiClient {
                 try {
                     return this.processBadjasToday(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<BadjasEntry[]>;
+                    return _observableThrow(e) as any as Observable<BadjasEntry>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<BadjasEntry[]>;
+                return _observableThrow(response_) as any as Observable<BadjasEntry>;
         }));
     }
 
-    protected processBadjasToday(response: HttpResponseBase): Observable<BadjasEntry[]> {
+    protected processBadjasToday(response: HttpResponseBase): Observable<BadjasEntry> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -391,7 +391,7 @@ export class FransApiClient {
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BadjasEntry[];
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BadjasEntry;
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {

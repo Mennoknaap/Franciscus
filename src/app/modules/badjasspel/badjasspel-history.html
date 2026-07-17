@@ -5,21 +5,16 @@
     <div class="loading-container">
       <mat-spinner color="accent"></mat-spinner>
     </div>
-  } @else if (dayGroups().length === 0) {
-    <p class="empty-state">Nog geen trekkingen geweest.</p>
+  } @else if (entries().length === 0) {
+    <p class="empty-state">Je hebt nog geen trekkingen gehad.</p>
   } @else {
-    @for (group of dayGroups(); track group.dateKey) {
-      <div class="day-group">
-        <div class="day-label">{{ group.dateLabel }}</div>
-        <div class="day-entries">
-          @for (entry of group.entries; track entry.userId) {
-            <div class="entry-row">
-              <span class="entry-name">{{ entry.userName }}</span>
-              <span class="entry-status">{{ entry.magOnderbroek ? '✅ wel' : '❌ niet' }}</span>
-            </div>
-          }
+    <div class="entry-list">
+      @for (entry of entries(); track entry.id) {
+        <div class="entry-row">
+          <span class="entry-date">{{ formatDate(entry.date) }}</span>
+          <span class="entry-status">{{ entry.magOnderbroek ? '✅ wel' : '❌ niet' }}</span>
         </div>
-      </div>
-    }
+      }
+    </div>
   }
 </div>

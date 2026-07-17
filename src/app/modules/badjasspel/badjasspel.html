@@ -5,26 +5,15 @@
     <div class="loading-container">
       <mat-spinner color="accent"></mat-spinner>
     </div>
-  } @else if (entries().length === 0) {
-    <p class="empty-state">De trekking van vannacht is nog niet geweest (of het spel is nu niet actief).</p>
-  } @else {
-    @if (ownEntry(); as own) {
-      <div class="own-result" [class.unlucky]="!own.magOnderbroek">
-        <div class="own-result-icon">{{ own.magOnderbroek ? '😌' : '🥶' }}</div>
-        <div class="own-result-text">
-          Jij mag vandaag {{ own.magOnderbroek ? 'gewoon' : 'GEEN' }} onderbroek aan!
-        </div>
+  } @else if (ownEntry(); as own) {
+    <div class="own-result" [class.unlucky]="!own.magOnderbroek">
+      <div class="own-result-icon">{{ own.magOnderbroek ? '😌' : '🥶' }}</div>
+      <div class="own-result-text">
+        Jij mag vandaag {{ own.magOnderbroek ? 'gewoon' : 'GEEN' }} onderbroek aan!
       </div>
-    }
-
-    <div class="participant-list">
-      @for (entry of entries(); track entry.userId) {
-        <div class="participant-row">
-          <span class="participant-name">{{ entry.userName }}</span>
-          <span class="participant-status">{{ entry.magOnderbroek ? '✅ wel' : '❌ niet' }}</span>
-        </div>
-      }
     </div>
+  } @else {
+    <p class="empty-state">De trekking van vannacht is nog niet geweest (of het spel is nu niet actief).</p>
   }
 
   @if (settings(); as settings) {

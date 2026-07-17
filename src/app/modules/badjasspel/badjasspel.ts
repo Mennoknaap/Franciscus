@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -38,18 +38,14 @@ export class Badjasspel {
     readonly isAdmin = (): boolean => this._authService.user()?.role === ADMIN_ROLE;
 
     readonly loading = signal(true);
-    readonly entries = signal<BadjasEntry[]>([]);
+    // Only ever the caller's own entry — see badjasspel-api.ts's getToday().
+    readonly ownEntry = signal<BadjasEntry | null>(null);
     readonly settings = signal<BadjasSettings | null>(null);
     readonly triggering = signal(false);
     readonly savingSettings = signal(false);
 
     readonly startDateInput = signal('');
     readonly endDateInput = signal('');
-
-    readonly ownEntry = computed(() => {
-        const userId = this._authService.user()?.id;
-        return this.entries().find(entry => entry.userId === userId) ?? null;
-    });
 
     constructor() {
         this.loadToday();
@@ -85,12 +81,12 @@ export class Badjasspel {
     private loadToday(): void {
         this.loading.set(true);
         this._api.getToday().subscribe({
-            next: entries => {
-                this.entries.set(entries);
+            next: entry => {
+                this.ownEntry.set(entry);
                 this.loading.set(false);
             },
             error: () => {
-                this.entries.set([]);
+                this.ownEntry.set(null);
                 this.loading.set(false);
             },
         });

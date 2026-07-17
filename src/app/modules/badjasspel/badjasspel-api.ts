@@ -8,7 +8,9 @@ import { BadjasEntry, BadjasSettings, FransApiClient, UpdateBadjasSettings } fro
 export class BadjasspelApiService {
     private readonly _api = inject(FransApiClient);
 
-    getToday(): Observable<BadjasEntry[]> {
+    // Only ever the caller's own entry — who else got picked is private ("geheim
+    // onderling"), enforced server-side, not just left out of this response's shape.
+    getToday(): Observable<BadjasEntry> {
         return this._api.badjasToday();
     }
 
