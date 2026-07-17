@@ -11,6 +11,14 @@
 .top-actions {
   display: flex;
   justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.sticker-uploads {
+  display: flex;
+  justify-content: center;
   gap: 0.75rem;
   flex-wrap: wrap;
 }
@@ -43,6 +51,36 @@
     background: #dcf8c6;
     border-radius: 14px 14px 4px 14px;
   }
+
+  // Real WhatsApp stickers have no bubble chrome — just the image floating on the
+  // background, with the sender name/timestamp still overlaid like a normal message.
+  &.sticker {
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    max-width: 55%;
+
+    &.mine {
+      background: transparent;
+    }
+
+    .chat-sender,
+    .chat-footer {
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 8px;
+      padding: 0.1rem 0.4rem;
+      width: fit-content;
+    }
+
+    .chat-sender {
+      margin-bottom: 0.25rem;
+    }
+
+    .chat-footer {
+      margin-left: auto;
+      margin-top: 0.25rem;
+    }
+  }
 }
 
 .chat-sender {
@@ -55,6 +93,13 @@
 .chat-text {
   color: #2c3e50;
   font-size: 0.95rem;
+}
+
+.chat-sticker {
+  display: block;
+  max-width: 100%;
+  max-height: 160px;
+  border-radius: 8px;
 }
 
 .chat-footer {

@@ -1,8 +1,10 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import dayjs from 'dayjs';
+import { environment } from '../../../environments/environment';
 import { PoopLogEntry, PoopLogType } from '../../apiclients/fransapi.client';
 import { ConfirmDialog } from '../../components/confirm-dialog';
 import { Title } from '../../components/title';
@@ -18,8 +20,12 @@ const POOP_LOG_TYPE_PEE: PoopLogType = 1;
 // RoleType.Admin = 0 (see admin-auth-guard.ts for the same check).
 const ADMIN_ROLE = 0;
 
+type DisplayMode = 'text' | 'sticker';
+const DISPLAY_MODE_STORAGE_KEY = 'poeplog-display-mode';
+
 interface LogViewEntry {
     id: string;
+    type: PoopLogType;
     isMine: boolean;
     canDelete: boolean;
     senderName: string;
@@ -30,7 +36,7 @@ interface LogViewEntry {
 @Component({
     selector: 'app-poop-app',
     standalone: true,
-    imports: [MatButtonModule, MatDialogModule, MatIconModule, Title],
+    imports: [MatButtonModule, MatButtonToggleModule, MatDialogModule, MatIconModule, Title],
     templateUrl: './poop-app.html',
     styleUrl: './poop-app.scss',
 })
@@ -49,6 +55,17 @@ export class PoopApp implements OnInit {
 
     readonly lastResult = signal<string | null>(null);
 
+    // Purely a personal, local display preference — not synced anywhere — so one person
+    // viewing in sticker mode doesn't affect what anyone else sees.
+    readonly displayMode = signal<DisplayMode>(
+        (localStorage.getItem(DISPLAY_MODE_STORAGE_KEY) as DisplayMode | null) ?? 'text',
+    );
+
+    // undefined = "not fetched yet", null = "fetched, nothing uploaded" — only relevant to
+    // distinguish while the initial GET is in flight; both render as plain text either way.
+    readonly poopStickerUrl = signal<string | null | undefined>(undefined);
+    readonly peeStickerUrl = signal<string | null | undefined>(undefined);
+
     ngOnInit(): void {
         this._api.getLog().subscribe({
             next: entries => {
@@ -56,6 +73,47 @@ export class PoopApp implements OnInit {
                 this.loadingLog.set(false);
             },
             error: () => this.loadingLog.set(false),
+        });
+
+        this._api.getStickers().subscribe(stickers => {
+            const poop = stickers.find(s => s.type === POOP_LOG_TYPE_POOP);
+            const pee = stickers.find(s => s.type === POOP_LOG_TYPE_PEE);
+            this.poopStickerUrl.set(poop ? environment.apiUrl + poop.url : null);
+            this.peeStickerUrl.set(pee ? environment.apiUrl + pee.url : null);
+        });
+    }
+
+    setDisplayMode(mode: DisplayMode): void {
+        this.displayMode.set(mode);
+        localStorage.setItem(DISPLAY_MODE_STORAGE_KEY, mode);
+    }
+
+    stickerUrlFor(type: PoopLogType): string | null | undefined {
+        return type === POOP_LOG_TYPE_POOP ? this.poopStickerUrl() : this.peeStickerUrl();
+    }
+
+    uploadPoopSticker(event: Event): void {
+        this.uploadSticker(POOP_LOG_TYPE_POOP, event);
+    }
+
+    uploadPeeSticker(event: Event): void {
+        this.uploadSticker(POOP_LOG_TYPE_PEE, event);
+    }
+
+    private uploadSticker(type: PoopLogType, event: Event): void {
+        const input = event.target as HTMLInputElement;
+        const file = input.files?.[0];
+        if (!file)
+            return;
+
+        this._api.uploadSticker(type, file).subscribe(sticker => {
+            const url = environment.apiUrl + sticker.url;
+            if (type === POOP_LOG_TYPE_POOP)
+                this.poopStickerUrl.set(url);
+            else
+                this.peeStickerUrl.set(url);
+
+            input.value = '';
         });
     }
 
@@ -118,6 +176,7 @@ export class PoopApp implements OnInit {
         const isMine = entry.loggedByUserId === this._authService.user()?.id;
         return {
             id: entry.id,
+            type: entry.type,
             isMine,
             canDelete: isMine || this.isAdmin(),
             senderName: entry.loggedByName,

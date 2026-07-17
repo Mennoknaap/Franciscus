@@ -9,6 +9,11 @@
       </button>
     }
 
+    <mat-button-toggle-group [value]="displayMode()" (change)="setDisplayMode($event.value)" aria-label="Weergave">
+      <mat-button-toggle value="text">Tekst</mat-button-toggle>
+      <mat-button-toggle value="sticker">Sticker</mat-button-toggle>
+    </mat-button-toggle-group>
+
     @if (isAdmin()) {
       <button mat-stroked-button color="warn" (click)="clearLog()">
         <mat-icon>delete_sweep</mat-icon>
@@ -16,6 +21,22 @@
       </button>
     }
   </div>
+
+  @if (isAdmin() && displayMode() === 'sticker') {
+    <div class="sticker-uploads">
+      <input #poopStickerInput type="file" accept="image/*" hidden (change)="uploadPoopSticker($event)" />
+      <button mat-stroked-button (click)="poopStickerInput.click()">
+        <mat-icon>image</mat-icon>
+        Poep-sticker instellen
+      </button>
+
+      <input #peeStickerInput type="file" accept="image/*" hidden (change)="uploadPeeSticker($event)" />
+      <button mat-stroked-button (click)="peeStickerInput.click()">
+        <mat-icon>image</mat-icon>
+        Plas-sticker instellen
+      </button>
+    </div>
+  }
 
   @if (lastResult()) {
     <p class="result">{{ lastResult() }}</p>
@@ -28,11 +49,17 @@
       <p class="chat-empty">Nog niets gelogd.</p>
     } @else {
       @for (entry of log(); track entry.id) {
-        <div class="chat-bubble" [class.mine]="entry.isMine">
+        <div class="chat-bubble" [class.mine]="entry.isMine" [class.sticker]="displayMode() === 'sticker' && stickerUrlFor(entry.type)">
           @if (!entry.isMine) {
             <div class="chat-sender">{{ entry.senderName }}</div>
           }
-          <div class="chat-text">{{ entry.text }}</div>
+
+          @if (displayMode() === 'sticker' && stickerUrlFor(entry.type); as stickerUrl) {
+            <img class="chat-sticker" [src]="stickerUrl" alt="" />
+          } @else {
+            <div class="chat-text">{{ entry.text }}</div>
+          }
+
           <div class="chat-footer">
             <span class="chat-time">{{ entry.time }}</span>
             @if (entry.canDelete) {

@@ -987,6 +987,117 @@ export class FransApiClient {
     }
 
     /**
+     * @return Success
+     */
+    poopAppStickersGet(): Observable<PoopSticker[]> {
+        let url_ = this.baseUrl + "/poop-app/stickers";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processPoopAppStickersGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processPoopAppStickersGet(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PoopSticker[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PoopSticker[]>;
+        }));
+    }
+
+    protected processPoopAppStickersGet(response: HttpResponseBase): Observable<PoopSticker[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PoopSticker[];
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param file (optional) 
+     * @return Success
+     */
+    poopAppStickersPost(type: PoopLogType, file: FileParameter | undefined): Observable<PoopSticker> {
+        let url_ = this.baseUrl + "/poop-app/stickers/{type}";
+        if (type === undefined || type === null)
+            throw new globalThis.Error("The parameter 'type' must be defined.");
+        url_ = url_.replace("{type}", encodeURIComponent("" + type));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (file === null || file === undefined)
+            throw new globalThis.Error("The parameter 'file' cannot be null.");
+        else
+            content_.append("file", file.data, file.fileName ? file.fileName : "file");
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processPoopAppStickersPost(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processPoopAppStickersPost(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PoopSticker>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PoopSticker>;
+        }));
+    }
+
+    protected processPoopAppStickersPost(response: HttpResponseBase): Observable<PoopSticker> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PoopSticker;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * @param body (optional) 
      * @return Success
      */
@@ -1626,6 +1737,11 @@ export interface PoopLogEntry {
 }
 
 export type PoopLogType = 0 | 1;
+
+export interface PoopSticker {
+    type: PoopLogType;
+    url: string;
+}
 
 export interface PutUser {
     firstName?: string | undefined;

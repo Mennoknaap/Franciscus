@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FransApiClient, PoopLogEntry, PoopLogType } from '../../apiclients/fransapi.client';
+import { FransApiClient, PoopLogEntry, PoopLogType, PoopSticker } from '../../apiclients/fransapi.client';
 
 @Injectable({
     providedIn: 'root',
@@ -22,5 +22,13 @@ export class PoopAppApiService {
 
     deleteEntry(id: string): Observable<void> {
         return this._api.poopAppLogEntry(id);
+    }
+
+    getStickers(): Observable<PoopSticker[]> {
+        return this._api.poopAppStickersGet();
+    }
+
+    uploadSticker(type: PoopLogType, file: File): Observable<PoopSticker> {
+        return this._api.poopAppStickersPost(type, { data: file, fileName: file.name });
     }
 }
