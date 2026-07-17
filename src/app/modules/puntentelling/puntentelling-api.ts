@@ -35,4 +35,8 @@ export class PuntentellingApiService {
     finish(sessionId: string): Observable<ScoreboardSession> {
         return this._api.scoreboardSessionsFinish(sessionId);
     }
+
+    deleteSession(sessionId: string): Observable<void> {
+        return this._api.scoreboardSessionsDelete(sessionId);
+    }
 }

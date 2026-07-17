@@ -26,6 +26,16 @@
           @if (topTeamName(session); as topTeam) {
             <div class="session-winner">🏆 {{ topTeam }}</div>
           }
+          @if (isAdmin() && session.finishedAt) {
+            <button
+              mat-icon-button
+              class="delete-session-btn"
+              aria-label="Potje verwijderen"
+              (click)="deleteSession($event, session)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          }
           <mat-icon>chevron_right</mat-icon>
         </a>
       }

@@ -22,6 +22,10 @@ Each team card has quick ±1/±5/±10 buttons plus a custom-amount number input 
 
 `puntentelling-results.ts` (ranked team list + full history log) is a shared presentational component (`session = input.required<ScoreboardSession>()`) used both by `puntentelling-finish-dialog.ts` (the confetti "🏆 Potje afgelopen!" reveal — same self-contained CSS-confetti technique as `kud-result-dialog.ts`, no library) and by `puntentelling-session-detail.ts` (`/puntentelling/geschiedenis/:id`, a plain page, no confetti) — the ranking/tie logic exists in exactly one place.
 
+## Deleting history
+
+Admin-only (`isAdmin()`, `user()?.role === ADMIN_ROLE` — same `RoleType.Admin = 0` check as `poop-app.ts`), and only for **finished** sessions — the delete button only renders when `session.finishedAt` is set, matching the backend's 409 guard against deleting the still-active potje. Available from both `puntentelling-history.ts` (a small icon-button per row, `event.preventDefault()`/`stopPropagation()` so it doesn't trigger the card's own `routerLink` navigation) and `puntentelling-session-detail.ts` (a full button, navigates back to `/puntentelling/geschiedenis` after deleting). Both go through the shared `ConfirmDialog` first — deleting is unrecoverable, same reasoning as `clearLog()` in Poeplog.
+
 ## Dates from the API
 
 `ScoreboardSession.createdAt`/`finishedAt` and `ScoreboardHistoryEntry.createdAt` all come back from NSwag as `dayjs.Dayjs`, not native `Date` — format with `dayjs(...).format(...)` (see `formatTime()`/`formatDate()` in this module), not Angular's `date` pipe, same gotcha already documented in [poop-app.md](poop-app.md).

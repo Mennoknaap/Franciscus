@@ -7,6 +7,13 @@
     </div>
   } @else if (session(); as session) {
     <app-puntentelling-results [session]="session" />
+
+    @if (isAdmin()) {
+      <button mat-stroked-button class="delete-session-button" (click)="deleteSession()">
+        <mat-icon>delete</mat-icon>
+        Potje verwijderen
+      </button>
+    }
   } @else {
     <p class="empty-state">Potje niet gevonden.</p>
   }
