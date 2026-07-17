@@ -60,7 +60,7 @@
           }
 
           @if (displayMode() === 'sticker' && stickerUrlFor(entry.type); as stickerUrl) {
-            <img class="chat-sticker" [src]="stickerUrl" alt="" />
+            <img class="chat-sticker" [src]="stickerUrl" alt="" (load)="scrollToBottom()" />
           } @else {
             <div class="chat-text">{{ entry.text }}</div>
           }

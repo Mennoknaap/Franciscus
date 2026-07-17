@@ -77,7 +77,12 @@ export class PoopApp implements OnInit {
     // setTimeout (a macrotask) rather than rAF/microtask — needed so this runs *after*
     // Angular's zoneless change detection has actually applied the signal update to the
     // DOM, which a same-tick or same-microtask read would still be stale for.
-    private scrollToBottom(): void {
+    //
+    // Not private: sticker <img> tags call this again on their own (load) event (see
+    // poop-app.html) — a sticker image (fixed 100x100px, see .chat-sticker) hasn't
+    // finished loading/decoding yet at the time this first runs, so scrollHeight is still
+    // the shorter "no image yet" height and the scroll lands short of the true bottom.
+    scrollToBottom(): void {
         setTimeout(() => {
             const el = this._chatLog()?.nativeElement;
             if (el)

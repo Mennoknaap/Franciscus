@@ -80,3 +80,15 @@ body {
     }
   }
 }
+
+// Disabled dialog button override — a disabled Material button's text/background derive
+// from --mat-sys-on-surface (forced to white above for the green page background), which
+// renders as near-invisible white-on-white inside a dialog's light surface. Same root
+// cause as the title/input overrides above, just never patched for buttons.
+.mat-mdc-dialog-container .mat-mdc-button-disabled {
+  color: rgba(0, 0, 0, 0.38) !important;
+
+  &.mat-mdc-raised-button {
+    background-color: rgba(0, 0, 0, 0.12) !important;
+  }
+}
