@@ -63,6 +63,12 @@ export class Home {
             requiresAppKey: 'biertje',
         },
         {
+            title: 'Wijntje?',
+            icon: 'wine_bar',
+            path: '/wijntje',
+            requiresAppKey: 'wijntje',
+        },
+        {
             title: 'Vleesdoos',
             icon: 'auto_awesome',
             path: '/kud',

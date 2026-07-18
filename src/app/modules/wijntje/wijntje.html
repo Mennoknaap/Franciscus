@@ -1,0 +1,31 @@
+<app-title previousPath="home">Wijntje?</app-title>
+
+<div class="biertje-container">
+  <p class="biertje-tagline">Laat het rad beslissen...</p>
+
+  <div class="biertje-wheel-wrap">
+    <div class="biertje-pointer"></div>
+
+    <div
+      class="biertje-wheel"
+      [style.background]="wheelBackground()"
+      [style.transform]="'rotate(' + rotation() + 'deg)'"
+    >
+      @for (slice of slices; track slice.startAngle) {
+        <div class="biertje-slice-label" [style.transform]="'rotate(' + slice.midAngle + 'deg)'">
+          <span [style.color]="slice.textColor">{{ slice.label }}</span>
+        </div>
+      }
+    </div>
+
+    <button
+      mat-raised-button
+      color="primary"
+      class="biertje-spin-button"
+      [disabled]="isSpinning()"
+      (click)="spin()"
+    >
+      Draai!
+    </button>
+  </div>
+</div>

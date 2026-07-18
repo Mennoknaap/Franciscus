@@ -36,6 +36,7 @@ Docs are split into `docs/apps/` (one file per user-facing, access-gated app —
 | Soundboard | [docs/apps/soundboard.md](docs/apps/soundboard.md) | sound upload/list/delete |
 | Rad (wheel-of-fortune) | [docs/apps/wheel.md](docs/apps/wheel.md) | the wheel's local-storage data, access gating |
 | Biertje? | [docs/apps/biertje.md](docs/apps/biertje.md) | the rigged spin wheel, its landing-angle math |
+| Wijntje? | [docs/apps/wijntje.md](docs/apps/wijntje.md) | the wine-themed clone of Biertje? |
 | Vleesdoos (module/route/AppKey: `kud`) | [docs/apps/kud.md](docs/apps/kud.md) | the word generator, its scramble animation, the word list |
 | Puntentelling | [docs/apps/puntentelling.md](docs/apps/puntentelling.md) | the scoreboard, polling, sessions/"potjes", the backend `ScoreboardController` |
 | Badjasspel | [docs/apps/badjasspel.md](docs/apps/badjasspel.md) | the nightly draw, push notifications, admin-configurable active period |
