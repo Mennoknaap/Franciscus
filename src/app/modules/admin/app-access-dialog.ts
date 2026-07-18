@@ -17,6 +17,7 @@ const GATEABLE_APPS = [
     { key: 'poop-app', label: 'Poeplog' },
     { key: 'biertje', label: 'Biertje?' },
     { key: 'wijntje', label: 'Wijntje?' },
+    { key: 'stelz', label: 'Stelz?' },
     { key: 'kud', label: 'Vleesdoos' },
     { key: 'puntentelling', label: 'Puntentelling' },
     { key: 'badjasspel', label: 'Badjasspel' },

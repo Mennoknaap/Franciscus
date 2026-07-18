@@ -9,6 +9,7 @@ import { HomeModule } from './modules/home/home.module';
 import { Login } from './modules/login/login';
 import { LoginModule } from './modules/login/login.module';
 import { Soundboard } from './modules/soundboard/soundboard';
+import { Stelz } from './modules/stelz/stelz';
 import { Wheel } from './modules/wheel-of-fortune/wheel';
 import { Wijntje } from './modules/wijntje/wijntje';
 
@@ -20,6 +21,7 @@ export const routes: Routes = [
     { path: 'wheel', component: Wheel, canActivate: [authGuard, appAccessGuard('wheel')] },
     { path: 'biertje', component: Biertje, canActivate: [authGuard, appAccessGuard('biertje')] },
     { path: 'wijntje', component: Wijntje, canActivate: [authGuard, appAccessGuard('wijntje')] },
+    { path: 'stelz', component: Stelz, canActivate: [authGuard, appAccessGuard('stelz')] },
     { path: 'kud', component: Kud, canActivate: [authGuard, appAccessGuard('kud')] },
     { path: 'liedjes', loadComponent: () => import('./modules/liedjes/liedjes').then(m => m.Liedjes), canActivate: [authGuard, appAccessGuard('liedjes')] },
     { path: 'liedjes/:id', loadComponent: () => import('./modules/liedjes/child-detail').then(m => m.ChildDetail), canActivate: [authGuard, appAccessGuard('liedjes')] },

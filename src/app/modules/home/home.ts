@@ -69,6 +69,12 @@ export class Home {
             requiresAppKey: 'wijntje',
         },
         {
+            title: 'Stelz?',
+            icon: 'local_drink',
+            path: '/stelz',
+            requiresAppKey: 'stelz',
+        },
+        {
             title: 'Vleesdoos',
             icon: 'auto_awesome',
             path: '/kud',
