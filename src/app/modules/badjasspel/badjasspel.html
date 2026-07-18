@@ -6,12 +6,41 @@
       <mat-spinner color="accent"></mat-spinner>
     </div>
   } @else if (ownEntry(); as own) {
-    <div class="own-result" [class.unlucky]="!own.magOnderbroek">
-      <div class="own-result-icon">{{ own.magOnderbroek ? '😌' : '🥶' }}</div>
-      <div class="own-result-text">
-        Jij mag vandaag {{ own.magOnderbroek ? 'gewoon' : 'GEEN' }} onderbroek aan!
+    @if (own.isChooser && !own.chosenUserId) {
+      <div class="own-result">
+        <div class="own-result-icon">👉</div>
+        <div class="own-result-text">Jij mag vandaag iemand kiezen!</div>
+        <div class="candidate-buttons">
+          @for (candidate of own.candidates; track candidate.userId) {
+            <button
+              mat-raised-button
+              color="primary"
+              [disabled]="choosing()"
+              (click)="choosePerson(candidate.userId)"
+            >
+              {{ candidate.userName }}
+            </button>
+          }
+        </div>
       </div>
-    </div>
+    } @else if (own.isChooser) {
+      <div class="own-result">
+        <div class="own-result-icon">👉</div>
+        <div class="own-result-text">Je hebt {{ own.chosenUserName }} gekozen!</div>
+      </div>
+    } @else if (own.wasChosen) {
+      <div class="own-result unlucky">
+        <div class="own-result-icon">🫣</div>
+        <div class="own-result-text">Je bent gekozen om je badjas open te doen!</div>
+      </div>
+    } @else {
+      <div class="own-result" [class.unlucky]="!own.magOnderbroek">
+        <div class="own-result-icon">{{ own.magOnderbroek ? '😌' : '🥶' }}</div>
+        <div class="own-result-text">
+          Jij mag vandaag {{ own.magOnderbroek ? 'gewoon' : 'GEEN' }} onderbroek aan!
+        </div>
+      </div>
+    }
   } @else {
     <p class="empty-state">De trekking van vannacht is nog niet geweest (of het spel is nu niet actief).</p>
   }

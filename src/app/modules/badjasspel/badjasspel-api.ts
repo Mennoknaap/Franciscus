@@ -35,4 +35,8 @@ export class BadjasspelApiService {
     trigger(force: boolean): Observable<boolean> {
         return this._api.badjasTrigger(force);
     }
+
+    choose(chosenUserId: string): Observable<BadjasEntry> {
+        return this._api.badjasChoose(chosenUserId);
+    }
 }

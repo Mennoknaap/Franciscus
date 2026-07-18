@@ -47,6 +47,8 @@ export class Badjasspel {
     readonly startDateInput = signal('');
     readonly endDateInput = signal('');
 
+    readonly choosing = signal(false);
+
     constructor() {
         this.loadToday();
         this.loadSettings();
@@ -75,6 +77,17 @@ export class Badjasspel {
                 this.loadToday();
             },
             error: () => this.triggering.set(false),
+        });
+    }
+
+    choosePerson(chosenUserId: string): void {
+        this.choosing.set(true);
+        this._api.choose(chosenUserId).subscribe({
+            next: entry => {
+                this.ownEntry.set(entry);
+                this.choosing.set(false);
+            },
+            error: () => this.choosing.set(false),
         });
     }
 

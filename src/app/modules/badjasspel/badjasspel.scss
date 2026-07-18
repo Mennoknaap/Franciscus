@@ -32,6 +32,14 @@
   }
 }
 
+.candidate-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
 .own-result-icon {
   font-size: 3rem;
   line-height: 1;
