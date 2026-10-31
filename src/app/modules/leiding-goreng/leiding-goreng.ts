@@ -48,18 +48,11 @@ function easeOutRotation(t: number): number {
 })
 export class LeidingGoreng {
     private readonly _dialog = inject(MatDialog);
-    private readonly _winSound = new Audio('assets/nog-eentje-dan.mp3');
     private _audioContext: AudioContext | null = null;
 
     readonly slices = SLICES;
     readonly isSpinning = signal(false);
     readonly rotation = signal(0);
-
-    constructor() {
-        this._winSound.volume = 0.8;
-        this._winSound.preload = 'auto';
-        this._winSound.load();
-    }
 
     readonly wheelBackground = computed(() =>
         `conic-gradient(${this.slices.map(slice => `${slice.color} ${slice.startAngle}deg ${slice.startAngle + SLICE_DEGREES}deg`).join(', ')})`,
@@ -114,18 +107,38 @@ export class LeidingGoreng {
             this.rotation.set(targetRotation);
             this.isSpinning.set(false);
 
-            this._winSound.currentTime = 0;
-            const playPromise = this._winSound.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    console.warn('Audio play prevented:', error);
-                });
-            }
+            this.playCheer();
 
             this._dialog.open(LeidingGorengResultDialog, { width: '400px', maxWidth: '95vw' });
         };
 
         requestAnimationFrame(animate);
+    }
+
+    // A short synthesized "hoera": a rising arpeggio that ends in a bright chord. Built with
+    // the Web Audio API (like the tick) so no audio file is needed.
+    private playCheer(): void {
+        const ctx = this._audioContext;
+        if (!ctx)
+            return;
+
+        const notes: [number, number, number][] = [
+            [523.25, 0, 0.14], [659.25, 0.12, 0.14], [783.99, 0.24, 0.14], [1046.5, 0.36, 0.14],
+            [783.99, 0.52, 0.7], [1046.5, 0.52, 0.7], [1318.5, 0.52, 0.7],
+        ];
+        for (const [frequency, offset, duration] of notes) {
+            const start = ctx.currentTime + offset;
+            const oscillator = ctx.createOscillator();
+            const gain = ctx.createGain();
+            oscillator.type = 'triangle';
+            oscillator.frequency.value = frequency;
+            gain.gain.setValueAtTime(0.0001, start);
+            gain.gain.exponentialRampToValueAtTime(0.18, start + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+            oscillator.connect(gain).connect(ctx.destination);
+            oscillator.start(start);
+            oscillator.stop(start + duration + 0.05);
+        }
     }
 
     private playTick(): void {
