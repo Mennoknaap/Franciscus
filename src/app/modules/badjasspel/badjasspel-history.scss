@@ -27,7 +27,7 @@
   display: flex;
   justify-content: space-between;
   padding: 0.5rem 0;
-  color: #222;
+  color: var(--frans-ink);
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 
   &:last-child {

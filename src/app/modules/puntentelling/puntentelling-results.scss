@@ -11,7 +11,7 @@
   gap: 0.75rem;
   padding: 0.5rem 0.75rem;
   border-radius: 10px;
-  background: rgba(0, 0, 0, 0.04);
+  background: color-mix(in srgb, currentColor 12%, transparent);
 
   &.first {
     background: rgba(255, 210, 61, 0.25);
@@ -61,7 +61,7 @@
 }
 
 .history-time {
-  color: #777;
+  color: color-mix(in srgb, currentColor 70%, transparent);
   min-width: 70px;
 }
 
@@ -71,6 +71,6 @@
 }
 
 .history-by {
-  color: #777;
+  color: color-mix(in srgb, currentColor 70%, transparent);
   font-size: 0.78rem;
 }

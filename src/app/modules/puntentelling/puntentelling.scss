@@ -90,7 +90,7 @@
 
 .team-name {
   font-weight: 700;
-  color: #222;
+  color: var(--frans-ink);
   text-align: center;
   word-break: break-word;
 }
@@ -150,7 +150,7 @@
 
   h3 {
     margin: 0 0 0.5rem;
-    color: #222;
+    color: var(--frans-ink);
     font-size: 0.95rem;
   }
 }
@@ -160,7 +160,7 @@
   flex-wrap: wrap;
   gap: 0.4rem;
   font-size: 0.85rem;
-  color: #333;
+  color: var(--frans-ink);
   padding: 0.2rem 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 
@@ -170,7 +170,7 @@
 }
 
 .history-time {
-  color: #777;
+  color: var(--frans-muted);
   min-width: 40px;
 }
 
@@ -180,6 +180,6 @@
 }
 
 .history-by {
-  color: #777;
+  color: var(--frans-muted);
   font-size: 0.8rem;
 }

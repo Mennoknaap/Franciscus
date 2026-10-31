@@ -24,36 +24,38 @@ html {
   ));
 }
 
-// Design tokens. The Franciscus green is now an accent (header, buttons) on a pale moss
-// canvas, instead of the page background — dark text on light reads far better than the
-// old white-on-green. Per-app colours live in --frans-app-* below.
+// Design tokens: "Glas". A green gradient page with translucent, blurred glass cards and
+// white text. Dialogs and menus keep Material's white surfaces, so --mat-sys-on-surface
+// stays dark; page text uses --frans-ink instead.
 :root {
   --frans-primary: #94C11E;
-  --frans-deep: #3F5A08;
-  --frans-deep-soft: #EAF3D2;
-  --frans-canvas: #F3F5EC;
-  --frans-card: #FFFFFF;
-  --frans-ink: #1C2910;
-  --frans-muted: #66725A;
-  --frans-line: #E2E7D4;
-  --frans-radius: 20px;
-  --frans-shadow: 0 1px 2px rgba(40, 60, 10, 0.06), 0 4px 14px rgba(40, 60, 10, 0.06);
+  --frans-deep: #2F4A02;
+  --frans-deep-soft: rgba(255, 255, 255, 0.22);
+  --frans-ink: #FFFFFF;
+  --frans-muted: rgba(255, 255, 255, 0.82);
+  --frans-card: rgba(255, 255, 255, 0.2);
+  --frans-card-solid: #FFFFFF;
+  --frans-line: rgba(255, 255, 255, 0.5);
+  --frans-radius: 24px;
+  --frans-shadow: 0 8px 24px rgba(20, 40, 0, 0.18);
+  --frans-blur: blur(14px);
   --frans-font-display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
 
-  // Material system colours: deep green primary with a pale-green container.
+  // Material system colours: deep green primary (used on white dialog surfaces).
   --mat-sys-primary: #3F5A08;
   --mat-sys-on-primary: #FFFFFF;
   --mat-sys-primary-container: #EAF3D2;
   --mat-sys-on-primary-container: #2A3D04;
   --mat-sys-surface: #FFFFFF;
   --mat-sys-on-surface: #1C2910;
-  --mat-sys-on-surface-variant: #66725A;
+  --mat-sys-on-surface-variant: #5C6B4A;
   --mat-sys-outline-variant: #E2E7D4;
 }
 
 body {
   color-scheme: light;
-  background: var(--frans-canvas);
+  background: linear-gradient(160deg, #BEE055 0%, #94C11E 40%, #4E7A0C 100%);
+  background-attachment: fixed;
   color: var(--frans-ink);
   font: var(--mat-sys-body-medium);
   font-family: 'Figtree', 'Segoe UI', system-ui, sans-serif;
@@ -68,7 +70,22 @@ h1, h2, h3 {
   letter-spacing: -0.01em;
 }
 
-// Shared look for the white "card" used by most apps.
+// Shared glass card used by most apps.
+.frans-card,
+.child-card,
+.user-card,
+.team-card,
+.history-log,
+.session-card,
+.fact-card,
+.own-result,
+.admin-panel,
+.chat-bubble:not(.sticker),
+.rank-row {
+  backdrop-filter: var(--frans-blur);
+  -webkit-backdrop-filter: var(--frans-blur);
+}
+
 .frans-card {
   background: var(--frans-card);
   border: 1px solid var(--frans-line);
@@ -85,17 +102,60 @@ h1, h2, h3 {
   --mat-button-filled-container-shape: 999px;
   --mat-button-outlined-container-shape: 999px;
   --mat-button-text-container-shape: 999px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
-.mat-mdc-raised-button.mat-primary {
-  --mat-button-protected-container-color: var(--frans-deep);
+// On the green page: white buttons with deep-green text, glass outlines, white text buttons.
+.mat-mdc-raised-button.mat-primary,
+.mat-mdc-unelevated-button.mat-primary {
+  --mat-button-protected-container-color: #fff;
+  --mat-button-protected-label-text-color: #2f4a02;
+  --mat-button-filled-container-color: #fff;
+  --mat-button-filled-label-text-color: #2f4a02;
+}
+
+.mat-mdc-outlined-button,
+.mat-mdc-button:not(.mat-primary):not(.mat-warn) {
+  --mat-button-outlined-label-text-color: #fff;
+  --mat-button-outlined-outline-color: rgba(255, 255, 255, 0.55);
+  --mat-button-text-label-text-color: #fff;
+}
+
+.mat-mdc-raised-button:not(.mat-primary):not(.mat-warn) {
+  --mat-button-protected-container-color: rgba(255, 255, 255, 0.22);
   --mat-button-protected-label-text-color: #fff;
 }
 
+// Inside dialogs and menus (white surfaces) buttons go back to deep green.
 .mat-mdc-dialog-container {
   --mdc-dialog-container-shape: 28px;
   --mat-dialog-container-shape: 28px;
+
+  .mat-mdc-raised-button.mat-primary,
+  .mat-mdc-unelevated-button.mat-primary {
+    --mat-button-protected-container-color: #2f4a02;
+    --mat-button-protected-label-text-color: #fff;
+    --mat-button-filled-container-color: #2f4a02;
+    --mat-button-filled-label-text-color: #fff;
+  }
+
+  .mat-mdc-outlined-button,
+  .mat-mdc-button:not(.mat-primary):not(.mat-warn) {
+    --mat-button-outlined-label-text-color: #2f4a02;
+    --mat-button-outlined-outline-color: #c8d6a4;
+    --mat-button-text-label-text-color: #2f4a02;
+  }
+
+  .mat-mdc-raised-button:not(.mat-primary):not(.mat-warn) {
+    --mat-button-protected-container-color: #eaf3d2;
+    --mat-button-protected-label-text-color: #2f4a02;
+  }
+}
+
+// Labels and form text that sit directly on the green page.
+.mat-mdc-form-field-subscript-wrapper,
+.mat-mdc-slider {
+  color: #fff;
 }
 
 // Dialog title override
@@ -134,13 +194,13 @@ h1, h2, h3 {
   }
 }
 
-// Floating action buttons: deep green with white icon (the stop-all FAB overrides to red).
+// Floating action buttons: white with a deep-green icon (the stop-all FAB overrides to red).
 .mat-mdc-fab,
 .mat-mdc-mini-fab {
-  --mat-fab-container-color: var(--frans-deep);
-  --mat-fab-foreground-color: #fff;
-  --mat-fab-small-container-color: var(--frans-deep);
-  --mat-fab-small-foreground-color: #fff;
+  --mat-fab-container-color: #fff;
+  --mat-fab-foreground-color: #2f4a02;
+  --mat-fab-small-container-color: #fff;
+  --mat-fab-small-foreground-color: #2f4a02;
 }
 
 // Several dialogs zero out the horizontal padding of their action row, which pushed the

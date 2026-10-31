@@ -37,10 +37,11 @@ import { ProfileDialog } from './profile-dialog';
                 width: 40px;
                 height: 40px;
                 padding: 0;
-                border-radius: 12px;
-                background: var(--frans-card);
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.22);
                 border: 1px solid var(--frans-line);
-                color: var(--frans-ink);
+                color: #fff;
+                backdrop-filter: var(--frans-blur);
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
@@ -55,8 +56,8 @@ import { ProfileDialog } from './profile-dialog';
                 cursor: pointer;
                 color: #fff;
                 font: 700 0.85rem var(--frans-font-display);
-                background: linear-gradient(135deg, #F4B46A, #D9734A) center / cover;
-                box-shadow: 0 0 0 2px #fff, 0 0 0 3px var(--frans-line);
+                background: rgba(255, 255, 255, 0.25) center / cover;
+                border: 1px solid rgba(255, 255, 255, 0.6);
             }
             :host(.title-hero) {
                 padding: 8px 20px 0;
@@ -68,9 +69,7 @@ import { ProfileDialog } from './profile-dialog';
                 white-space: normal;
                 letter-spacing: -0.02em;
             }
-            :host(.title-hero) .avatar {
-                box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85);
-            }
+
         `],
 })
 export class Title {

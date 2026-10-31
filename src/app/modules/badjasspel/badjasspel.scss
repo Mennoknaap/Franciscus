@@ -29,7 +29,7 @@
   box-shadow: var(--frans-shadow);
 
   &.unlucky {
-    background: #ffe0dc;
+    background: rgba(255, 120, 100, 0.35);
   }
 }
 
@@ -49,7 +49,7 @@
 .own-result-text {
   font-weight: 700;
   font-size: 1.1rem;
-  color: #222;
+  color: var(--frans-ink);
   margin-top: 0.5rem;
 }
 

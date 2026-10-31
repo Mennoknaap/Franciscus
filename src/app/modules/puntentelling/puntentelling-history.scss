@@ -42,15 +42,15 @@
 
 .session-name {
   font-weight: 700;
-  color: #222;
+  color: var(--frans-ink);
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
 .badge-active {
-  background: #326b00;
-  color: #fff;
+  background: #fff;
+  color: #2f4a02;
   font-size: 0.7rem;
   font-weight: 700;
   padding: 0.15rem 0.5rem;
@@ -59,16 +59,16 @@
 
 .session-meta {
   font-size: 0.85rem;
-  color: #666;
+  color: var(--frans-muted);
   margin-top: 0.15rem;
 }
 
 .session-winner {
   font-weight: 600;
-  color: #333;
+  color: var(--frans-ink);
   white-space: nowrap;
 }
 
 .delete-session-btn {
-  color: #b3261e;
+  color: #ffc2b8;
 }

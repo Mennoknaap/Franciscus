@@ -1,8 +1,6 @@
 .hero {
-  background: linear-gradient(160deg, #b5db3c 0%, var(--frans-primary) 45%, #5e8410 100%);
+  padding: 18px 0 8px;
   color: #fff;
-  padding: 18px 0 40px;
-  border-radius: 0 0 32px 32px;
 }
 
 .hero-date {
@@ -17,19 +15,19 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  margin: -22px 16px 0;
+  margin: 0.5rem 16px 0;
   padding: 0.55rem 0.55rem 0.55rem 0.9rem;
-  position: relative;
   background: var(--frans-card);
   border: 1px solid var(--frans-line);
   border-radius: var(--frans-radius);
   box-shadow: var(--frans-shadow);
+  backdrop-filter: var(--frans-blur);
+  -webkit-backdrop-filter: var(--frans-blur);
   font-size: 0.9rem;
   font-weight: 600;
   max-width: 480px;
 
   mat-icon {
-    color: var(--frans-deep);
     flex-shrink: 0;
   }
 
@@ -43,7 +41,7 @@
 }
 
 .section-label {
-  margin: 1.4rem 20px 0.6rem;
+  margin: 1rem 20px 0.5rem;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -53,7 +51,7 @@
 
 .app-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
   gap: 10px;
   padding: 0 16px 2rem;
   max-width: 720px;
@@ -67,10 +65,12 @@
   padding: 14px 6px 12px;
   background: var(--frans-card);
   border: 1px solid var(--frans-line);
-  border-radius: 20px;
+  border-radius: var(--frans-radius);
   box-shadow: var(--frans-shadow);
+  backdrop-filter: var(--frans-blur);
+  -webkit-backdrop-filter: var(--frans-blur);
   text-decoration: none;
-  color: var(--frans-ink);
+  color: #fff;
   transition: transform 0.12s ease;
 
   &:active {
@@ -78,7 +78,7 @@
   }
 
   &:focus-visible {
-    outline: 3px solid var(--frans-primary);
+    outline: 3px solid #fff;
     outline-offset: 2px;
   }
 }
@@ -86,11 +86,12 @@
 .app-card-icon {
   width: 48px;
   height: 48px;
-  border-radius: 15px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
 
   mat-icon {
     font-size: 26px;
@@ -100,8 +101,8 @@
 }
 
 .app-card-title {
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: 0.78rem;
+  font-weight: 700;
   text-align: center;
   overflow-wrap: anywhere;
   hyphens: auto;
