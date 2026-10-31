@@ -1,0 +1,31 @@
+<app-title previousPath="home">Leiding Goreng?</app-title>
+
+<div class="goreng-container">
+  <p class="goreng-tagline">Is het ja of nee?</p>
+
+  <div class="goreng-wheel-wrap">
+    <div class="goreng-pointer"></div>
+
+    <div
+      class="goreng-wheel"
+      [style.background]="wheelBackground()"
+      [style.transform]="'rotate(' + rotation() + 'deg)'"
+    >
+      @for (slice of slices; track slice.startAngle) {
+        <div class="goreng-slice-label" [style.transform]="'rotate(' + slice.midAngle + 'deg)'">
+          <span [style.color]="slice.textColor">{{ slice.label }}</span>
+        </div>
+      }
+    </div>
+
+    <button
+      mat-raised-button
+      color="primary"
+      class="goreng-spin-button"
+      [disabled]="isSpinning()"
+      (click)="spin()"
+    >
+      Draai!
+    </button>
+  </div>
+</div>

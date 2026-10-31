@@ -5,6 +5,7 @@ import { authGuard } from './core/auth/auth-guard';
 import { Home } from './modules/home/home';
 import { Biertje } from './modules/biertje/biertje';
 import { Kud } from './modules/kud/kud';
+import { LeidingGoreng } from './modules/leiding-goreng/leiding-goreng';
 import { HomeModule } from './modules/home/home.module';
 import { Login } from './modules/login/login';
 import { LoginModule } from './modules/login/login.module';
@@ -22,6 +23,7 @@ export const routes: Routes = [
     { path: 'biertje', component: Biertje, canActivate: [authGuard, appAccessGuard('biertje')] },
     { path: 'wijntje', component: Wijntje, canActivate: [authGuard, appAccessGuard('wijntje')] },
     { path: 'stelz', component: Stelz, canActivate: [authGuard, appAccessGuard('stelz')] },
+    { path: 'leiding-goreng', component: LeidingGoreng, canActivate: [authGuard, appAccessGuard('leiding-goreng')] },
     { path: 'kud', component: Kud, canActivate: [authGuard, appAccessGuard('kud')] },
     { path: 'liedjes', loadComponent: () => import('./modules/liedjes/liedjes').then(m => m.Liedjes), canActivate: [authGuard, appAccessGuard('liedjes')] },
     { path: 'liedjes/:id', loadComponent: () => import('./modules/liedjes/child-detail').then(m => m.ChildDetail), canActivate: [authGuard, appAccessGuard('liedjes')] },

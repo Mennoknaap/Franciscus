@@ -18,6 +18,7 @@ const GATEABLE_APPS = [
     { key: 'biertje', label: 'Biertje?' },
     { key: 'wijntje', label: 'Wijntje?' },
     { key: 'stelz', label: 'Stelz?' },
+    { key: 'leiding-goreng', label: 'Leiding Goreng?' },
     { key: 'kud', label: 'Vleesdoos' },
     { key: 'puntentelling', label: 'Puntentelling' },
     { key: 'badjasspel', label: 'Badjasspel' },

@@ -82,6 +82,13 @@ export class Home {
             requiresAppKey: 'stelz',
         },
         {
+            title: 'Leiding Goreng?',
+            icon: 'restaurant',
+            color: '#0EA5E9',
+            path: '/leiding-goreng',
+            requiresAppKey: 'leiding-goreng',
+        },
+        {
             title: 'Vleesdoos',
             icon: 'auto_awesome',
             color: '#E11D48',
