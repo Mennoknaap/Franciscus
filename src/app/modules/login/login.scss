@@ -1,49 +1,59 @@
 .login-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--frans-primary) 0%, #7aa916 100%);
-  padding: 16px;
+  box-sizing: border-box;
+  padding: 4rem 1.5rem 2rem;
+  color: #fff;
+  background: linear-gradient(160deg, #b5db3c 0%, var(--frans-primary) 40%, #4c6c0a 100%);
 }
 
-.login-card {
-  background: white;
-  border-radius: 16px;
-  padding: 48px 40px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-  max-width: 400px;
-  width: 100%;
-  text-align: center;
-  
-  @media (max-width: 480px) {
-    padding: 32px 24px;
-    border-radius: 12px;
-  }
-}
+.login-top {
+  max-width: 420px;
 
-.login-header {
-  margin-bottom: 32px;
-  
   h1 {
-    color: #333;
-    font-size: 32px;
-    font-weight: 600;
-    margin: 0 0 8px 0;
-    
-    @media (max-width: 480px) {
-      font-size: 28px;
-    }
+    font-size: clamp(2.2rem, 10vw, 3rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin: 1.4rem 0 0.7rem;
   }
-  
+
   p {
-    color: #666;
-    font-size: 16px;
     margin: 0;
-    
-    @media (max-width: 480px) {
-      font-size: 14px;
-    }
+    font-size: 1.05rem;
+    opacity: 0.92;
+    max-width: 24ch;
+  }
+}
+
+.login-mark {
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+
+  .material-icons {
+    font-size: 34px;
+  }
+}
+
+.login-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  width: 100%;
+  max-width: 420px;
+  align-self: center;
+
+  small {
+    opacity: 0.85;
   }
 }
 
@@ -52,4 +62,9 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+  min-height: 44px;
+  padding: 10px;
+  box-sizing: border-box;
+  background: #fff;
+  border-radius: 16px;
 }

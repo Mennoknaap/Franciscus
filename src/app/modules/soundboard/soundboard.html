@@ -3,7 +3,7 @@
 <button
   mat-icon-button
   (click)="handleSettingsClick()"
-  style="position: absolute; top: 8px; right: 56px; color: white"
+  class="settings-button" aria-label="Instellingen"
 >
   <mat-icon>settings</mat-icon>
 </button>
@@ -25,9 +25,9 @@
         text-align: center;
       "
     >
-      <h2 style="color: white; margin-bottom: 8px">Je hebt nog geen toegang tot het soundboard.</h2>
-      <h2 style="color: white">Wil je toegang?</h2>
-      <h2 style="color: white">
+      <h2 style="margin-bottom: 8px">Je hebt nog geen toegang tot het soundboard.</h2>
+      <h2>Wil je toegang?</h2>
+      <h2>
         Vul dan
         <a href="https://forms.gle/tJup4KNffo9Vc3wa9" target="_blank" rel="noopener noreferrer"
           >dit formulier</a
@@ -45,7 +45,7 @@
         text-align: center;
       "
     >
-      <h2 style="color: white">Er is een fout opgetreden: {{ soundService.error() }}</h2>
+      <h2>Er is een fout opgetreden: {{ soundService.error() }}</h2>
     </div>
   }
 } @else {

@@ -1,5 +1,5 @@
-@if (previousPath()) {
-  <button class="title-button" matIconButton (click)="goBack()">
+@if (previousPath() && !hero()) {
+  <button class="title-button" (click)="goBack()" aria-label="Terug">
     <mat-icon>chevron_left</mat-icon>
   </button>
 }
@@ -7,12 +7,15 @@
 <h1><ng-content></ng-content></h1>
 
 <button
-  class="title-button menu"
-  [style.background-image]="'url(' + user()?.profilePicture + ')'"
-  matIconButton
+  class="avatar"
+  [style.background-image]="user()?.profilePicture ? 'url(' + user()?.profilePicture + ')' : null"
   [matMenuTriggerFor]="menu"
-  color="red"
-></button>
+  aria-label="Account"
+>
+  @if (!user()?.profilePicture) {
+    {{ initials() }}
+  }
+</button>
 <mat-menu #menu="matMenu">
   <button mat-menu-item (click)="openProfile()">
     <mat-icon>account_circle</mat-icon>

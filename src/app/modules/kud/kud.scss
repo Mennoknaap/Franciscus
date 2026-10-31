@@ -7,7 +7,7 @@
 }
 
 .kud-tagline {
-  color: #666;
+  color: var(--frans-muted);
   margin: 0;
   text-align: center;
 }
@@ -88,8 +88,7 @@
 .kud-scramble {
   font-size: 1.5rem;
   font-weight: 800;
-  color: #fff;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  color: var(--frans-ink);
   min-height: 2.4rem;
   text-align: center;
   letter-spacing: 0.02em;

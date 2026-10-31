@@ -28,6 +28,7 @@ Docs are split into `docs/apps/` (one file per user-facing, access-gated app —
 |---|---|---|
 | Routing, module pattern, API client, environments, PWA | [docs/platform/architecture.md](docs/platform/architecture.md) | core plumbing, a new feature module, `environment.ts`, NSwag regeneration |
 | Auth | [docs/platform/auth.md](docs/platform/auth.md) | login flow, guards, the auth interceptor/token refresh |
+| Design tokens, colours, fonts | [docs/platform/design.md](docs/platform/design.md) | any styling work, a new app's tile colour, header/card look |
 | Confirm/prompt dialogs | [docs/platform/dialogs.md](docs/platform/dialogs.md) | any confirmation or single-input prompt UI |
 | Per-app access control | [docs/platform/app-access.md](docs/platform/app-access.md) | home tile gating, admin "App-toegang", adding a new gated app |
 | Push notifications | [docs/platform/push-notifications.md](docs/platform/push-notifications.md) | `PushNotificationService`, the home banner, anything push-related "not working" |

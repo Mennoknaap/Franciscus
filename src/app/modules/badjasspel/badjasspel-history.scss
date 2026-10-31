@@ -12,12 +12,13 @@
 
 .empty-state {
   text-align: center;
-  color: #fff;
+  color: var(--frans-ink);
   margin-top: 3rem;
 }
 
 .entry-list {
-  background: rgba(250, 250, 242, 0.97);
+  background: var(--frans-card);
+  border: 1px solid var(--frans-line);
   border-radius: 14px;
   padding: 0.5rem 1rem;
 }

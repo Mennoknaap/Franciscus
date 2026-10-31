@@ -1,8 +1,8 @@
 {
   "name": "Frans App",
   "short_name": "Frans App",
-  "theme_color": "#94C11E",
-  "background_color": "#94C11E",
+  "theme_color": "#F3F5EC",
+  "background_color": "#F3F5EC",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",

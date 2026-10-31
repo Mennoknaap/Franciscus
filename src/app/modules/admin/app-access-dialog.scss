@@ -14,9 +14,8 @@ mat-dialog-content {
 }
 
 // mat-checkbox's label (.mdc-label, inside mat-checkbox's own encapsulated template) is
-// styled with --mat-sys-on-surface, which the app forces to white globally for the green
-// page shell — invisible against this dialog's white background. ::ng-deep is needed to
-// reach past mat-checkbox's own view encapsulation.
+// styled with --mat-sys-on-surface; pinned here so it stays readable on the dialog's white
+// surface. ::ng-deep is needed to reach past mat-checkbox's own view encapsulation.
 :host ::ng-deep .mdc-label {
   color: #2c3e50 !important;
 }

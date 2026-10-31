@@ -1,27 +1,25 @@
-<app-title>Welkom {{ user()?.firstName }}!</app-title>
+<div class="hero">
+  <div class="hero-date">{{ today }}</div>
+  <app-title [hero]="true">{{ greeting }},<br />{{ user()?.firstName }}</app-title>
+</div>
 
 @if (showNotificationPrompt()) {
   <div class="notification-prompt">
     <mat-icon>notifications_active</mat-icon>
     <span>{{ notificationError() ?? 'Meldingen aanzetten?' }}</span>
-    <button mat-button color="primary" [disabled]="enablingNotifications()" (click)="enableNotifications()">
+    <button mat-flat-button [disabled]="enablingNotifications()" (click)="enableNotifications()">
       Aanzetten
     </button>
   </div>
 }
 
+<div class="section-label">Jouw apps</div>
+
 <div class="app-grid">
   @for (app of visibleApps(); track app.title) {
-    <div class="app-card" [class.disabled]="app.disabled">
-      @if (app.icon) {
-        <div class="app-card-img app-card-icon"><mat-icon>{{ app.icon }}</mat-icon></div>
-      } @else {
-        <img [src]="app.image" alt="{{ app.title }}" class="app-card-img" />
-      }
+    <a class="app-card" [class.disabled]="app.disabled" [routerLink]="app.path">
+      <div class="app-card-icon" [style.background]="app.color"><mat-icon>{{ app.icon }}</mat-icon></div>
       <div class="app-card-title">{{ app.title }}</div>
-      <a class="app-card-link" mat-raised-button [routerLink]="app.path" [disabled]="app.disabled"
-        >Openen</a
-      >
-    </div>
+    </a>
   }
 </div>

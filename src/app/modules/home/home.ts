@@ -4,8 +4,8 @@ import { PushNotificationService } from '../../core/push/push-notification-servi
 
 export interface AppCard {
     title: string;
-    image?: string;
-    icon?: string;
+    icon: string;
+    color: string;
     path?: string;
     disabled?: boolean;
     requiresAppKey?: string;
@@ -34,65 +34,78 @@ export class Home {
     apps: AppCard[] = [
         {
             title: 'Soundboard',
-            image: 'assets/icons/speaker.png',
+            icon: 'volume_up',
+            color: '#F97316',
             path: '/soundboard',
             requiresAppKey: 'soundboard',
         },
         {
             title: 'Radje',
-            image: 'assets/icons/rad.png',
+            icon: 'casino',
+            color: '#8B5CF6',
             path: '/wheel',
             requiresAppKey: 'wheel',
         },
         {
             title: 'Liedjes',
             icon: 'music_note',
+            color: '#EC4899',
             path: '/liedjes',
             requiresAppKey: 'liedjes',
         },
         {
             title: 'Poeplog',
-            image: 'assets/icons/poop.png',
+            icon: 'wc',
+            color: '#92562A',
             path: '/poop-app',
             requiresAppKey: 'poop-app',
         },
         {
             title: 'Biertje?',
             icon: 'sports_bar',
+            color: '#E3A008',
             path: '/biertje',
             requiresAppKey: 'biertje',
         },
         {
             title: 'Wijntje?',
             icon: 'wine_bar',
+            color: '#9F1239',
             path: '/wijntje',
             requiresAppKey: 'wijntje',
         },
         {
             title: 'Stelz?',
             icon: 'local_drink',
+            color: '#0D9488',
             path: '/stelz',
             requiresAppKey: 'stelz',
         },
         {
             title: 'Vleesdoos',
             icon: 'auto_awesome',
+            color: '#E11D48',
             path: '/kud',
             requiresAppKey: 'kud',
         },
         {
             title: 'Puntentelling',
             icon: 'leaderboard',
+            color: '#2563EB',
             path: '/puntentelling',
             requiresAppKey: 'puntentelling',
         },
         {
             title: 'Badjasspel',
             icon: 'checkroom',
+            color: '#4F46E5',
             path: '/badjasspel',
             requiresAppKey: 'badjasspel',
         },
     ];
+
+    readonly today = new Date().toLocaleDateString('nl-NL', { weekday: 'long', day: 'numeric', month: 'long' });
+    readonly greeting = greetingFor(new Date().getHours());
 
     readonly visibleApps = computed(() => {
         const grantedApps = this.user()?.grantedApps ?? [];
@@ -124,4 +137,14 @@ export class Home {
         if (!success)
             this.notificationError.set('Kon geen toestemming vragen — controleer de meldingeninstellingen van dit toestel.');
     }
+}
+
+function greetingFor(hour: number): string {
+    if (hour < 6)
+        return 'Goedenacht';
+    if (hour < 12)
+        return 'Goedemorgen';
+    if (hour < 18)
+        return 'Goedemiddag';
+    return 'Goedenavond';
 }

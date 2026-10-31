@@ -12,7 +12,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  padding: 0 1rem;
+  padding: 0 0.5rem;
 }
 
 .top-actions {
@@ -34,7 +34,7 @@
 }
 
 .chat-empty {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--frans-muted);
   text-align: center;
   margin: 2rem 0;
 }
@@ -56,15 +56,27 @@
 .chat-bubble {
   align-self: flex-start;
   max-width: 75%;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 14px 14px 14px 4px;
+  background: var(--frans-card);
+  border: 1px solid var(--frans-line);
+  border-radius: 18px 18px 18px 6px;
   padding: 0.5rem 0.75rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--frans-shadow);
 
   &.mine {
     align-self: flex-end;
-    background: #dcf8c6;
-    border-radius: 14px 14px 4px 14px;
+    background: var(--frans-deep);
+    border-color: transparent;
+    border-radius: 18px 18px 6px 18px;
+
+    .chat-text,
+    .chat-sender {
+      color: #fff;
+    }
+
+    .chat-time,
+    .delete-entry-btn {
+      color: rgba(255, 255, 255, 0.75);
+    }
   }
 
   // Real WhatsApp stickers have no bubble chrome — just the image floating on the
@@ -101,12 +113,13 @@
 .chat-sender {
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--frans-primary);
+  color: #b45309;
   margin-bottom: 0.15rem;
 }
 
 .chat-text {
-  color: #2c3e50;
+  color: var(--frans-ink);
+  font-weight: 500;
   font-size: 0.95rem;
 }
 
@@ -158,11 +171,23 @@
   button {
     flex: 1;
     font-size: 1.1rem;
+    font-weight: 700;
     padding: 1.5rem 0;
+    border-radius: 18px;
+
+    &:first-child {
+      --mat-button-protected-container-color: #7c4a1e;
+      --mat-button-protected-label-text-color: #fff;
+    }
+
+    &:last-child {
+      --mat-button-protected-container-color: #f2c200;
+      --mat-button-protected-label-text-color: #3a2e00;
+    }
   }
 }
 
 .result {
-  color: #fff;
+  color: var(--frans-ink);
   margin: 0;
 }

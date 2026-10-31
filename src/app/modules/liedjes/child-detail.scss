@@ -27,7 +27,7 @@
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid var(--frans-primary);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--frans-shadow);
 
   &.placeholder {
     display: flex;
@@ -76,10 +76,11 @@
 }
 
 .fact-card {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--frans-card);
+  border: 1px solid var(--frans-line);
   border-radius: 12px;
   padding: 1rem 1.25rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--frans-shadow);
   position: relative;
   padding-right: 6rem;
 
@@ -125,6 +126,6 @@
 
 .empty-state {
   text-align: center;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--frans-muted);
   padding: 2rem 0;
 }
