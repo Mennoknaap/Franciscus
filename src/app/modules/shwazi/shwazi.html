@@ -1,0 +1,51 @@
+<div class="shwazi-page">
+  <app-title previousPath="home">Shwazi</app-title>
+
+  <div class="shwazi-controls">
+    <div class="segment" role="group" aria-label="Soort">
+      <button type="button" [class.active]="mode() === 'one'" (click)="setMode('one')">Eén kiezen</button>
+      <button type="button" [class.active]="mode() === 'teams'" (click)="setMode('teams')">Teams</button>
+    </div>
+
+    @if (mode() === 'teams') {
+      <div class="segment small" role="group" aria-label="Aantal teams">
+        @for (count of teamOptions; track count) {
+          <button type="button" [class.active]="teamCount() === count" (click)="setTeamCount(count)">{{ count }}</button>
+        }
+      </div>
+    }
+  </div>
+
+  <div
+    class="shwazi-surface"
+    (pointerdown)="onDown($event)"
+    (pointermove)="onMove($event)"
+    (pointerup)="onUp($event)"
+    (pointercancel)="onUp($event)"
+    (contextmenu)="$event.preventDefault()"
+  >
+    @if (phase() === 'counting') {
+      @for (run of [runId()]; track run) {
+        <div class="countdown"><div class="countdown-bar"></div></div>
+      }
+    }
+
+    <p class="hint" [class.faded]="fingers().length > 0 && phase() !== 'result'">{{ hint() }}</p>
+
+    @for (finger of fingers(); track finger.id) {
+      <div
+        class="finger"
+        [class.winner]="finger.outcome === 'winner'"
+        [class.loser]="finger.outcome === 'loser'"
+        [class.counting]="phase() === 'counting'"
+        [style.left.px]="finger.x"
+        [style.top.px]="finger.y"
+        [style.--c]="finger.color"
+      >
+        @if (finger.outcome === 'team') {
+          <span class="finger-label">{{ teamLetters[finger.team] }}</span>
+        }
+      </div>
+    }
+  </div>
+</div>

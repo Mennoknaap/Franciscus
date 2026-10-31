@@ -89,6 +89,13 @@ export class Home {
             requiresAppKey: 'leiding-goreng',
         },
         {
+            title: 'Shwazi',
+            icon: 'touch_app',
+            color: '#06B6D4',
+            path: '/shwazi',
+            requiresAppKey: 'shwazi',
+        },
+        {
             title: 'Vleesdoos',
             icon: 'auto_awesome',
             color: '#E11D48',

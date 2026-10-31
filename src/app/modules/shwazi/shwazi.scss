@@ -1,0 +1,176 @@
+.shwazi-page {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.shwazi-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0 1rem 0.75rem;
+}
+
+.segment {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--frans-card);
+  border: 1px solid var(--frans-line);
+  backdrop-filter: var(--frans-blur);
+  -webkit-backdrop-filter: var(--frans-blur);
+
+  button {
+    border: 0;
+    background: transparent;
+    color: #fff;
+    font: 700 0.9rem var(--frans-font-display);
+    padding: 0.5rem 1.1rem;
+    border-radius: 999px;
+    cursor: pointer;
+
+    &.active {
+      background: #fff;
+      color: #2f4a02;
+    }
+
+    &:focus-visible {
+      outline: 3px solid #fff;
+      outline-offset: 2px;
+    }
+  }
+
+  &.small button {
+    padding: 0.5rem 0.9rem;
+  }
+}
+
+.shwazi-surface {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  margin: 0 14px 14px;
+  border-radius: var(--frans-radius);
+  background: rgba(0, 0, 0, 0.14);
+  border: 1px dashed var(--frans-line);
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.hint {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  margin: 0;
+  text-align: center;
+  font: 800 1.4rem/1.15 var(--frans-font-display);
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+
+  &.faded {
+    opacity: 0.35;
+    place-items: end center;
+    font-size: 1rem;
+  }
+}
+
+.countdown {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  pointer-events: none;
+}
+
+.countdown-bar {
+  height: 100%;
+  background: #fff;
+  transform-origin: left;
+  animation: shwazi-countdown 2500ms linear forwards;
+}
+
+@keyframes shwazi-countdown {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.finger {
+  position: absolute;
+  width: 96px;
+  height: 96px;
+  margin: -48px 0 0 -48px;
+  border-radius: 50%;
+  background: var(--c);
+  border: 4px solid #fff;
+  box-shadow: 0 0 0 8px color-mix(in srgb, var(--c) 40%, transparent), 0 8px 24px rgba(0, 0, 0, 0.3);
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  animation: shwazi-pop 0.18s ease-out;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+
+  &.counting {
+    animation: shwazi-pulse 0.9s ease-in-out infinite;
+  }
+
+  &.winner {
+    transform: scale(1.7);
+    box-shadow: 0 0 0 14px color-mix(in srgb, var(--c) 45%, transparent), 0 0 60px 14px var(--c);
+    z-index: 2;
+  }
+
+  &.loser {
+    transform: scale(0.55);
+    opacity: 0.3;
+  }
+}
+
+.finger-label {
+  font: 800 2.2rem var(--frans-font-display);
+  color: #13200a;
+}
+
+@keyframes shwazi-pop {
+  from {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes shwazi-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .finger,
+  .finger.counting {
+    animation: none;
+  }
+}
